@@ -71,6 +71,6 @@ describe('Testa a tela de Login', () => {
     userEvent.type(passwordInput, '1234567');
     userEvent.click(button);
 
-    expect(localStorage).toHaveProperty('email', '"teste1@teste.com"');
+    expect(localStorage).toHaveProperty('user', '{"email":"teste1@teste.com"}');
   });
 });
