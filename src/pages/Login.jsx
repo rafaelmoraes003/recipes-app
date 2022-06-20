@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import Input from '../components/Input';
+import { saveUser } from '../redux/actions';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
 
   const enabelButton = () => {
     const MIN_CHAR = 6;
@@ -16,9 +19,10 @@ const Login = () => {
     localStorage.setItem('cocktailsToken', JSON.stringify(1));
     const userEmail = {
       email,
-    }
+    };
+    dispatch(saveUser(email));
     localStorage.setItem('user', JSON.stringify(userEmail));
-  }
+  };
 
   return (
     <form className="login-container">
@@ -44,6 +48,7 @@ const Login = () => {
         type="button"
         data-testid="login-submit-btn"
         disabled={ !enabelButton() }
+        onClick={ loginFunction }
       >
         Login
       </button>
