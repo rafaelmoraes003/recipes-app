@@ -7,5 +7,5 @@ const saveUser = (user) => ({
 
 export {
   SAVE_USER,
-  saveUser
+  saveUser,
 };

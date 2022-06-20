@@ -1,4 +1,4 @@
-import { SAVE_USER } from "../actions";
+import { SAVE_USER } from '../actions';
 
 const INITIAL_STATE = {
   email: '',
@@ -9,7 +9,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
   case SAVE_USER:
     return {
       ...state,
-     email: action.payload,
+      email: action.payload,
     };
   default:
     return state;
