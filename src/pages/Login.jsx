@@ -15,7 +15,7 @@ const Login = () => {
     localStorage.setItem('mealsToken', JSON.stringify(1));
     localStorage.setItem('cocktailsToken', JSON.stringify(1));
     const userEmail = {
-      email: email,
+      email,
     }
     localStorage.setItem('user', JSON.stringify(userEmail));
   }
