@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import Input from '../components/Input';
 import { saveUser } from '../redux/actions';
 
@@ -7,6 +8,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const enabelButton = () => {
     const MIN_CHAR = 6;
@@ -22,6 +24,7 @@ const Login = () => {
     };
     dispatch(saveUser(email));
     localStorage.setItem('user', JSON.stringify(userEmail));
+    history.push('/foods');
   };
 
   return (
