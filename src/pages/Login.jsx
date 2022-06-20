@@ -14,6 +14,10 @@ const Login = () => {
   const loginFunction = () => {
     localStorage.setItem('mealsToken', JSON.stringify(1));
     localStorage.setItem('cocktailsToken', JSON.stringify(1));
+    const userEmail = {
+      email: email,
+    }
+    localStorage.setItem('user', JSON.stringify(userEmail));
   }
 
   return (
