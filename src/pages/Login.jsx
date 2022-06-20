@@ -11,6 +11,11 @@ const Login = () => {
     return regex.test(email) && password.length > MIN_CHAR;
   };
 
+  const loginFunction = () => {
+    localStorage.setItem('mealsToken', JSON.stringify(1));
+    localStorage.setItem('cocktailsToken', JSON.stringify(1));
+  }
+
   return (
     <form className="login-container">
       <Input
