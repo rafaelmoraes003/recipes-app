@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
+import RadioButtons from './RadioButtons';
 
 const Header = ({ title, showSearchIcon }) => {
   const [showInput, setShowInput] = useState(false);
@@ -34,15 +35,17 @@ const Header = ({ title, showSearchIcon }) => {
           alt="Search Logo"
           onClick={ () => setShowInput(!showInput) }
         />
-
       ) }
 
       { showInput && (
-        <input
-          data-testId="search-input"
-          type="text"
-          id="search-input"
-        />
+        <div>
+          <RadioButtons />
+          <input
+            data-testId="search-input"
+            type="text"
+            id="search-input"
+          />
+        </div>
       ) }
     </header>
   );
