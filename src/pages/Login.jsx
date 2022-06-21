@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Input from '../components/Input';
+import Header from '../components/Header';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -12,33 +13,36 @@ const Login = () => {
   };
 
   return (
-    <form className="login-container">
-      <Input
-        testId="email-input"
-        id="email"
-        type="text"
-        onChange={ setEmail }
-        labelText="E-mail"
-        value={ email }
-      />
+    <div>
+      <Header />
+      <form className="login-container">
+        <Input
+          testId="email-input"
+          id="email"
+          type="text"
+          onChange={ setEmail }
+          labelText="E-mail"
+          value={ email }
+        />
 
-      <Input
-        testId="password-input"
-        id="password"
-        type="password"
-        onChange={ setPassword }
-        labelText="Password"
-        value={ password }
-      />
+        <Input
+          testId="password-input"
+          id="password"
+          type="password"
+          onChange={ setPassword }
+          labelText="Password"
+          value={ password }
+        />
 
-      <button
-        type="button"
-        data-testid="login-submit-btn"
-        disabled={ !enabelButton() }
-      >
-        Login
-      </button>
-    </form>
+        <button
+          type="button"
+          data-testid="login-submit-btn"
+          disabled={ !enabelButton() }
+        >
+          Login
+        </button>
+      </form>
+    </div>
   );
 };
 
