@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
-import Input from './Input';
 
 const Header = ({ title, showSearchIcon }) => {
   const [showInput, setShowInput] = useState(false);
@@ -39,8 +38,8 @@ const Header = ({ title, showSearchIcon }) => {
       ) }
 
       { showInput && (
-        <Input
-          testId="search-input"
+        <input
+          data-testId="search-input"
           type="text"
           id="search-input"
         />
