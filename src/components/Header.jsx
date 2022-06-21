@@ -1,21 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 
 const Header = () => {
+  const [showInput, setShowInput] = useState(false);
+
   const history = useHistory();
   const onClickProfile = () => {
-    console.log('entrei');
     history.push('/profile');
   };
-  const onClickCount = () => {
-    console.log('entrei');
-  };
   return (
-    <div>
-
+    <header>
       <button
         type="button"
         data-testid="profile-top-btn"
@@ -23,17 +20,18 @@ const Header = () => {
       >
         <img src={ profileIcon } alt="Botão com icon de pergil" />
       </button>
-      <input data-testid="search-input" />
+      {
+        showInput && <h1 data-testid="page-title">Foods</h1>
+      }
 
-      <h1 data-testid="page-title">Foods</h1>
       <button
         type="button"
         data-testid="search-top-btn"
-        onClick={ onClickCount }
+        onClick={ () => setShowInput(!showInput) }
       >
         <img src={ searchIcon } alt="Botão com icon de lupa/pesquisa" />
       </button>
-    </div>
+    </header>
   );
 };
 

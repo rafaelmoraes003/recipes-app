@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Input from '../components/Input';
-import Header from '../components/Header';
 import { saveUser } from '../redux/actions';
 
 const Login = () => {
@@ -30,7 +29,6 @@ const Login = () => {
 
   return (
     <div>
-      <Header />
       <form className="login-container">
         <Input
           testId="email-input"
