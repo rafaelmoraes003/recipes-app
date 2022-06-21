@@ -28,34 +28,37 @@ const Login = () => {
   };
 
   return (
-    <form className="login-container">
-      <Input
-        testId="email-input"
-        id="email"
-        type="text"
-        onChange={ setEmail }
-        labelText="E-mail"
-        value={ email }
-      />
+    <div>
+      <form className="login-container">
+        <Input
+          testId="email-input"
+          id="email"
+          type="text"
+          onChange={ setEmail }
+          labelText="E-mail"
+          value={ email }
+        />
 
-      <Input
-        testId="password-input"
-        id="password"
-        type="password"
-        onChange={ setPassword }
-        labelText="Password"
-        value={ password }
-      />
+        <Input
+          testId="password-input"
+          id="password"
+          type="password"
+          onChange={ setPassword }
+          labelText="Password"
+          value={ password }
+        />
 
-      <button
-        type="button"
-        data-testid="login-submit-btn"
-        disabled={ !enabelButton() }
-        onClick={ loginFunction }
-      >
-        Login
-      </button>
-    </form>
+        <button
+          type="button"
+          data-testid="login-submit-btn"
+          disabled={ !enabelButton() }
+          onClick={ loginFunction }
+        >
+          Login
+        </button>
+      </form>
+    </div>
+
   );
 };
 
