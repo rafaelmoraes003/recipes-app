@@ -3,8 +3,7 @@ import Header from '../components/Header';
 
 const DoneRecipes = () => (
   <div>
-    <Header />
-    <h1>DoneRecipes </h1>
+    <Header title="Done Recipes" showSearchIcon={ false } />
   </div>
 
 );

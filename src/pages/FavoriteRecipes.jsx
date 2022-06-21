@@ -3,8 +3,7 @@ import Header from '../components/Header';
 
 const FavoriteRecipes = () => (
   <div>
-    <Header />
-    <h1>FavoriteRecipes</h1>
+    <Header title="Favorite Recipes" showSearchIcon={ false } />
   </div>
 
 );

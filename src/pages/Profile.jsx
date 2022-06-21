@@ -3,8 +3,7 @@ import Header from '../components/Header';
 
 const Profile = () => (
   <div>
-    <Header />
-    <h1>Profile</h1>
+    <Header title="Profile" showSearchIcon={ false } />
   </div>
 
 );

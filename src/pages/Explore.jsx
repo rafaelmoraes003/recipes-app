@@ -3,8 +3,7 @@ import Header from '../components/Header';
 
 const Explore = () => (
   <div>
-    <Header />
-    <h1>Explore</h1>
+    <Header title="Explore" showSearchIcon={ false } />
   </div>
 
 );
