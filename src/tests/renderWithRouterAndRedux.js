@@ -4,7 +4,7 @@ import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import { legacy_createStore as createStore } from 'redux';
-import rootReducer from '../redux/reducer/index'
+import rootReducer from '../redux/reducer/index';
 
 const renderWithRouterAndRedux = (component, initialState, route = '/') => {
   const store = createStore(rootReducer, initialState);

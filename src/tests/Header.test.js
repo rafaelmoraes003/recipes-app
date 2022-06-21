@@ -1,9 +1,11 @@
 import React from 'react';
-import { screen, render, getByTestId } from '@testing-library/react';
+import { screen, render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import userEvent from '@testing-library/user-event';
 import Header from '../components/Header';
-import renderWithRouterAndRedux from './renderWithRouterAndRedux'
+import renderWithRouterAndRedux from './renderWithRouterAndRedux';
+
+const searchButtonTestId = 'search-top-btn';
 
 describe('Testa o componente Header e suas funcionalidades', () => {
   it('Verifica a existência do header', () => {
@@ -21,7 +23,7 @@ describe('Testa o componente Header e suas funcionalidades', () => {
         <Header title="Teste" showSearchIcon={ false } />
       </MemoryRouter>,
     );
-    const searchButton = screen.queryByTestId('search-top-btn');
+    const searchButton = screen.queryByTestId(searchButtonTestId);
     expect(searchButton).not.toBeInTheDocument();
   });
   it('Verifica searchButton (com showSearchIcon true)', () => {
@@ -30,7 +32,7 @@ describe('Testa o componente Header e suas funcionalidades', () => {
         <Header title="Teste" showSearchIcon />
       </MemoryRouter>,
     );
-    const searchButton = screen.queryByTestId('search-top-btn');
+    const searchButton = screen.queryByTestId(searchButtonTestId);
     expect(searchButton).toBeInTheDocument();
   });
   it('Verifica profileButton', () => {
@@ -57,7 +59,7 @@ describe('Testa o componente Header e suas funcionalidades', () => {
 
     );
 
-    const searchButton = screen.getByTestId('search-top-btn');
+    const searchButton = screen.getByTestId(searchButtonTestId);
     userEvent.click(searchButton);
     const searchInput = screen.getByRole('textbox');
     expect(searchInput).toBeInTheDocument();
