@@ -8,7 +8,7 @@ import Input from './Input';
 const Header = ({ title, showSearchIcon }) => {
   const [showInput, setShowInput] = useState(false);
   const history = useHistory();
-  
+
   const goToProfile = () => {
     history.push('/profile');
   };
@@ -19,6 +19,7 @@ const Header = ({ title, showSearchIcon }) => {
         type="image"
         data-testid="profile-top-btn"
         src={ profileIcon }
+        alt="Profile Logo"
         onClick={ goToProfile }
       />
 
@@ -31,7 +32,8 @@ const Header = ({ title, showSearchIcon }) => {
           type="image"
           data-testid="search-top-btn"
           src={ searchIcon }
-          onClick={() => setShowInput(!showInput)}
+          alt="Search Logo"
+          onClick={ () => setShowInput(!showInput) }
         />
 
       ) }
@@ -45,6 +47,11 @@ const Header = ({ title, showSearchIcon }) => {
       ) }
     </header>
   );
+};
+
+Header.propTypes = {
+  title: PropTypes.string.isRequired,
+  showSearchIcon: PropTypes.bool.isRequired,
 };
 
 export default Header;
