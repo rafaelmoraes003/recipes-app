@@ -54,7 +54,7 @@ const Login = () => {
           type="button"
           data-testid="login-submit-btn"
           disabled={ !enabelButton() }
-         onClick={ loginFunction }
+          onClick={ loginFunction }
         >
           Login
         </button>
