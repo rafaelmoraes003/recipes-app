@@ -1,7 +1,7 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import renderWithRouterAndStore from './helpers/renderWithRouterAndStore';
+import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 import App from '../App';
 
 describe('Testa a tela de Login', () => {
@@ -12,7 +12,7 @@ describe('Testa a tela de Login', () => {
   });
 
   it('Verifica a existência dos inputs de email e password e do botão', () => {
-    renderWithRouterAndStore(<App />);
+    renderWithRouterAndRedux(<App />);
     const emailInput = screen.getByRole('textbox', { name: /e-mail/i });
     const passwordInput = screen.getByLabelText(/password/i);
     const button = screen.getByRole('button', { name: /login/i });
@@ -22,13 +22,13 @@ describe('Testa a tela de Login', () => {
   });
 
   it('Verifica se o botão está desabilitado quando carrega a página', () => {
-    renderWithRouterAndStore(<App />);
+    renderWithRouterAndRedux(<App />);
     const button = screen.getByRole('button', { name: /login/i });
     expect(button).toBeDisabled();
   });
 
   it('Verifica as condições de habilitação do botão (false)', () => {
-    renderWithRouterAndStore(<App />);
+    renderWithRouterAndRedux(<App />);
     const emailInput = screen.getByRole('textbox', { name: /e-mail/i });
     const passwordInput = screen.getByLabelText(/password/i);
     const button = screen.getByRole('button', { name: /login/i });
@@ -50,7 +50,7 @@ describe('Testa a tela de Login', () => {
   });
 
   it('Verifica as condições de habilitação do botão (true)', () => {
-    renderWithRouterAndStore(<App />);
+    renderWithRouterAndRedux(<App />);
     const emailInput = screen.getByRole('textbox', { name: /e-mail/i });
     const passwordInput = screen.getByLabelText(/password/i);
     const button = screen.getByRole('button', { name: /login/i });
@@ -62,7 +62,7 @@ describe('Testa a tela de Login', () => {
   });
 
   it('Verifica se os tokens são salvos na localStorage', () => {
-    renderWithRouterAndStore(<App />);
+    renderWithRouterAndRedux(<App />);
     const emailInput = screen.getByRole('textbox', { name: /e-mail/i });
     const passwordInput = screen.getByLabelText(/password/i);
     const button = screen.getByRole('button', { name: /login/i });
