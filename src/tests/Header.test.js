@@ -1,9 +1,9 @@
 import React from 'react';
-import { screen, render } from '@testing-library/react';
+import { screen, render, getByTestId } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
-// import userEvent from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event';
 import Header from '../components/Header';
-// import renderWithRouterAndStore from './helpers/renderWithRouterAndStore';
+import renderWithRouterAndRedux from './renderWithRouterAndRedux'
 
 describe('Testa o componente Header e suas funcionalidades', () => {
   it('Verifica a existência do header', () => {
@@ -33,17 +33,35 @@ describe('Testa o componente Header e suas funcionalidades', () => {
     const searchButton = screen.queryByTestId('search-top-btn');
     expect(searchButton).toBeInTheDocument();
   });
-  // it('Verifica profileButton', () => {
-  //   const { history } = renderWithRouterAndStore(
+  it('Verifica profileButton', () => {
+    const { history } = renderWithRouterAndRedux(
 
-  //     <Header title="Teste" showSearchIcon />,
-  //     '/foods',
+      <Header title="Teste" showSearchIcon />,
+      {},
+      '/foods',
 
-  //   );
+    );
 
-  //   console.log(history.location);
-  //   const profileButton = screen.getByTestId('profile-top-btn');
+    const profileButton = screen.getByTestId('profile-top-btn');
 
-  //   userEvent.click(profileButton);
-  // });
+    userEvent.click(profileButton);
+    const { pathname } = history.location;
+    expect(pathname).toBe('/profile');
+  });
+  it('Verifica o toggle do input', () => {
+    renderWithRouterAndRedux(
+
+      <Header title="Teste" showSearchIcon />,
+      {},
+      '/foods',
+
+    );
+
+    const searchButton = screen.getByTestId('search-top-btn');
+    userEvent.click(searchButton);
+    const searchInput = screen.getByRole('textbox');
+    expect(searchInput).toBeInTheDocument();
+    userEvent.click(searchButton);
+    expect(searchInput).not.toBeInTheDocument();
+  });
 });
