@@ -14,7 +14,7 @@ const Header = ({ title, showSearchIcon }) => {
   };
 
   return (
-    <header>
+    <header data-testid="header">
       <input
         type="image"
         data-testid="profile-top-btn"
