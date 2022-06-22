@@ -24,7 +24,14 @@ const Drinks = () => {
   return (
     <div>
       <Header title="Drinks" showSearchIcon />
-
+      {recipesDrinks.map(({ idDrink, strDrink, strDrinkThumb }, index) => (
+        <RecipeCard
+          key={ idDrink }
+          index={ index }
+          foodName={ strDrink }
+          foodImage={ strDrinkThumb }
+        />
+      ))}
     </div>
   );
 };
