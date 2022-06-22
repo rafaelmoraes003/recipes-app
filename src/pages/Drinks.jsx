@@ -10,6 +10,17 @@ const Drinks = () => {
   const [recipesDrinks, setRecipesDrinks] = useState([]);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    const loadsDrinksRecipes = async () => {
+      const recipesData = await fetchDrinks();
+      const usableRecipes = recipesData
+        .filter((recipe, index) => index < totalRecipesNumber);
+      setRecipesDrinks(usableRecipes);
+      dispatch(saveInitialDrinks(usableRecipes));
+    };
+    loadsDrinksRecipes();
+  }, [dispatch]);
+
   return (
     <div>
       <Header title="Drinks" showSearchIcon />
@@ -17,4 +28,5 @@ const Drinks = () => {
     </div>
   );
 };
+
 export default Drinks;
