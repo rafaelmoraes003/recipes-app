@@ -5,6 +5,7 @@ import { saveInitialFoods } from '../redux/actions';
 import { fetchFoods, fetchCategories } from '../helpers/fetchRecipesAPI';
 import RecipeCard from '../components/RecipeCard';
 import CategoryButton from '../components/CategoryButto';
+// import { fetchData } from '../redux/actions/fetchDataACTION';
 
 const Foods = () => {
   const totalRecipesNumber = 12;
@@ -21,9 +22,16 @@ const Foods = () => {
     setCategoryFoods(categories);
   };
 
+  const filteredByCategory = async (category) => {
+    const recipesData = await await fetchFoods(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`);
+    const recipes = recipesData
+      .filter((recipe, index) => index < totalRecipesNumber);
+    setRecipesFoods(recipes);
+  };
+
   useEffect(() => {
     const loadsFoodRecipes = async () => {
-      const recipesData = await fetchFoods();
+      const recipesData = await fetchFoods('https://www.themealdb.com/api/json/v1/1/search.php?s=');
       selectsCategories();
       const usableRecipes = recipesData
         .filter((recipe, index) => index < totalRecipesNumber);
@@ -48,6 +56,7 @@ const Foods = () => {
           .map(({ strCategory }) => (<CategoryButton
             key={ strCategory }
             categoryName={ strCategory }
+            searchFunc={ filteredByCategory }
           />))}
       </fieldset>
       {recipesFoods.map(({ idMeal, strMeal, strMealThumb }, index) => (
