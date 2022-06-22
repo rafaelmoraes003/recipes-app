@@ -20,13 +20,12 @@ const Foods = () => {
       }
       return acc;
     }, []);
-    console.log(categories);
+    setCategoryFoods(categories);
   };
 
   useEffect(() => {
     const loadsFoodRecipes = async () => {
       const recipesData = await fetchFoods();
-      console.log(recipesData);
       selectsCategories(recipesData);
       const usableRecipes = recipesData
         .filter((recipe, index) => index < totalRecipesNumber);
