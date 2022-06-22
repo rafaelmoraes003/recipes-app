@@ -8,11 +8,26 @@ import RecipeCard from '../components/RecipeCard';
 const Foods = () => {
   const totalRecipesNumber = 12;
   const [recipesFoods, setRecipesFoods] = useState([]);
+  const [categoryFoods, setCategoryFoods] = useState([]);
   const dispatch = useDispatch();
+
+  const selectsCategories = (foodsArray) => {
+    const categoriesNumber = 5;
+    const categories = foodsArray.reduce((acc, { strCategory }) => {
+      if (acc.length < categoriesNumber) {
+        if (acc.includes(strCategory)) return acc;
+        return [...acc, strCategory];
+      }
+      return acc;
+    }, []);
+    console.log(categories);
+  };
 
   useEffect(() => {
     const loadsFoodRecipes = async () => {
       const recipesData = await fetchFoods();
+      console.log(recipesData);
+      selectsCategories(recipesData);
       const usableRecipes = recipesData
         .filter((recipe, index) => index < totalRecipesNumber);
       setRecipesFoods(usableRecipes);
