@@ -1,5 +1,5 @@
-export const fetchFoods = async () => {
-  const response = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+export const fetchFoods = async (urlForFetch) => {
+  const response = await fetch(urlForFetch);
   const dataFoods = await response.json();
   return dataFoods.meals;
 };
