@@ -1,7 +1,11 @@
 import React from 'react';
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 
 const Drinks = () => (
-  <Header title="Drinks" showSearchIcon />
+  <div>
+    <Header title="Drinks" showSearchIcon />
+    <Footer />
+  </div>
 );
 export default Drinks;
