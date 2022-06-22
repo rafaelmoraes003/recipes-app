@@ -8,7 +8,7 @@ const Profile = () => {
 
   useEffect(() => {
     const storageEmail = JSON.parse(localStorage.getItem('user'));
-    setEmail(storageEmail);
+    setEmail(storageEmail.email);
   }, []);
 
   const goToDoneRecipes = () => {
@@ -28,7 +28,7 @@ const Profile = () => {
     <div>
       <Header title="Profile" showSearchIcon={ false } />
 
-      <h3 data-testid="profile-email">{email.email}</h3>
+      <h3 data-testid="profile-email">{email}</h3>
 
       <button
         data-testid="profile-done-btn"
