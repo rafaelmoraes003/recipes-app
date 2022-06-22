@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Footer from '../components/Footer';
 import { useDispatch, useSelector } from 'react-redux';
 import Header from '../components/Header';
 import { saveInitialDrinks } from '../redux/actions';
@@ -88,6 +89,7 @@ const Drinks = () => {
           endPoint="drinks"
         />
       ))}
+      <Footer />
     </div>
   );
 };
