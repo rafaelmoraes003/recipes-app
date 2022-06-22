@@ -1,35 +1,94 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Header from '../components/Header';
+import { saveInitialFoods } from '../redux/actions';
+import { fetchFoods, fetchCategories } from '../helpers/fetchRecipesAPI';
+import RecipeCard from '../components/RecipeCard';
+import CategoryButton from '../components/CategoryButto';
+// import { fetchData } from '../redux/actions/fetchDataACTION';
 
 const Foods = () => {
-  const [foods, setFoods] = useState([]);
+  const totalRecipesNumber = 12;
+  const [recipesFoods, setRecipesFoods] = useState([]);
+  const [categoryFoods, setCategoryFoods] = useState([]);
+  const [appliedFilters, setAplaiedFilters] = useState({ filtered: false, filter: '' });
   const { data } = useSelector((state) => state.apiReducer);
-  const MAX_CARDS = 12;
+  const { foods } = useSelector((state) => state.recipesReducer);
+  const dispatch = useDispatch();
+
+  const selectsCategories = async () => {
+    const numberOfCategories = 5;
+    const categoriesData = await fetchCategories('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
+    const categories = Object.values(categoriesData)[0]
+      .filter((c, i) => i < numberOfCategories);
+    setCategoryFoods(categories);
+  };
+
+  const filteredByCategory = async (category) => {
+    if (appliedFilters.filtered && appliedFilters.filter === category) {
+      setRecipesFoods([...foods]);
+      setAplaiedFilters({ filtered: false, filter: '' });
+    } else {
+      const recipesData = await await fetchFoods(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`);
+      const recipes = recipesData
+        .filter((recipe, index) => index < totalRecipesNumber);
+      setRecipesFoods(recipes);
+      setAplaiedFilters({ filtered: true, filter: category });
+    }
+  };
+
+  useEffect(() => {
+    const loadsFoodRecipes = async () => {
+      const recipesData = await fetchFoods('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+      selectsCategories();
+      const usableRecipes = recipesData
+        .filter((recipe, index) => index < totalRecipesNumber);
+      setRecipesFoods(usableRecipes);
+      dispatch(saveInitialFoods(usableRecipes));
+    };
+    loadsFoodRecipes();
+  }, [dispatch]);
 
   useEffect(() => {
     if (!Array.isArray(data) && data.meals) {
-      setFoods(data.meals.filter((food, index) => index < MAX_CARDS));
+      setRecipesFoods(data.meals.filter((food, index) => index < totalRecipesNumber));
     }
   }, [data]);
 
   return (
     <div>
       <Header title="Foods" showSearchIcon />
-      {foods.length > 1 && (
-        <div>
-          {foods.map((food, index) => (
-            <div key={ food.idMeal } data-testid={ `${index}-recipe-card` }>
-              <h3 data-testid={ `${index}-card-name` }>{food.strMeal}</h3>
-              <img
-                data-testid={ `${index}-card-img` }
-                src={ food.strMealThumb }
-                alt={ food.strMeal }
-              />
-            </div>
-          ))}
-        </div>
-      )}
+      <fieldset>
+        <legend>Filter by category</legend>
+        {categoryFoods
+          .map(({ strCategory }) => (<CategoryButton
+            key={ strCategory }
+            categoryName={ strCategory }
+            searchFunc={ filteredByCategory }
+          />))}
+        <label htmlFor="All">
+          <input
+            data-testid="All-category-filter"
+            type="radio"
+            id="All"
+            name="category"
+            value="All"
+            onClick={ () => setRecipesFoods([...foods]) }
+          />
+          {' '}
+          All
+        </label>
+      </fieldset>
+      {recipesFoods.map(({ idMeal, strMeal, strMealThumb }, index) => (
+        <RecipeCard
+          key={ idMeal }
+          id={ idMeal }
+          index={ index }
+          foodName={ strMeal }
+          foodImage={ strMealThumb }
+          endPoint="foods"
+        />
+      ))}
     </div>
   );
 };
