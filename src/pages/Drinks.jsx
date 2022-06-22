@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Header from '../components/Header';
 import { saveInitialDrinks } from '../redux/actions';
-import { fetchDrinks } from '../helpers/fetchRecipesAPI';
+import { fetchDrinks, fetchCategories } from '../helpers/fetchRecipesAPI';
 import RecipeCard from '../components/RecipeCard';
 import CategoryButton from '../components/CategoryButto';
 
@@ -13,22 +13,18 @@ const Drinks = () => {
   const { data } = useSelector((state) => state.apiReducer);
   const dispatch = useDispatch();
 
-  const selectsCategories = (drinksArray) => {
-    const categoriesNumber = 5;
-    const categories = drinksArray.reduce((acc, { strCategory }) => {
-      if (acc.length < categoriesNumber) {
-        if (acc.includes(strCategory)) return acc;
-        return [...acc, strCategory];
-      }
-      return acc;
-    }, []);
+  const selectsCategories = async () => {
+    const numberOfCategories = 5;
+    const categoriesData = await fetchCategories('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
+    const categories = Object.values(categoriesData)[0]
+      .filter((c, i) => i < numberOfCategories);
     setCategoryDrinks(categories);
   };
 
   useEffect(() => {
     const loadsDrinksRecipes = async () => {
       const recipesData = await fetchDrinks();
-      selectsCategories(recipesData);
+      selectsCategories();
       const usableRecipes = recipesData
         .filter((recipe, index) => index < totalRecipesNumber);
       setRecipesDrinks(usableRecipes);
@@ -49,9 +45,9 @@ const Drinks = () => {
       <fieldset>
         <legend>Filter by category</legend>
         {categoryDrinks
-          .map((category) => (<CategoryButton
-            key={ category }
-            categoryName={ category }
+          .map(({ strCategory }) => (<CategoryButton
+            key={ strCategory }
+            categoryName={ strCategory }
           />))}
       </fieldset>
       {recipesDrinks.map(({ idDrink, strDrink, strDrinkThumb }, index) => (
