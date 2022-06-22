@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { saveInitialFoods } from '../redux/actions';
 import { fetchFoods, fetchCategories } from '../helpers/fetchRecipesAPI';
 import RecipeCard from '../components/RecipeCard';
 import CategoryButton from '../components/CategoryButto';
-// import { fetchData } from '../redux/actions/fetchDataACTION';
 
 const Foods = () => {
   const totalRecipesNumber = 12;
@@ -89,6 +89,7 @@ const Foods = () => {
           endPoint="foods"
         />
       ))}
+      <Footer />
     </div>
   );
 };

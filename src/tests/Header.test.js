@@ -1,6 +1,6 @@
 import React from 'react';
-import { screen, render } from '@testing-library/react';
-import { MemoryRouter } from 'react-router';
+import { screen } from '@testing-library/react';
+// import { MemoryRouter } from 'react-router';
 import userEvent from '@testing-library/user-event';
 import Header from '../components/Header';
 import renderWithRouterAndRedux from './renderWithRouterAndRedux';
@@ -9,28 +9,35 @@ const searchButtonTestId = 'search-top-btn';
 
 describe('Testa o componente Header e suas funcionalidades', () => {
   it('Verifica a existência do header', () => {
-    render(
-      <MemoryRouter>
-        <Header title="Teste" showSearchIcon />
-      </MemoryRouter>,
-    );
+    // render(
+    //   <MemoryRouter>
+    //     <Header title="Teste" showSearchIcon />
+    //   </MemoryRouter>,
+    // );
+    renderWithRouterAndRedux(<Header title="Teste" showSearchIcon />, {}, '/foods');
     const header = screen.getByTestId('header');
     expect(header).toBeInTheDocument();
   });
   it('Verifica searchButton (com showSearchIcon false)', () => {
-    render(
-      <MemoryRouter>
-        <Header title="Teste" showSearchIcon={ false } />
-      </MemoryRouter>,
+    // render(
+    //   <MemoryRouter>
+    //     <Header title="Teste" showSearchIcon={ false } />
+    //   </MemoryRouter>,
+    // );
+    renderWithRouterAndRedux(
+      <Header title="Teste" showSearchIcon={ false } />, {}, '/profile',
     );
     const searchButton = screen.queryByTestId(searchButtonTestId);
     expect(searchButton).not.toBeInTheDocument();
   });
   it('Verifica searchButton (com showSearchIcon true)', () => {
-    render(
-      <MemoryRouter>
-        <Header title="Teste" showSearchIcon />
-      </MemoryRouter>,
+    // render(
+    //   <MemoryRouter>
+    //     <Header title="Teste" showSearchIcon />
+    //   </MemoryRouter>,
+    // );
+    renderWithRouterAndRedux(
+      <Header title="Teste" showSearchIcon />, {}, '/foods',
     );
     const searchButton = screen.queryByTestId(searchButtonTestId);
     expect(searchButton).toBeInTheDocument();
