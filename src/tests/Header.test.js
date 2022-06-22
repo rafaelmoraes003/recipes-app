@@ -1,6 +1,6 @@
 import React from 'react';
-import { screen, render } from '@testing-library/react';
-import { MemoryRouter } from 'react-router';
+import { screen } from '@testing-library/react';
+// import { MemoryRouter } from 'react-router';
 import userEvent from '@testing-library/user-event';
 import Header from '../components/Header';
 import renderWithRouterAndRedux from './renderWithRouterAndRedux';
