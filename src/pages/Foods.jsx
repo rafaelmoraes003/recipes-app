@@ -66,6 +66,18 @@ const Foods = () => {
             categoryName={ strCategory }
             searchFunc={ filteredByCategory }
           />))}
+        <label htmlFor="All">
+          <input
+            data-testid="All-category-filter"
+            type="radio"
+            id="All"
+            name="category"
+            value="All"
+            onClick={ () => setRecipesFoods([...foods]) }
+          />
+          {' '}
+          All
+        </label>
       </fieldset>
       {recipesFoods.map(({ idMeal, strMeal, strMealThumb }, index) => (
         <RecipeCard
