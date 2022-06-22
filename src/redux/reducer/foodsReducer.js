@@ -1,7 +1,7 @@
 import { SAVE_INITIAL_FOODS } from '../actions';
 
 const INITIAL_STATE = {
-  foods: {},
+  foods: [],
 };
 
 const foodsReducer = (state = INITIAL_STATE, action) => {
