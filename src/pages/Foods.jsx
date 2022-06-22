@@ -11,7 +11,9 @@ const Foods = () => {
   const totalRecipesNumber = 12;
   const [recipesFoods, setRecipesFoods] = useState([]);
   const [categoryFoods, setCategoryFoods] = useState([]);
+  const [appliedFilters, setAplaiedFilters] = useState({ filtered: false, filter: '' });
   const { data } = useSelector((state) => state.apiReducer);
+  const { foods } = useSelector((state) => state.recipesReducer);
   const dispatch = useDispatch();
 
   const selectsCategories = async () => {
@@ -23,10 +25,16 @@ const Foods = () => {
   };
 
   const filteredByCategory = async (category) => {
-    const recipesData = await await fetchFoods(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`);
-    const recipes = recipesData
-      .filter((recipe, index) => index < totalRecipesNumber);
-    setRecipesFoods(recipes);
+    if (appliedFilters.filtered && appliedFilters.filter === category) {
+      setRecipesFoods([...foods]);
+      setAplaiedFilters({ filtered: false, filter: '' });
+    } else {
+      const recipesData = await await fetchFoods(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`);
+      const recipes = recipesData
+        .filter((recipe, index) => index < totalRecipesNumber);
+      setRecipesFoods(recipes);
+      setAplaiedFilters({ filtered: true, filter: category });
+    }
   };
 
   useEffect(() => {
