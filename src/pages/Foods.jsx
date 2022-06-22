@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import { saveInitialFoods } from '../redux/actions';
 import { fetchFoods } from '../helpers/fetchRecipesAPI';
 import RecipeCard from '../components/RecipeCard';
+import CategoryButton from '../components/CategoryButto';
 
 const Foods = () => {
   const totalRecipesNumber = 12;
@@ -44,6 +45,14 @@ const Foods = () => {
   return (
     <div>
       <Header title="Foods" showSearchIcon />
+      <fieldset>
+        <legend>Filter by category</legend>
+        {categoryFoods
+          .map((category) => (<CategoryButton
+            key={ category }
+            categoryName={ category }
+          />))}
+      </fieldset>
       {recipesFoods.map(({ idMeal, strMeal, strMealThumb }, index) => (
         <RecipeCard
           key={ idMeal }
