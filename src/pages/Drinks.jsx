@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Header from '../components/Header';
-// import { useSelector } from 'react-redux';
-// import Header from '../components/Header';
 
 const Drinks = () => {
   const [drinks, setDrinks] = useState([]);
