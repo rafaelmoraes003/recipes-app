@@ -8,7 +8,7 @@ const Foods = () => {
   const MAX_CARDS = 12;
 
   useEffect(() => {
-    if (!Array.isArray(data) || data.meals) {
+    if (!Array.isArray(data) && data.meals) {
       setFoods(data.meals.filter((food, index) => index < MAX_CARDS));
     }
   }, [data]);

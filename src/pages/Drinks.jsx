@@ -10,7 +10,7 @@ const Drinks = () => {
   const MAX_CARDS = 12;
 
   useEffect(() => {
-    if (!Array.isArray(data) || data.drinks) {
+    if (!Array.isArray(data) && data.drinks) {
       setDrinks(data.drinks.filter((drink, index) => index < MAX_CARDS));
     }
   }, [data]);
