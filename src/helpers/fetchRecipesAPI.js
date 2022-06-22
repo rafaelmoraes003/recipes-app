@@ -4,8 +4,8 @@ export const fetchFoods = async (urlForFetch) => {
   return dataFoods.meals;
 };
 
-export const fetchDrinks = async () => {
-  const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+export const fetchDrinks = async (urlForFetch) => {
+  const response = await fetch(urlForFetch);
   const dataDrinks = await response.json();
   return dataDrinks.drinks;
 };
