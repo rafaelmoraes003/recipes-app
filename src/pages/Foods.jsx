@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '../components/Header';
 
-const Foods = () => (
-  <div>
-    <Header title="Foods" showSearchIcon />
-  </div>
-);
+const Foods = () => {
+  const [recipesFoods, setRecipesFoods] = useState();
+  return (
+    <div>
+      <Header title="Foods" showSearchIcon />
+    </div>
+  );
+};
 export default Foods;
