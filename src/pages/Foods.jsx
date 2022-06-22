@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Footer from '../components/Footer';
 import { useDispatch, useSelector } from 'react-redux';
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { saveInitialFoods } from '../redux/actions';
 import { fetchFoods, fetchCategories } from '../helpers/fetchRecipesAPI';
