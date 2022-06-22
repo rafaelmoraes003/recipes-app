@@ -82,9 +82,11 @@ const Foods = () => {
       {recipesFoods.map(({ idMeal, strMeal, strMealThumb }, index) => (
         <RecipeCard
           key={ idMeal }
+          id={ idMeal }
           index={ index }
           foodName={ strMeal }
           foodImage={ strMealThumb }
+          endPoint="foods"
         />
       ))}
     </div>
