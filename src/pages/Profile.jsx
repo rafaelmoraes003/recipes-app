@@ -8,7 +8,9 @@ const Profile = () => {
 
   useEffect(() => {
     const storageEmail = JSON.parse(localStorage.getItem('user'));
-    setEmail(storageEmail.email);
+    if (storageEmail !== null) {
+      setEmail(storageEmail.email);
+    }
   }, []);
 
   const goToDoneRecipes = () => {
