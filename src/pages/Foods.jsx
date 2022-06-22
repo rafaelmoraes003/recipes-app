@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Header from '../components/Header';
 import { saveInitialFoods } from '../redux/actions';
-import { fetchFoods } from '../helpers/fetchRecipesAPI';
+import { fetchFoods, fetchCategories } from '../helpers/fetchRecipesAPI';
 import RecipeCard from '../components/RecipeCard';
 import CategoryButton from '../components/CategoryButto';
 
@@ -13,22 +13,18 @@ const Foods = () => {
   const { data } = useSelector((state) => state.apiReducer);
   const dispatch = useDispatch();
 
-  const selectsCategories = (foodsArray) => {
-    const categoriesNumber = 5;
-    const categories = foodsArray.reduce((acc, { strCategory }) => {
-      if (acc.length < categoriesNumber) {
-        if (acc.includes(strCategory)) return acc;
-        return [...acc, strCategory];
-      }
-      return acc;
-    }, []);
+  const selectsCategories = async () => {
+    const numberOfCategories = 5;
+    const categoriesData = await fetchCategories('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
+    const categories = Object.values(categoriesData)[0]
+      .filter((c, i) => i < numberOfCategories);
     setCategoryFoods(categories);
   };
 
   useEffect(() => {
     const loadsFoodRecipes = async () => {
       const recipesData = await fetchFoods();
-      selectsCategories(recipesData);
+      selectsCategories();
       const usableRecipes = recipesData
         .filter((recipe, index) => index < totalRecipesNumber);
       setRecipesFoods(usableRecipes);
@@ -42,15 +38,16 @@ const Foods = () => {
       setRecipesFoods(data.meals.filter((food, index) => index < totalRecipesNumber));
     }
   }, [data]);
+
   return (
     <div>
       <Header title="Foods" showSearchIcon />
       <fieldset>
         <legend>Filter by category</legend>
         {categoryFoods
-          .map((category) => (<CategoryButton
-            key={ category }
-            categoryName={ category }
+          .map(({ strCategory }) => (<CategoryButton
+            key={ strCategory }
+            categoryName={ strCategory }
           />))}
       </fieldset>
       {recipesFoods.map(({ idMeal, strMeal, strMealThumb }, index) => (
