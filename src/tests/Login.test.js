@@ -1,12 +1,12 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-// import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
+import renderWithRouterAndRedux from './renderWithRouterAndRedux';
 import App from '../App';
 
 describe('Testa a tela de Login', () => {
   it('Verifica se a URL é a raiz', () => {
-    const { history } = renderWithRouterAndStore(<App />);
+    const { history } = renderWithRouterAndRedux(<App />);
     const { pathname } = history.location;
     expect(pathname).toBe('/');
   });

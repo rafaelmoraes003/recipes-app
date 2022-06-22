@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Input from '../components/Input';
-import { saveUser } from '../redux/actions';
+import { saveUser } from '../redux/actions/userACTION';
 
 const Login = () => {
   const [email, setEmail] = useState('');
