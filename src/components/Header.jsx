@@ -1,36 +1,82 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import RadioButtons from './RadioButtons';
+import { fetchData } from '../redux/actions/fetchDataACTION';
 
 const Header = ({ title, showSearchIcon }) => {
   const [showInput, setShowInput] = useState(false);
   const [searchFilter, setSearchFilter] = useState('');
   const [searchInput, setSearchInput] = useState('');
-  const [data, setData] = useState([]);
   const history = useHistory();
+  const dispatch = useDispatch();
+  const warning = 'Sorry, we haven\'t found any recipes for these filters.';
 
   const goToProfile = () => {
     history.push('/profile');
   };
 
-  const fetchFoodsOrDrinks = async (type) => {
-    if (searchFilter === 'ingredients') {
-      const ingredientResponse = await fetch(`https://www.${type}.com/api/json/v1/1/filter.php?i=${searchInput}`);
+  const fetchByIngredients = async (db) => {
+    try {
+      const ingredientResponse = await fetch(`https://www.${db}.com/api/json/v1/1/filter.php?i=${searchInput}`);
       const ingredientData = await ingredientResponse.json();
-      setData(ingredientData);
-    } else if (searchFilter === 'name') {
-      const nameResponse = await fetch(`https://www.${type}.com/api/json/v1/1/search.php?s=${searchInput}`);
+      if (Object.values(ingredientData)[0] !== null) {
+        console.log(Object.values(ingredientData));
+        dispatch(fetchData(ingredientData));
+      } else {
+        global.alert(warning);
+      }
+    } catch (error) {
+      console.log(error);
+      global.alert(warning);
+    }
+  };
+
+  const fetchByName = async (db) => {
+    try {
+      const nameResponse = await fetch(`https://www.${db}.com/api/json/v1/1/search.php?s=${searchInput}`);
       const nameData = await nameResponse.json();
-      setData(nameData);
-    } else if (searchFilter === 'first-letter' && searchInput.length === 1) {
-      const firstLetterResponse = await fetch(`https://www.${type}.com/api/json/v1/1/search.php?f=${searchInput}`);
+      if (Object.values(nameData)[0] !== null) {
+        console.log(Object.values(nameData));
+        dispatch(fetchData(nameData));
+      } else {
+        global.alert(warning);
+      }
+    } catch (error) {
+      console.log(error);
+      global.alert(warning);
+    }
+  };
+
+  const fetchByFirstLetter = async (db) => {
+    try {
+      const firstLetterResponse = await fetch(`https://www.${db}.com/api/json/v1/1/search.php?f=${searchInput}`);
       const firstLetterData = await firstLetterResponse.json();
-      setData(firstLetterData);
-    } else {
+      if (Object.values(firstLetterData)[0] !== null) {
+        console.log(Object.values(firstLetterData));
+        dispatch(fetchData(firstLetterData));
+      } else {
+        global.alert(warning);
+      }
+    } catch (error) {
+      console.log(error);
+      global.alert(warning);
+    }
+  };
+
+  const fetchFoodsOrDrinks = async (db) => {
+    if (searchFilter === 'ingredients') {
+      fetchByIngredients(db);
+    } else if (searchFilter === 'name') {
+      fetchByName(db);
+    } else if (searchFilter === 'first-letter'
+      && searchInput.length > 1) {
       global.alert('Your search must have only 1 (one) character');
+    } else {
+      fetchByFirstLetter(db);
     }
   };
 
@@ -75,12 +121,11 @@ const Header = ({ title, showSearchIcon }) => {
         <div>
           <RadioButtons handleFunctions={ handleFunctions } />
           <input
-            data-testId="search-input"
+            data-testid="search-input"
             type="text"
             id="search-input"
             onChange={ ({ target }) => setSearchInput(target.value) }
           />
-          <p style={ { display: 'none' } }>{JSON.stringify(data)}</p>
         </div>
       ) }
     </header>
