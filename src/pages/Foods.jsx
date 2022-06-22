@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Header from '../components/Header';
 import { saveInitialFoods } from '../redux/actions';
 import { fetchFoods } from '../helpers/fetchRecipesAPI';
@@ -9,6 +9,7 @@ const Foods = () => {
   const totalRecipesNumber = 12;
   const [recipesFoods, setRecipesFoods] = useState([]);
   const [categoryFoods, setCategoryFoods] = useState([]);
+  const { data } = useSelector((state) => state.apiReducer);
   const dispatch = useDispatch();
 
   const selectsCategories = (foodsArray) => {
@@ -34,6 +35,12 @@ const Foods = () => {
     };
     loadsFoodRecipes();
   }, [dispatch]);
+
+  useEffect(() => {
+    if (!Array.isArray(data) && data.meals) {
+      setRecipesFoods(data.meals.filter((food, index) => index < totalRecipesNumber));
+    }
+  }, [data]);
   return (
     <div>
       <Header title="Foods" showSearchIcon />
