@@ -12,9 +12,18 @@ const saveInitialFoods = (recipes) => ({
   payload: recipes,
 });
 
+const SAVE_INITIAL_DRINKS = 'SAVE_INITIAL_DRINKS';
+
+const saveInitialDrinks = (recipes) => ({
+  type: SAVE_INITIAL_DRINKS,
+  payload: recipes,
+});
+
 export {
   SAVE_USER,
   saveUser,
   SAVE_INITIAL_FOODS,
   saveInitialFoods,
+  SAVE_INITIAL_DRINKS,
+  saveInitialDrinks,
 };
