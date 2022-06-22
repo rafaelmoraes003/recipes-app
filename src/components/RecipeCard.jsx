@@ -12,8 +12,8 @@ function RecipeCard({ id, index, foodImage, foodName, endPoint }) {
         onClick={ () => history.push(`${endPoint}/${id}`) }
       >
         <h3 data-testid={ `${index}-card-name` }>{ foodName }</h3>
-        <img src={ foodImage } alt={ foodName } data-testid={ `${index}-card-img` } />
       </button>
+      <img src={ foodImage } alt={ foodName } data-testid={ `${index}-card-img` } />
     </div>
   );
 }
