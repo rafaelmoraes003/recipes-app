@@ -9,3 +9,9 @@ export const fetchDrinks = async () => {
   const dataDrinks = await response.json();
   return dataDrinks.drinks;
 };
+
+export const fetchCategories = async (urlForFetch) => {
+  const response = await fetch(urlForFetch);
+  const categories = await response.json();
+  return categories;
+};
