@@ -63,6 +63,10 @@ const DrinkDetail = () => {
         className="startRecipeButton"
         type="button"
         data-testid="start-recipe-btn"
+        onClick={ () => {
+          const id = history.location.pathname.split('/')[2];
+          history.push(`/drinks/${id}/in-progress`);
+        } }
       >
         Start Recipe
 
