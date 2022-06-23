@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 function RecommendationCard({
   id, index, recommendationImage, recommendationName, endPoint }) {
-  console.log(endPoint);
   return (
     <div className="recommendationCard">
       <Link
