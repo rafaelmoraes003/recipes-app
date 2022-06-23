@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { fetchDrinks } from '../helpers/fetchRecipesAPI';
+import '../style/DrinkDetail.css';
 
 const DrinkDetail = () => {
   const history = useHistory();
@@ -32,7 +33,7 @@ const DrinkDetail = () => {
         data-testid="recipe-photo"
       />
       <h1 data-testid="recipe-title">{ recipe.strDrink }</h1>
-      <h3 data-testid="recipe-category">{ recipe.strCategory }</h3>
+      <h3 data-testid="recipe-category">{ recipe.strAlcoholic }</h3>
       <button type="button" data-testid="share-btn">Compartilhar Receita</button>
       <button type="button" data-testid="favorite-btn">Favoritar Receita</button>
       <ul>
@@ -48,8 +49,15 @@ const DrinkDetail = () => {
           ))}
       </ul>
       <p data-testid="instructions">{ recipe.strInstructions }</p>
-      <button type="button" data-testid="start-recipe-btn">Iniciar Receita</button>
-      {/* TODO: receitas recomendadas => data-testid="start-recipe-btn" */}
+      <button
+        className="startRecipeButton"
+        type="button"
+        data-testid="start-recipe-btn"
+      >
+        Start Recipe
+
+      </button>
+      <p data-testid="0-recomendation-card">Recomendações</p>
     </section>
   );
 };
