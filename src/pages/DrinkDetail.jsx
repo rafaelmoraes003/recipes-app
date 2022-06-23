@@ -6,7 +6,8 @@ import '../style/DrinkDetail.css';
 
 const DrinkDetail = () => {
   const history = useHistory();
-  const [recipe, setRecipe] = useState({ ingredientsAndMeasures: [] });
+  const [recipe, setRecipe] = useState({
+    ingredientsAndMeasures: [] });
   const [recommendations, setRecommendations] = useState([]);
 
   const loadsRecommendations = async () => {
@@ -30,7 +31,11 @@ const DrinkDetail = () => {
         .filter((item) => JSON.stringify(item).includes('strMeasure'))
         .filter((measure) => measure[1] !== null);
       const ingredientsAndMeasures = ingredients
-        .map((ingredient, index) => `${ingredient[1]} - ${measures[index][1]}`);
+        .map((ingredient, index) => {
+          if (measures[index]) {
+            return `${ingredient[1]} - ${measures[index][1]}`;
+          } return `${ingredient[1]}`;
+        });
       setRecipe({ ...recipeData[0], ingredientsAndMeasures });
     };
     fetchRecipe();
