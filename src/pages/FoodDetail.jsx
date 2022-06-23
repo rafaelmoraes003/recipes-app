@@ -3,6 +3,8 @@ import { useHistory } from 'react-router-dom';
 import { fetchDrinks, fetchFoods } from '../helpers/fetchRecipesAPI';
 import '../style/FoodDetail.css';
 import RecommendationCard from '../components/RecommendationCard';
+// import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+// import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 const FoodDetail = () => {
   const history = useHistory();
@@ -42,6 +44,23 @@ const FoodDetail = () => {
     setCopy(true);
   };
 
+  const saveFoodInLocalStorage = () => {
+    const storagedFood = [{
+      id: recipe.idMeal,
+      type: 'food',
+      nationality: recipe.strArea,
+      category: recipe.strCategory,
+      alcoholicOrNot: '',
+      name: recipe.strMeal,
+      image: recipe.strMealThumb,
+    }];
+    localStorage.setItem('favoriteRecipes', JSON.stringify(storagedFood));
+  };
+
+  const favoriteRecipe = () => {
+    saveFoodInLocalStorage();
+  };
+
   return (
     <section>
       <img
@@ -51,6 +70,7 @@ const FoodDetail = () => {
       />
       <h1 data-testid="recipe-title">{ recipe.strMeal }</h1>
       <h3 data-testid="recipe-category">{ recipe.strCategory }</h3>
+
       <button
         type="button"
         data-testid="share-btn"
@@ -58,8 +78,17 @@ const FoodDetail = () => {
       >
         Compartilhar Receita
       </button>
-      <button type="button" data-testid="favorite-btn">Favoritar Receita</button>
+
+      <button
+        type="button"
+        data-testid="favorite-btn"
+        onClick={ favoriteRecipe }
+      >
+        Favoritar Receita
+      </button>
+
       {copy && <p style={ { color: 'green' } }>Link copied!</p>}
+
       <ul>
         <h3>Ingredients</h3>
         {recipe.ingredientsAndMeasures
