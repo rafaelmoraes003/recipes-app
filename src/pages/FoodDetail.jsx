@@ -6,6 +6,9 @@ import RecommendationCard from '../components/RecommendationCard';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import useFavorite from '../customHooks/useFavorite';
+import
+removeRecipeFromLocalStorage
+from '../reusable_functions/removeRecipeFromLocalStorage';
 
 const FoodDetail = () => {
   // const storage = JSON.parse(localStorage.getItem('favoriteRecipes'));
@@ -62,6 +65,11 @@ const FoodDetail = () => {
     }];
     // setFoodsInStorage(foodsInStorage.concat(storagedFood));
     localStorage.setItem('favoriteRecipes', JSON.stringify(storagedFood));
+    setFavorite(true);
+  };
+
+  const removeOfLocalStorage = () => {
+    removeRecipeFromLocalStorage(history, setFavorite);
   };
 
   // useEffect(() => {
@@ -77,11 +85,11 @@ const FoodDetail = () => {
           alt="favorite"
           data-testid="favorite-btn"
           style={ { display: 'block' } }
+          onClick={ removeOfLocalStorage }
         >
           <img
             src={ blackHeartIcon }
             alt="favorite"
-            data-testid="favorite-btn"
           />
         </button>
       )}
@@ -93,11 +101,11 @@ const FoodDetail = () => {
           alt="non-favorite"
           data-testid="favorite-btn"
           style={ { display: 'block' } }
+          onClick={ favoriteRecipe }
         >
           <img
             src={ whiteHeartIcon }
             alt="non-favorite"
-            data-testid="favorite-btn"
           />
         </button>
       )}
@@ -120,52 +128,20 @@ const FoodDetail = () => {
 
       <button
         type="button"
-        data-testid="favorite-btn"
-        onClick={ favoriteRecipe }
+        // data-testid="favorite-btn"
+        // onClick={ favoriteRecipe }
       >
         Favoritar Receita
       </button>
 
       {copy && <p style={ { color: 'green' } }>Link copied!</p>}
 
-      {/* {favorite && (
-        <button
-          type="button"
-          src={ blackHeartIcon }
-          alt="favorite"
-          data-testid="favorite-btn"
-          style={ { display: 'block' } }
-        >
-          <img
-            src={ blackHeartIcon }
-            alt="favorite"
-            data-testid="favorite-btn"
-          />
-        </button>
-      )} */}
-
-      {/* {!favorite && (
-        <button
-          type="button"
-          src={ whiteHeartIcon }
-          alt="non-favorite"
-          data-testid="favorite-btn"
-          style={ { display: 'block' } }
-        >
-          <img
-            src={ whiteHeartIcon }
-            alt="non-favorite"
-            data-testid="favorite-btn"
-          />
-        </button>
-      )} */}
-
       <ul>
         <h3>Ingredients</h3>
         {recipe.ingredientsAndMeasures
           .map((i, index) => (
             <li
-              key={ i }
+              key={ index }
               data-testid={ `${index}-ingredient-name-and-measure` }
             >
               { i }

@@ -6,6 +6,9 @@ import '../style/DrinkDetail.css';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import useFavorite from '../customHooks/useFavorite';
+import
+removeRecipeFromLocalStorage
+from '../reusable_functions/removeRecipeFromLocalStorage';
 
 const DrinkDetail = () => {
   // const storage = JSON.parse(localStorage.getItem('favoriteRecipes'));  // ------ NÃO APAGAR!!!
@@ -67,6 +70,11 @@ const DrinkDetail = () => {
     }];
     // setFoodsInStorage(foodsInStorage.concat(storagedFood));  // ------ NÃO APAGAR!!!!
     localStorage.setItem('favoriteRecipes', JSON.stringify(storagedFood));
+    setFavorite(true);
+  };
+
+  const removeOfLocalStorage = () => {
+    removeRecipeFromLocalStorage(history, setFavorite);
   };
 
   // useEffect(() => {
@@ -82,11 +90,11 @@ const DrinkDetail = () => {
           alt="favorite"
           data-testid="favorite-btn"
           style={ { display: 'block' } }
+          onClick={ removeOfLocalStorage }
         >
           <img
             src={ blackHeartIcon }
             alt="favorite"
-            data-testid="favorite-btn"
           />
         </button>
       )}
@@ -98,11 +106,11 @@ const DrinkDetail = () => {
           alt="non-favorite"
           data-testid="favorite-btn"
           style={ { display: 'block' } }
+          onClick={ favoriteRecipe }
         >
           <img
             src={ whiteHeartIcon }
             alt="non-favorite"
-            data-testid="favorite-btn"
           />
         </button>
       )}
@@ -124,8 +132,6 @@ const DrinkDetail = () => {
 
       <button
         type="button"
-        data-testid="favorite-btn"
-        onClick={ favoriteRecipe }
       >
         Favoritar Receita
       </button>
