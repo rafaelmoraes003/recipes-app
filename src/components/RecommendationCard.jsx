@@ -11,7 +11,9 @@ function RecommendationCard({
         data-testid={ `${index}-recomendation-card` }
         to={ `../${endPoint}/${id}` }
       >
-        <button type="button"><h3>{ recommendationName }</h3></button>
+        <button type="button">
+          <h3 data-testid={ `${index}-recomendation-title` }>{ recommendationName }</h3>
+        </button>
       </Link>
       <img src={ recommendationImage } alt={ recommendationName } />
     </div>
