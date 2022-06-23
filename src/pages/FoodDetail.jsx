@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { fetchDrinks, fetchFoods } from '../helpers/fetchRecipesAPI';
 import '../style/FoodDetail.css';
 import RecommendationCard from '../components/RecommendationCard';
+import saveFoodInLocalStorage from '../saveFoodInLocalStorage/saveFoodInLocalStorage';
 // import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 // import blackHeartIcon from '../images/blackHeartIcon.svg';
 
@@ -11,6 +12,7 @@ const FoodDetail = () => {
   const [recipe, setRecipe] = useState({ ingredientsAndMeasures: [] });
   const [recommendations, setRecommendations] = useState([]);
   const [copy, setCopy] = useState(false);
+  // const [favorite, setFavorite] = useState(false);
 
   const loadsRecommendations = async () => {
     const numberOfRecommendations = 5;
@@ -44,21 +46,8 @@ const FoodDetail = () => {
     setCopy(true);
   };
 
-  const saveFoodInLocalStorage = () => {
-    const storagedFood = [{
-      id: recipe.idMeal,
-      type: 'food',
-      nationality: recipe.strArea,
-      category: recipe.strCategory,
-      alcoholicOrNot: '',
-      name: recipe.strMeal,
-      image: recipe.strMealThumb,
-    }];
-    localStorage.setItem('favoriteRecipes', JSON.stringify(storagedFood));
-  };
-
   const favoriteRecipe = () => {
-    saveFoodInLocalStorage();
+    saveFoodInLocalStorage('Meal', recipe);
   };
 
   return (
@@ -88,6 +77,25 @@ const FoodDetail = () => {
       </button>
 
       {copy && <p style={ { color: 'green' } }>Link copied!</p>}
+      {/* {favorite && (
+        <button
+          type="button"
+          src={ blackHeartIcon }
+          data-testid="favorite-btn"
+        >
+          <img src={ blackHeartIcon } alt="favorite" />
+        </button>
+      )}
+
+      {!favorite && (
+        <button
+          type="button"
+          src={ whiteHeartIcon }
+          data-testid="non-favorite-btn"
+        >
+          <img src={ whiteHeartIcon } alt="non-favorite" />
+        </button>
+      )} */}
 
       <ul>
         <h3>Ingredients</h3>

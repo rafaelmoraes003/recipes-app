@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import RecommendationCard from '../components/RecommendationCard';
 import { fetchDrinks, fetchFoods } from '../helpers/fetchRecipesAPI';
 import '../style/DrinkDetail.css';
+import saveFoodInLocalStorage from '../saveFoodInLocalStorage/saveFoodInLocalStorage';
 // import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 // import blackHeartIcon from '../images/blackHeartIcon.svg';
 
@@ -49,24 +50,9 @@ const DrinkDetail = () => {
     setCopy(true);
   };
 
-  const saveDrinkInLocalStorage = () => {
-    const storagedDrink = [{
-      id: recipe.idDrink,
-      type: 'drink',
-      nationality: '',
-      category: recipe.strCategory,
-      alcoholicOrNot: recipe.strAlcoholic,
-      name: recipe.strDrink,
-      image: recipe.strDrinkThumb,
-    }];
-    localStorage.setItem('favoriteRecipes', JSON.stringify(storagedDrink));
-  };
-
   const favoriteRecipe = () => {
-    saveDrinkInLocalStorage();
+    saveFoodInLocalStorage('drink', recipe);
   };
-
-  useEffect(() => { console.log(recipe); }, [recipe]);
 
   return (
     <section>
