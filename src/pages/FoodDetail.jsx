@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { fetchFoods } from '../helpers/fetchRecipesAPI';
+import '../style/FoodDetail.css';
 
 const FoodDetail = () => {
   const history = useHistory();
@@ -55,8 +56,14 @@ const FoodDetail = () => {
       >
         <track default kind="captions" />
       </video>
-      {/* TODO: receitas recomendadas => data-testid="${index}-recomendation-card" */}
-      <button type="button" data-testid="start-recipe-btn">Iniciar Receita</button>
+      <p data-testid="0-recomendation-card">Recomendações</p>
+      <button
+        className="startRecipeButton"
+        type="button"
+        data-testid="start-recipe-btn"
+      >
+        Start Recipe
+      </button>
     </section>
   );
 };
