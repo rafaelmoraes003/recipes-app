@@ -1,17 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { fetchDrinks } from '../helpers/fetchRecipesAPI';
+import RecommendationCard from '../components/RecommendationCard';
+import { fetchDrinks, fetchFoods } from '../helpers/fetchRecipesAPI';
 import '../style/DrinkDetail.css';
 
 const DrinkDetail = () => {
   const history = useHistory();
   const [recipe, setRecipe] = useState({ ingredientsAndMeasures: [] });
+  const [recommendations, setRecommendations] = useState([]);
+
+  const loadsRecommendations = async () => {
+    const numberOfRecommendations = 5;
+    const recommendationsData = await fetchFoods('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+    const usableRecommendations = recommendationsData
+      .filter((r, index) => index <= numberOfRecommendations);
+    setRecommendations(usableRecommendations);
+  };
 
   useEffect(() => {
     const id = history.location.pathname.split('/')[2];
     const fetchRecipe = async () => {
       const recipeData = await fetchDrinks(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
-      console.log(recipeData);
+      loadsRecommendations();
       const entries = Object.entries(recipeData[0]);
       const ingredients = entries
         .filter((item) => JSON.stringify(item).includes('strIngredient'))
@@ -57,7 +67,18 @@ const DrinkDetail = () => {
         Start Recipe
 
       </button>
-      <p data-testid="0-recomendation-card">Recomendações</p>
+      <div>
+        {recommendations.map(({ idMeal, strMeal, strMealThumb }, index) => (
+          <RecommendationCard
+            key={ idMeal }
+            id={ idMeal }
+            index={ index }
+            recommendationName={ strMeal }
+            recommendationImage={ strMealThumb }
+            endPoint="foods"
+          />
+        ))}
+      </div>
     </section>
   );
 };
