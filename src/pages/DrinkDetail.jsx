@@ -3,16 +3,21 @@ import { useHistory } from 'react-router-dom';
 import RecommendationCard from '../components/RecommendationCard';
 import { fetchDrinks, fetchFoods } from '../helpers/fetchRecipesAPI';
 import '../style/DrinkDetail.css';
-import saveFoodInLocalStorage from '../saveFoodInLocalStorage/saveFoodInLocalStorage';
-// import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-// import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import useFavorite from '../customHooks/useFavorite';
 
 const DrinkDetail = () => {
+  // const storage = JSON.parse(localStorage.getItem('favoriteRecipes'));  // ------ NÃO APAGAR!!!
   const history = useHistory();
   const [recipe, setRecipe] = useState({
     ingredientsAndMeasures: [] });
   const [recommendations, setRecommendations] = useState([]);
   const [copy, setCopy] = useState(false);
+  const [favorite, setFavorite] = useState(false);
+  // const [foodsInStorage, setFoodsInStorage] = useState(storage || []);  // ------ NÃO APAGAR!!!
+
+  useFavorite(history, setFavorite);
 
   const loadsRecommendations = async () => {
     const numberOfRecommendations = 5;
@@ -51,11 +56,57 @@ const DrinkDetail = () => {
   };
 
   const favoriteRecipe = () => {
-    saveFoodInLocalStorage('drink', recipe);
+    const storagedFood = [{
+      id: recipe.idDrink,
+      type: 'drink',
+      nationality: '',
+      category: recipe.strCategory,
+      alcoholicOrNot: recipe.strAlcoholic,
+      name: recipe.strDrink,
+      image: recipe.strDrinkThumb,
+    }];
+    // setFoodsInStorage(foodsInStorage.concat(storagedFood));  // ------ NÃO APAGAR!!!!
+    localStorage.setItem('favoriteRecipes', JSON.stringify(storagedFood));
   };
+
+  // useEffect(() => {
+  //   localStorage.setItem('favoriteRecipes', JSON.stringify(foodsInStorage)); // ------ NÃO APAGAR!!!!
+  // }, [foodsInStorage]);
 
   return (
     <section>
+      {favorite && (
+        <button
+          type="button"
+          src={ blackHeartIcon }
+          alt="favorite"
+          data-testid="favorite-btn"
+          style={ { display: 'block' } }
+        >
+          <img
+            src={ blackHeartIcon }
+            alt="favorite"
+            data-testid="favorite-btn"
+          />
+        </button>
+      )}
+
+      {!favorite && (
+        <button
+          type="button"
+          src={ whiteHeartIcon }
+          alt="non-favorite"
+          data-testid="favorite-btn"
+          style={ { display: 'block' } }
+        >
+          <img
+            src={ whiteHeartIcon }
+            alt="non-favorite"
+            data-testid="favorite-btn"
+          />
+        </button>
+      )}
+
       <img
         src={ recipe.strDrinkThumb }
         alt={ recipe.strDrink }

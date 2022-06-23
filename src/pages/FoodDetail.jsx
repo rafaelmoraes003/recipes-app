@@ -3,16 +3,20 @@ import { useHistory } from 'react-router-dom';
 import { fetchDrinks, fetchFoods } from '../helpers/fetchRecipesAPI';
 import '../style/FoodDetail.css';
 import RecommendationCard from '../components/RecommendationCard';
-import saveFoodInLocalStorage from '../saveFoodInLocalStorage/saveFoodInLocalStorage';
-// import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-// import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import useFavorite from '../customHooks/useFavorite';
 
 const FoodDetail = () => {
+  // const storage = JSON.parse(localStorage.getItem('favoriteRecipes'));
   const history = useHistory();
   const [recipe, setRecipe] = useState({ ingredientsAndMeasures: [] });
   const [recommendations, setRecommendations] = useState([]);
   const [copy, setCopy] = useState(false);
-  // const [favorite, setFavorite] = useState(false);
+  const [favorite, setFavorite] = useState(false);
+  // const [foodsInStorage, setFoodsInStorage] = useState(storage || []);
+
+  useFavorite(history, setFavorite);
 
   const loadsRecommendations = async () => {
     const numberOfRecommendations = 5;
@@ -47,11 +51,57 @@ const FoodDetail = () => {
   };
 
   const favoriteRecipe = () => {
-    saveFoodInLocalStorage('Meal', recipe);
+    const storagedFood = [{
+      id: recipe.idMeal,
+      type: 'food',
+      nationality: recipe.strArea,
+      category: recipe.strCategory,
+      alcoholicOrNot: '',
+      name: recipe.strMeal,
+      image: recipe.strMealThumb,
+    }];
+    // setFoodsInStorage(foodsInStorage.concat(storagedFood));
+    localStorage.setItem('favoriteRecipes', JSON.stringify(storagedFood));
   };
+
+  // useEffect(() => {
+  //   localStorage.setItem('favoriteRecipes', JSON.stringify(foodsInStorage));
+  // }, [foodsInStorage]);
 
   return (
     <section>
+      {favorite && (
+        <button
+          type="button"
+          src={ blackHeartIcon }
+          alt="favorite"
+          data-testid="favorite-btn"
+          style={ { display: 'block' } }
+        >
+          <img
+            src={ blackHeartIcon }
+            alt="favorite"
+            data-testid="favorite-btn"
+          />
+        </button>
+      )}
+
+      {!favorite && (
+        <button
+          type="button"
+          src={ whiteHeartIcon }
+          alt="non-favorite"
+          data-testid="favorite-btn"
+          style={ { display: 'block' } }
+        >
+          <img
+            src={ whiteHeartIcon }
+            alt="non-favorite"
+            data-testid="favorite-btn"
+          />
+        </button>
+      )}
+
       <img
         src={ recipe.strMealThumb }
         alt={ recipe.strMeal }
@@ -77,23 +127,36 @@ const FoodDetail = () => {
       </button>
 
       {copy && <p style={ { color: 'green' } }>Link copied!</p>}
+
       {/* {favorite && (
         <button
           type="button"
           src={ blackHeartIcon }
+          alt="favorite"
           data-testid="favorite-btn"
+          style={ { display: 'block' } }
         >
-          <img src={ blackHeartIcon } alt="favorite" />
+          <img
+            src={ blackHeartIcon }
+            alt="favorite"
+            data-testid="favorite-btn"
+          />
         </button>
-      )}
+      )} */}
 
-      {!favorite && (
+      {/* {!favorite && (
         <button
           type="button"
           src={ whiteHeartIcon }
-          data-testid="non-favorite-btn"
+          alt="non-favorite"
+          data-testid="favorite-btn"
+          style={ { display: 'block' } }
         >
-          <img src={ whiteHeartIcon } alt="non-favorite" />
+          <img
+            src={ whiteHeartIcon }
+            alt="non-favorite"
+            data-testid="favorite-btn"
+          />
         </button>
       )} */}
 
