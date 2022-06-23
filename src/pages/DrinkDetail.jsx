@@ -9,6 +9,7 @@ const DrinkDetail = () => {
   const [recipe, setRecipe] = useState({
     ingredientsAndMeasures: [] });
   const [recommendations, setRecommendations] = useState([]);
+  const [copy, setCopy] = useState(false);
 
   const loadsRecommendations = async () => {
     const numberOfRecommendations = 5;
@@ -40,6 +41,12 @@ const DrinkDetail = () => {
     };
     fetchRecipe();
   }, [history]);
+
+  const copyRecipeToClipboard = async () => {
+    await navigator.clipboard.writeText(window.location.href);
+    setCopy(true);
+  };
+
   return (
     <section>
       <img
@@ -49,8 +56,15 @@ const DrinkDetail = () => {
       />
       <h1 data-testid="recipe-title">{ recipe.strDrink }</h1>
       <h3 data-testid="recipe-category">{ recipe.strAlcoholic }</h3>
-      <button type="button" data-testid="share-btn">Compartilhar Receita</button>
+      <button
+        type="button"
+        data-testid="share-btn"
+        onClick={ copyRecipeToClipboard }
+      >
+        Compartilhar Receita
+      </button>
       <button type="button" data-testid="favorite-btn">Favoritar Receita</button>
+      {copy && <p style={ { color: 'green' } }>Link copied!</p>}
       <ul>
         <h3>Ingredients</h3>
         {recipe.ingredientsAndMeasures
