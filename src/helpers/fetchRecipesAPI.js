@@ -15,3 +15,9 @@ export const fetchCategories = async (urlForFetch) => {
   const categories = await response.json();
   return categories;
 };
+
+export const fetchSurpriseMe = async (urlForFetch) => {
+  const response = await fetch(urlForFetch);
+  const randomRecipe = await response.json();
+  return randomRecipe;
+};
