@@ -1,9 +1,13 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
 
 const FavoriteRecipes = () => {
+  const history = useHistory();
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
   const [baseFav, setBaseFav] = useState([]);
 
@@ -19,7 +23,7 @@ const FavoriteRecipes = () => {
   useEffect(() => {
     const MAX_TIME = 2000;
     const interval = setTimeout(() => {
-      const returnToOriginalState = favoriteRecipes.map((recipe) => {
+      const returnToOriginalState = baseFav.map((recipe) => {
         if (recipe.copied === true) {
           recipe.copied = false;
         }
@@ -29,7 +33,7 @@ const FavoriteRecipes = () => {
     }, MAX_TIME);
 
     return () => clearInterval(interval);
-  }, [favoriteRecipes]);
+  }, [baseFav]);
 
   const copyRecipeToClipboard = async ({ target }) => {
     const { id, name } = target;
@@ -62,6 +66,15 @@ const FavoriteRecipes = () => {
 
   const removeAllFilters = () => {
     setBaseFav(favoriteRecipes);
+  };
+
+  const redirectToRecipeDetails = ({ target }) => {
+    const { id, name } = target;
+    if (name === 'food') {
+      history.push(`/foods/${id}`);
+    } else {
+      history.push(`/drinks/${id}`);
+    }
   };
 
   return (
@@ -98,9 +111,18 @@ const FavoriteRecipes = () => {
             src={ recipe.image }
             alt={ recipe.name }
             data-testid={ `${i}-horizontal-image` }
-            style={ { width: '150px' } }
+            style={ { width: '150px', cursor: 'pointer' } }
+            name={ recipe.type }
+            id={ recipe.id }
+            onClick={ redirectToRecipeDetails }
           />
-          <h3 data-testid={ `${i}-horizontal-name` }>
+          <h3
+            data-testid={ `${i}-horizontal-name` }
+            name={ recipe.type }
+            id={ recipe.id }
+            onClick={ redirectToRecipeDetails }
+            style={ { cursor: 'pointer' } }
+          >
             {recipe.name}
           </h3>
           <h4
