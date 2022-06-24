@@ -33,7 +33,7 @@
   padding: 3px 0 0 5px;
 }
 
-.recommendationCard p:nth-child( 3 ) {
+.recommendationCard p:nth-child( 3n ) {
   color: black;
   font-size: 18px;
 }
