@@ -5,14 +5,31 @@ import shareIcon from '../images/shareIcon.svg';
 
 const FavoriteRecipes = () => {
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
+  const [baseFav, setBaseFav] = useState([]);
 
   useEffect(() => {
     const storageFavorite = JSON.parse(localStorage.getItem('favoriteRecipes'));
     if (storageFavorite || storageFavorite.lenght > 0) {
       storageFavorite.copied = false;
       setFavoriteRecipes(storageFavorite);
+      setBaseFav(storageFavorite);
     }
   }, []);
+
+  useEffect(() => {
+    const MAX_TIME = 2000;
+    const interval = setTimeout(() => {
+      const returnToOriginalState = favoriteRecipes.map((recipe) => {
+        if (recipe.copied === true) {
+          recipe.copied = false;
+        }
+        return recipe;
+      });
+      setBaseFav(returnToOriginalState);
+    }, MAX_TIME);
+
+    return () => clearInterval(interval);
+  }, [favoriteRecipes]);
 
   const copyRecipeToClipboard = async ({ target }) => {
     const { id, name } = target;
@@ -30,16 +47,31 @@ const FavoriteRecipes = () => {
       }
       return recipe;
     });
-    setFavoriteRecipes(copiedRecipe);
+    setBaseFav(copiedRecipe);
+  };
+
+  const filterByMeal = () => {
+    const meals = favoriteRecipes.filter((recipe) => recipe.type === 'food');
+    setBaseFav(meals);
+  };
+
+  const filterByDrink = () => {
+    const drinks = favoriteRecipes.filter((recipe) => recipe.type === 'drink');
+    setBaseFav(drinks);
+  };
+
+  const removeAllFilters = () => {
+    setBaseFav(favoriteRecipes);
   };
 
   return (
     <div>
-      <Header />
+      <Header title="" showSearchIcon={ false } />
       <div className="filter-buttons">
         <button
           type="button"
           data-testid="filter-by-all-btn"
+          onClick={ removeAllFilters }
         >
           All
         </button>
@@ -47,6 +79,7 @@ const FavoriteRecipes = () => {
         <button
           type="button"
           data-testid="filter-by-food-btn"
+          onClick={ filterByMeal }
         >
           Food
         </button>
@@ -54,11 +87,12 @@ const FavoriteRecipes = () => {
         <button
           type="button"
           data-testid="filter-by-drink-btn"
+          onClick={ filterByDrink }
         >
           Drink
         </button>
       </div>
-      {favoriteRecipes.map((recipe, i) => (
+      { baseFav.length > 0 && baseFav.map((recipe, i) => (
         <div key={ recipe.id }>
           <img
             src={ recipe.image }
