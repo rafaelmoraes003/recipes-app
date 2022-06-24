@@ -1,13 +1,10 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
 
 const FavoriteRecipes = () => {
-  const history = useHistory();
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
   const [baseFav, setBaseFav] = useState([]);
 
@@ -68,15 +65,6 @@ const FavoriteRecipes = () => {
     setBaseFav(favoriteRecipes);
   };
 
-  const redirectToRecipeDetails = ({ target }) => {
-    const { id, name } = target;
-    if (name === 'food') {
-      history.push(`/foods/${id}`);
-    } else {
-      history.push(`/drinks/${id}`);
-    }
-  };
-
   useEffect(() => {
     setBaseFav(favoriteRecipes);
   }, [favoriteRecipes]);
@@ -118,24 +106,22 @@ const FavoriteRecipes = () => {
       </div>
       { baseFav.length > 0 && baseFav.map((recipe, i) => (
         <div key={ recipe.id }>
-          <img
-            src={ recipe.image }
-            alt={ recipe.name }
-            data-testid={ `${i}-horizontal-image` }
-            style={ { width: '150px', cursor: 'pointer' } }
-            name={ recipe.type }
-            id={ recipe.id }
-            onClick={ redirectToRecipeDetails }
-          />
-          <h3
-            data-testid={ `${i}-horizontal-name` }
-            name={ recipe.type }
-            id={ recipe.id }
-            onClick={ redirectToRecipeDetails }
-            style={ { cursor: 'pointer' } }
-          >
-            {recipe.name}
-          </h3>
+          <Link to={ `${recipe.type}s/${recipe.id}` }>
+            <img
+              src={ recipe.image }
+              alt={ recipe.name }
+              data-testid={ `${i}-horizontal-image` }
+              style={ { width: '150px', cursor: 'pointer' } }
+            />
+          </Link>
+          <Link to={ `${recipe.type}s/${recipe.id}` }>
+            <h3
+              data-testid={ `${i}-horizontal-name` }
+              style={ { cursor: 'pointer' } }
+            >
+              {recipe.name}
+            </h3>
+          </Link>
           <h4
             data-testid={ `${i}-horizontal-top-text` }
           >
