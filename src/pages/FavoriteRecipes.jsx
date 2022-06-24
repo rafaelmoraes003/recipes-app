@@ -10,7 +10,7 @@ const FavoriteRecipes = () => {
 
   useEffect(() => {
     const storageFavorite = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    if (storageFavorite || storageFavorite.lenght > 0) {
+    if (storageFavorite) {
       storageFavorite.copied = false;
       setFavoriteRecipes(storageFavorite);
       setBaseFav(storageFavorite);
@@ -78,7 +78,7 @@ const FavoriteRecipes = () => {
 
   return (
     <div>
-      <Header title="" showSearchIcon={ false } />
+      <Header title="Favorite Recipes" showSearchIcon={ false } />
       <div className="filter-buttons">
         <button
           type="button"
