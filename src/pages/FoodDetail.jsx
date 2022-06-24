@@ -18,6 +18,8 @@ const FoodDetail = () => {
   const [recommendations, setRecommendations] = useState([]);
   const [copy, setCopy] = useState(false);
   const [favorite, setFavorite] = useState(false);
+  const [done, setDone] = useState(false);
+  const [startedFood, setStartedFood] = useState(false);
   // const [foodsInStorage, setFoodsInStorage] = useState(storage || []);
 
   useFavorite(history, setFavorite);
@@ -71,6 +73,29 @@ const FoodDetail = () => {
 
   const removeOfLocalStorage = () => {
     removeRecipeFromLocalStorage(history, setFavorite);
+  };
+
+  useEffect(() => {
+    const storage = JSON.parse(localStorage.getItem('doneRecipes'));
+    if (storage) return setDone(true);
+    const storageStarted = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (storageStarted) return setStartedFood(true);
+  },
+  [history]);
+
+  const startedRecipe = () => {
+    const startedFoodStorage = {
+      cocktails: {
+        id: ['lista de ingredientes utilizados'],
+        // ...
+      },
+      meals: {
+        id: ['lista de ingredientes utilizados'],
+        // ...
+      },
+    };
+    localStorage.setItem('inProgressRecipes', JSON.stringify(startedFoodStorage));
+    setStartedFood(true);
   };
 
   // useEffect(() => {
@@ -154,17 +179,20 @@ const FoodDetail = () => {
             ))}
           {console.log(recommendations)}
         </div>
-        <button
-          className="startRecipeButton"
-          type="button"
-          data-testid="start-recipe-btn"
-          onClick={ () => {
-            const id = history.location.pathname.split('/')[2];
-            history.push(`/foods/${id}/in-progress`);
-          } }
-        >
-          Start Recipe
-        </button>
+        {!done && (
+          <button
+            className="startRecipeButton"
+            type="button"
+            data-testid="start-recipe-btn"
+            onClick={ () => {
+              const id = history.location.pathname.split('/')[2];
+              history.push(`/foods/${id}/in-progress`);
+              startedRecipe();
+            } }
+          >
+            {startedFood ? 'Continue Recipe' : 'Start Recipe'}
+          </button>
+        )}
       </div>
     </section>
   );
