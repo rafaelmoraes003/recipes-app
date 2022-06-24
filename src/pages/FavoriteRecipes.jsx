@@ -9,9 +9,29 @@ const FavoriteRecipes = () => {
   useEffect(() => {
     const storageFavorite = JSON.parse(localStorage.getItem('favoriteRecipes'));
     if (storageFavorite || storageFavorite.lenght > 0) {
+      storageFavorite.copied = false;
       setFavoriteRecipes(storageFavorite);
     }
   }, []);
+
+  const copyRecipeToClipboard = async ({ target }) => {
+    const { id, name } = target;
+    let url;
+    if (name === 'drink') {
+      url = `http://localhost:3000/drinks/${id}`;
+      await navigator.clipboard.writeText(url);
+    } else {
+      url = `http://localhost:3000/foods/${id}`;
+      await navigator.clipboard.writeText(url);
+    }
+    const copiedRecipe = favoriteRecipes.map((recipe) => {
+      if (recipe.id === id) {
+        recipe.copied = true;
+      }
+      return recipe;
+    });
+    setFavoriteRecipes(copiedRecipe);
+  };
 
   return (
     <div>
@@ -61,13 +81,26 @@ const FavoriteRecipes = () => {
             src={ shareIcon }
             alt="share recipe button"
             data-testid={ `${i}-horizontal-share-btn` }
+            onClick={ copyRecipeToClipboard }
+            id={ recipe.id }
+            name={ recipe.type }
           />
+
           <input
             type="image"
             src={ blackHeartIcon }
             alt="favorite recipe button"
             data-testid={ `${i}-horizontal-favorite-btn` }
           />
+
+          {recipe.copied && (
+            <p
+              id={ recipe.id }
+              style={ { color: 'green' } }
+            >
+              Link copied!
+            </p>
+          )}
         </div>
       ))}
     </div>
