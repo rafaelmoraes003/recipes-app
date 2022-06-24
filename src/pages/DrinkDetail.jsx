@@ -5,6 +5,7 @@ import { fetchDrinks, fetchFoods } from '../helpers/fetchRecipesAPI';
 import '../style/RecipesDetail.css';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
+import shareIcon from '../images/shareIcon.svg';
 import useFavorite from '../customHooks/useFavorite';
 import
 removeRecipeFromLocalStorage
@@ -83,62 +84,44 @@ const DrinkDetail = () => {
 
   return (
     <section>
-      {favorite && (
-        <button
-          type="button"
-          src={ blackHeartIcon }
-          alt="favorite"
-          data-testid="favorite-btn"
-          style={ { display: 'block' } }
-          onClick={ removeOfLocalStorage }
-        >
-          <img
-            src={ blackHeartIcon }
-            alt="favorite"
-          />
-        </button>
-      )}
-
-      {!favorite && (
-        <button
-          type="button"
-          src={ whiteHeartIcon }
-          alt="non-favorite"
-          data-testid="favorite-btn"
-          style={ { display: 'block' } }
-          onClick={ favoriteRecipe }
-        >
-          <img
-            src={ whiteHeartIcon }
-            alt="non-favorite"
-          />
-        </button>
-      )}
-
       <img
         src={ recipe.strDrinkThumb }
         alt={ recipe.strDrink }
         data-testid="recipe-photo"
+        className="detail_img_recipe"
       />
-      <h1 data-testid="recipe-title">{ recipe.strDrink }</h1>
-      <h3 data-testid="recipe-category">{ recipe.strAlcoholic }</h3>
-      <button
-        type="button"
-        data-testid="share-btn"
-        onClick={ copyRecipeToClipboard }
-      >
-        Compartilhar Receita
-      </button>
+      <div className="detail_recipe">
+        <h1 data-testid="recipe-title">{ recipe.strDrink }</h1>
+        <h3 data-testid="recipe-category">{ recipe.strAlcoholic }</h3>
+        {favorite ? (
+          <input
+            type="image"
+            src={ blackHeartIcon }
+            alt="favorite"
+            data-testid="favorite-btn"
+            style={ { display: 'block' } }
+            onClick={ removeOfLocalStorage }
+          />
+        ) : (
+          <input
+            type="image"
+            src={ whiteHeartIcon }
+            alt="non-favorite"
+            data-testid="favorite-btn"
+            style={ { display: 'block' } }
+            onClick={ favoriteRecipe }
+          />
+        )}
+        <input
+          type="image"
+          src={ shareIcon }
+          alt="share"
+          data-testid="share-btn"
+          onClick={ copyRecipeToClipboard }
+        />
 
-      <button
-        type="button"
-      >
-        Favoritar Receita
-      </button>
+        {copy && <p style={ { color: 'green' } }>Link copied!</p>}
 
-      {copy && <p style={ { color: 'green' } }>Link copied!</p>}
-
-      <ul>
         <h3>Ingredients</h3>
         <ul>
           {recipe.ingredientsAndMeasures
@@ -155,16 +138,19 @@ const DrinkDetail = () => {
         <p data-testid="instructions">{ recipe.strInstructions }</p>
         <h3>Recommended</h3>
         <div className="container_recommendations">
-          {recommendations.map(({ idMeal, strMeal, strMealThumb }, index) => (
-            <RecommendationCard
-              key={ idMeal }
-              id={ idMeal }
-              index={ index }
-              recommendationName={ strMeal }
-              recommendationImage={ strMealThumb }
-              endPoint="foods"
-            />
-          ))}
+          {recommendations
+            .map(({ idMeal, strMeal, strMealThumb, strCategory }, index) => (
+              <RecommendationCard
+                key={ idMeal }
+                id={ idMeal }
+                index={ index }
+                recommendationType={ strCategory }
+                recommendationName={ strMeal }
+                recommendationImage={ strMealThumb }
+                endPoint="foods"
+              />
+            ))}
+          {console.log(recommendations)}
         </div>
         <button
           className="startRecipeButton"
@@ -177,7 +163,7 @@ const DrinkDetail = () => {
         >
           Start Recipe
         </button>
-      </ul>
+      </div>
     </section>
   );
 };

@@ -5,6 +5,7 @@ import '../style/RecipesDetail.css';
 import RecommendationCard from '../components/RecommendationCard';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
+import shareIcon from '../images/shareIcon.svg';
 import useFavorite from '../customHooks/useFavorite';
 import
 removeRecipeFromLocalStorage
@@ -78,95 +79,92 @@ const FoodDetail = () => {
 
   return (
     <section>
-      {favorite && (
-        <button
-          type="button"
-          src={ blackHeartIcon }
-          alt="favorite"
-          data-testid="favorite-btn"
-          style={ { display: 'block' } }
-          onClick={ removeOfLocalStorage }
-        >
-          <img
-            src={ blackHeartIcon }
-            alt="favorite"
-          />
-        </button>
-      )}
-
-      {!favorite && (
-        <button
-          type="button"
-          src={ whiteHeartIcon }
-          alt="non-favorite"
-          data-testid="favorite-btn"
-          style={ { display: 'block' } }
-          onClick={ favoriteRecipe }
-        >
-          <img
-            src={ whiteHeartIcon }
-            alt="non-favorite"
-          />
-        </button>
-      )}
-
       <img
         src={ recipe.strMealThumb }
         alt={ recipe.strMeal }
         data-testid="recipe-photo"
+        className="detail_img_recipe"
       />
-      <h1 data-testid="recipe-title">{ recipe.strMeal }</h1>
-      <h3 data-testid="recipe-category">{ recipe.strCategory }</h3>
-
-      <button
-        type="button"
-        data-testid="share-btn"
-        onClick={ copyRecipeToClipboard }
-      >
-        Compartilhar Receita
-      </button>
-
-      <button
-        type="button"
-        // data-testid="favorite-btn"
-        // onClick={ favoriteRecipe }
-      >
-        Favoritar Receita
-      </button>
-
-      {copy && <p style={ { color: 'green' } }>Link copied!</p>}
-
-      <ul>
-        <h3>Ingredients</h3>
-        {recipe.ingredientsAndMeasures
-          .map((i, index) => (
-            <li
-              key={ index }
-              data-testid={ `${index}-ingredient-name-and-measure` }
-            >
-              { i }
-            </li>
-          ))}
-      </ul>
-      <p data-testid="instructions">{ recipe.strInstructions }</p>
-      <video
-        src={ recipe.strYoutube }
-        controls
-        data-testid="video"
-      >
-        <track default kind="captions" />
-      </video>
-      <div>
-        {recommendations.map(({ idDrink, strDrink, strDrinkThumb }, index) => (
-          <RecommendationCard
-            key={ idDrink }
-            id={ idDrink }
-            index={ index }
-            recommendationName={ strDrink }
-            recommendationImage={ strDrinkThumb }
-            endPoint="drinks"
+      <div className="detail_recipe">
+        <h1 data-testid="recipe-title">{ recipe.strMeal }</h1>
+        <h3 data-testid="recipe-category">{ recipe.strCategory }</h3>
+        {favorite ? (
+          <input
+            type="image"
+            src={ blackHeartIcon }
+            alt="favorite"
+            data-testid="favorite-btn"
+            style={ { display: 'block' } }
+            onClick={ removeOfLocalStorage }
           />
-        ))}
+        ) : (
+          <input
+            type="image"
+            src={ whiteHeartIcon }
+            alt="non-favorite"
+            data-testid="favorite-btn"
+            style={ { display: 'block' } }
+            onClick={ favoriteRecipe }
+          />
+        )}
+        <input
+          type="image"
+          src={ shareIcon }
+          alt="share"
+          data-testid="share-btn"
+          onClick={ copyRecipeToClipboard }
+        />
+
+        {copy && <p style={ { color: 'green' } }>Link copied!</p>}
+
+        <h3>Ingredients</h3>
+        <ul>
+          {recipe.ingredientsAndMeasures
+            .map((i, index) => (
+              <li
+                key={ index }
+                data-testid={ `${index}-ingredient-name-and-measure` }
+              >
+                { i }
+              </li>
+            ))}
+        </ul>
+        <h3>Instructions</h3>
+        <p data-testid="instructions">{ recipe.strInstructions }</p>
+        <video
+          src={ recipe.strYoutube }
+          controls
+          data-testid="video"
+        >
+          <track default kind="captions" />
+        </video>
+        <h3>Recommended</h3>
+        <div className="container_recommendations">
+          {recommendations
+            .map(({ idDrink, strDrink, strDrinkThumb, strAlcoholic }, index) => (
+              <RecommendationCard
+                key={ idDrink }
+                id={ idDrink }
+                index={ index }
+                recommendationType={ strAlcoholic }
+                recommendationName={ strDrink }
+                recommendationImage={ strDrinkThumb }
+                endPoint="drinks"
+              />
+            ))}
+          {console.log(recommendations)}
+        </div>
+        <button
+          className="startRecipeButton"
+          type="button"
+          data-testid="start-recipe-btn"
+          onClick={ () => {
+            const id = history.location.pathname.split('/')[2];
+            history.push(`/foods/${id}/in-progress`);
+          } }
+        >
+          Start Recipe
+        </button>
       </div>
     </section>
   );
