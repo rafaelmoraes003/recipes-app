@@ -77,6 +77,17 @@ const FavoriteRecipes = () => {
     }
   };
 
+  useEffect(() => {
+    setBaseFav(favoriteRecipes);
+  }, [favoriteRecipes]);
+
+  const removeRecipeFromLocalStorage = ({ target }) => {
+    const { id } = target;
+    const removedRecipe = favoriteRecipes.filter((recipe) => recipe.id !== id);
+    setFavoriteRecipes(removedRecipe);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(removedRecipe));
+  };
+
   return (
     <div>
       <Header title="" showSearchIcon={ false } />
@@ -147,6 +158,8 @@ const FavoriteRecipes = () => {
             src={ blackHeartIcon }
             alt="favorite recipe button"
             data-testid={ `${i}-horizontal-favorite-btn` }
+            id={ recipe.id }
+            onClick={ removeRecipeFromLocalStorage }
           />
 
           {recipe.copied && (
