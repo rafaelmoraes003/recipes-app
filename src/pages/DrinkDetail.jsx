@@ -184,7 +184,7 @@ const DrinkDetail = () => {
             data-testid="start-recipe-btn"
             onClick={ () => {
               const id = history.location.pathname.split('/')[2];
-              history.push(`/foods/${id}/in-progress`);
+              history.push(`/drinks/${id}/in-progress`);
               startedRecipe();
             } }
           >
