@@ -1,8 +1,10 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, wait } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ExploreFoods from '../pages/ExploreFoods';
 import renderWithRouterAndRedux from './renderWithRouterAndRedux';
+import oneMeal from '../../cypress/mocks/oneMeal';
+import App from '../App';
 
 const exploreByIngredient = 'explore-by-ingredient';
 const exploreByNationality = 'explore-by-nationality';
@@ -58,5 +60,27 @@ describe('Testa o componente ExploreFoods e suas funcionalidades', () => {
 
     const { pathname } = history.location;
     expect(pathname).toBe('/explore/foods/nationalities');
+  });
+
+  it(`Verifica se surpriseMeButton é redirecionado
+  para tela de detalhes de uma receita aleatória`, async () => {
+    const randomRecipe = oneMeal;
+
+    jest.spyOn(global, 'fetch').mockResolvedValue({
+      json: jest.fn().mockResolvedValue(randomRecipe),
+    });
+
+    const { history } = renderWithRouterAndRedux(
+
+      <App />,
+      {},
+      '/explore/foods',
+    );
+
+    const surpriseMeButton = screen.getByTestId(exploreSurpriseMe);
+
+    userEvent.click(surpriseMeButton);
+
+    await wait(() => expect(history.location.pathname).toBe('/explore/foods/52771'));
   });
 });
