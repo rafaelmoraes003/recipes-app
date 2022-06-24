@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
 
 const FavoriteRecipes = () => {
@@ -52,7 +52,7 @@ const FavoriteRecipes = () => {
           <h4
             data-testid={ `${i}-horizontal-top-text` }
           >
-            {`Category: ${recipe.category}`}
+            {`${recipe.nationality} - ${recipe.category}`}
           </h4>
           <input
             type="image"
@@ -62,7 +62,7 @@ const FavoriteRecipes = () => {
           />
           <input
             type="image"
-            src={ whiteHeartIcon }
+            src={ blackHeartIcon }
             alt="favorite recipe button"
             data-testid={ `${i}-horizontal-favorite-btn` }
           />
