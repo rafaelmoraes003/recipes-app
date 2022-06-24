@@ -2,9 +2,17 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import { fetchSurpriseMe } from '../helpers/fetchRecipesAPI';
 
 const ExploreDrinks = () => {
   const history = useHistory();
+
+  const surpriseMe = async () => {
+    const randomDrinkData = await fetchSurpriseMe('https://www.thecocktaildb.com/api/json/v1/1/random.php');
+    const { drinks } = randomDrinkData;
+    history.push(`/explore/drinks/${drinks[0].idDrink}`);
+  };
+
   return (
     <div>
       <Header title="Explore Drinks" showSearchIcon={ false } />
@@ -18,7 +26,7 @@ const ExploreDrinks = () => {
       <button
         type="button"
         data-testid="explore-surprise"
-        onClick={ () => { history.push(''); } }
+        onClick={ () => surpriseMe() }
       >
         Surprise me!
       </button>

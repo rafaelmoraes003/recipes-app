@@ -2,9 +2,17 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import { fetchSurpriseMe } from '../helpers/fetchRecipesAPI';
 
 const ExploreFoods = () => {
   const history = useHistory();
+
+  const surpriseMe = async () => {
+    const randomRecipeData = await fetchSurpriseMe('https://www.themealdb.com/api/json/v1/1/random.php');
+    const { meals } = randomRecipeData;
+    history.push(`/explore/foods/${meals[0].idMeal}`);
+  };
+
   return (
     <div>
       <Header title="Explore Foods" showSearchIcon={ false } />
@@ -25,7 +33,7 @@ const ExploreFoods = () => {
       <button
         type="button"
         data-testid="explore-surprise"
-        onClick={ () => { history.push(''); } }
+        onClick={ () => surpriseMe() }
       >
         Surprise me!
       </button>

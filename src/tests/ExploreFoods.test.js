@@ -7,6 +7,7 @@ import renderWithRouterAndRedux from './renderWithRouterAndRedux';
 const exploreByIngredient = 'explore-by-ingredient';
 const exploreByNationality = 'explore-by-nationality';
 const exploreSurpriseMe = 'explore-surprise';
+const exploreFoods = '/ExploreFoods';
 
 describe('Testa o componente ExploreFoods e suas funcionalidades', () => {
   it('Verifica se existem 3 buttons na tela', () => {
@@ -14,7 +15,7 @@ describe('Testa o componente ExploreFoods e suas funcionalidades', () => {
 
       <ExploreFoods />,
       {},
-      '/ExploreFoods',
+      exploreFoods,
     );
     const exploreByIngredientButton = screen.getByTestId(exploreByIngredient);
     expect(exploreByIngredientButton).toBeInTheDocument();
@@ -31,7 +32,7 @@ describe('Testa o componente ExploreFoods e suas funcionalidades', () => {
 
       <ExploreFoods />,
       {},
-      '/ExploreFoods',
+      exploreFoods,
     );
 
     const exploreByIngredientButton = screen.getByTestId(exploreByIngredient);
@@ -48,7 +49,7 @@ describe('Testa o componente ExploreFoods e suas funcionalidades', () => {
 
       <ExploreFoods />,
       {},
-      '/ExploreFoods',
+      exploreFoods,
     );
 
     const exploreByNationalityButton = screen.getByTestId(exploreByNationality);
