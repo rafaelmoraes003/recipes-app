@@ -3,12 +3,24 @@ import { useHistory } from 'react-router-dom';
 import RecommendationCard from '../components/RecommendationCard';
 import { fetchDrinks, fetchFoods } from '../helpers/fetchRecipesAPI';
 import '../style/DrinkDetail.css';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import useFavorite from '../customHooks/useFavorite';
+import
+removeRecipeFromLocalStorage
+from '../reusable_functions/removeRecipeFromLocalStorage';
 
 const DrinkDetail = () => {
+  // const storage = JSON.parse(localStorage.getItem('favoriteRecipes'));  // ------ NÃO APAGAR!!!
   const history = useHistory();
   const [recipe, setRecipe] = useState({
     ingredientsAndMeasures: [] });
   const [recommendations, setRecommendations] = useState([]);
+  const [copy, setCopy] = useState(false);
+  const [favorite, setFavorite] = useState(false);
+  // const [foodsInStorage, setFoodsInStorage] = useState(storage || []);  // ------ NÃO APAGAR!!!
+
+  useFavorite(history, setFavorite);
 
   const loadsRecommendations = async () => {
     const numberOfRecommendations = 5;
@@ -40,8 +52,69 @@ const DrinkDetail = () => {
     };
     fetchRecipe();
   }, [history]);
+
+  const copyRecipeToClipboard = async () => {
+    await navigator.clipboard.writeText(window.location.href);
+    setCopy(true);
+  };
+
+  const favoriteRecipe = () => {
+    const storagedFood = [{
+      id: recipe.idDrink,
+      type: 'drink',
+      nationality: '',
+      category: recipe.strCategory,
+      alcoholicOrNot: recipe.strAlcoholic,
+      name: recipe.strDrink,
+      image: recipe.strDrinkThumb,
+    }];
+    // setFoodsInStorage(foodsInStorage.concat(storagedFood));  // ------ NÃO APAGAR!!!!
+    localStorage.setItem('favoriteRecipes', JSON.stringify(storagedFood));
+    setFavorite(true);
+  };
+
+  const removeOfLocalStorage = () => {
+    removeRecipeFromLocalStorage(history, setFavorite);
+  };
+
+  // useEffect(() => {
+  //   localStorage.setItem('favoriteRecipes', JSON.stringify(foodsInStorage)); // ------ NÃO APAGAR!!!!
+  // }, [foodsInStorage]);
+
   return (
     <section>
+      {favorite && (
+        <button
+          type="button"
+          src={ blackHeartIcon }
+          alt="favorite"
+          data-testid="favorite-btn"
+          style={ { display: 'block' } }
+          onClick={ removeOfLocalStorage }
+        >
+          <img
+            src={ blackHeartIcon }
+            alt="favorite"
+          />
+        </button>
+      )}
+
+      {!favorite && (
+        <button
+          type="button"
+          src={ whiteHeartIcon }
+          alt="non-favorite"
+          data-testid="favorite-btn"
+          style={ { display: 'block' } }
+          onClick={ favoriteRecipe }
+        >
+          <img
+            src={ whiteHeartIcon }
+            alt="non-favorite"
+          />
+        </button>
+      )}
+
       <img
         src={ recipe.strDrinkThumb }
         alt={ recipe.strDrink }
@@ -49,8 +122,22 @@ const DrinkDetail = () => {
       />
       <h1 data-testid="recipe-title">{ recipe.strDrink }</h1>
       <h3 data-testid="recipe-category">{ recipe.strAlcoholic }</h3>
-      <button type="button" data-testid="share-btn">Compartilhar Receita</button>
-      <button type="button" data-testid="favorite-btn">Favoritar Receita</button>
+      <button
+        type="button"
+        data-testid="share-btn"
+        onClick={ copyRecipeToClipboard }
+      >
+        Compartilhar Receita
+      </button>
+
+      <button
+        type="button"
+      >
+        Favoritar Receita
+      </button>
+
+      {copy && <p style={ { color: 'green' } }>Link copied!</p>}
+
       <ul>
         <h3>Ingredients</h3>
         {recipe.ingredientsAndMeasures
