@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { fetchDrinks, fetchFoods } from '../helpers/fetchRecipesAPI';
-import '../style/FoodDetail.css';
+import '../style/RecipesDetail.css';
 import RecommendationCard from '../components/RecommendationCard';
 
 const FoodDetail = () => {
@@ -37,58 +37,67 @@ const FoodDetail = () => {
   }, [history]);
   return (
     <section>
-      <img
-        src={ recipe.strMealThumb }
-        alt={ recipe.strMeal }
-        data-testid="recipe-photo"
-      />
-      <h1 data-testid="recipe-title">{ recipe.strMeal }</h1>
-      <h3 data-testid="recipe-category">{ recipe.strCategory }</h3>
-      <button type="button" data-testid="share-btn">Compartilhar Receita</button>
-      <button type="button" data-testid="favorite-btn">Favoritar Receita</button>
-      <ul>
-        <h3>Ingredients</h3>
-        {recipe.ingredientsAndMeasures
-          .map((i, index) => (
-            <li
-              key={ i }
-              data-testid={ `${index}-ingredient-name-and-measure` }
-            >
-              { i }
-            </li>
-          ))}
-      </ul>
-      <p data-testid="instructions">{ recipe.strInstructions }</p>
-      <video
-        src={ recipe.strYoutube }
-        controls
-        data-testid="video"
-      >
-        <track default kind="captions" />
-      </video>
-      <div>
-        {recommendations.map(({ idDrink, strDrink, strDrinkThumb }, index) => (
-          <RecommendationCard
-            key={ idDrink }
-            id={ idDrink }
-            index={ index }
-            recommendationName={ strDrink }
-            recommendationImage={ strDrinkThumb }
-            endPoint="drinks"
-          />
-        ))}
+      <div className="img_detail">
+        <img
+          src={ recipe.strMealThumb }
+          alt={ recipe.strMeal }
+          data-testid="recipe-photo"
+          className="detail_img_recipe"
+        />
       </div>
-      <button
-        className="startRecipeButton"
-        type="button"
-        data-testid="start-recipe-btn"
-        onClick={ () => {
-          const id = history.location.pathname.split('/')[2];
-          history.push(`/foods/${id}/in-progress`);
-        } }
-      >
-        Start Recipe
-      </button>
+      <div className="detail_recipe">
+        <h1 data-testid="recipe-title">{ recipe.strMeal }</h1>
+        <h3 data-testid="recipe-category">{ recipe.strCategory }</h3>
+        <button type="button" data-testid="share-btn">Compartilhar Receita</button>
+        <button type="button" data-testid="favorite-btn">Favoritar Receita</button>
+        <h3>Ingredients</h3>
+        <ul>
+          {recipe.ingredientsAndMeasures
+            .map((i, index) => (
+              <li
+                key={ i }
+                data-testid={ `${index}-ingredient-name-and-measure` }
+              >
+                { i }
+              </li>
+            ))}
+        </ul>
+        <h3>Instructions</h3>
+        <p data-testid="instructions">{ recipe.strInstructions }</p>
+        <video
+          src={ recipe.strYoutube }
+          controls
+          data-testid="video"
+        >
+          <track default kind="captions" />
+        </video>
+        <h3>Recommended</h3>
+        <div className="container_recommendations">
+          {recommendations
+            .map(({ idDrink, strDrink, strDrinkThumb, strAlcoholic }, index) => (
+              <RecommendationCard
+                key={ idDrink }
+                id={ idDrink }
+                index={ index }
+                recommendationType={ strAlcoholic }
+                recommendationName={ strDrink }
+                recommendationImage={ strDrinkThumb }
+                endPoint="drinks"
+              />
+            ))}
+        </div>
+        <button
+          className="startRecipeButton"
+          type="button"
+          data-testid="start-recipe-btn"
+          onClick={ () => {
+            const id = history.location.pathname.split('/')[2];
+            history.push(`/foods/${id}/in-progress`);
+          } }
+        >
+          Start Recipe
+        </button>
+      </div>
     </section>
   );
 };
