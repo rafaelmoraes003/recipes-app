@@ -52,7 +52,9 @@ const FavoriteRecipes = () => {
           <h4
             data-testid={ `${i}-horizontal-top-text` }
           >
-            {`${recipe.nationality} - ${recipe.category}`}
+            {recipe.type === 'food'
+              ? `${recipe.nationality} - ${recipe.category}`
+              : `${recipe.alcoholicOrNot}`}
           </h4>
           <input
             type="image"
