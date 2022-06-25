@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { fetchFoods } from '../helpers/fetchRecipesAPI';
 
 const ProgressFoods = () => {
   const { foodRecipesStartered } = useSelector((state) => state.recipesReducer);
@@ -12,7 +13,6 @@ const ProgressFoods = () => {
   useEffect(() => {
     const fetchRecipe = async () => {
       const recipeData = await fetchFoods(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
-      loadsRecommendations();
       const entries = Object.entries(recipeData[0]);
       const ingredients = entries
         .filter((item) => JSON.stringify(item).includes('strIngredient'))
