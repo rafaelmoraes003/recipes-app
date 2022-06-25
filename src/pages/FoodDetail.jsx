@@ -9,7 +9,9 @@ import shareIcon from '../images/shareIcon.svg';
 import useFavorite from '../customHooks/useFavorite';
 import
 removeRecipeFromLocalStorage
-from '../reusable_functions/removeRecipeFromLocalStorage';
+from '../helpers/reusable_functions/removeRecipeFromLocalStorage';
+import { foodsInLocalStorage } from '../helpers/storageFuncs';
+import filterOfIngredients from '../helpers/reusable_functions/filterOfIngredients';
 
 const FoodDetail = () => {
   // const storage = JSON.parse(localStorage.getItem('favoriteRecipes'));
@@ -20,6 +22,7 @@ const FoodDetail = () => {
   const [favorite, setFavorite] = useState(false);
   const [done, setDone] = useState(false);
   const [startedFood, setStartedFood] = useState(false);
+  const id = history.location.pathname.split('/')[2];
   // const [foodsInStorage, setFoodsInStorage] = useState(storage || []);
 
   useFavorite(history, setFavorite);
@@ -33,23 +36,15 @@ const FoodDetail = () => {
   };
 
   useEffect(() => {
-    const id = history.location.pathname.split('/')[2];
     const fetchRecipe = async () => {
       const recipeData = await fetchFoods(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
       loadsRecommendations();
       const entries = Object.entries(recipeData[0]);
-      const ingredients = entries
-        .filter((item) => JSON.stringify(item).includes('strIngredient'))
-        .filter((ingredient) => ingredient[1] !== '');
-      const measures = entries
-        .filter((item) => JSON.stringify(item).includes('strMeasure'))
-        .filter((measure) => measure[1] !== ' ');
-      const ingredientsAndMeasures = ingredients
-        .map((ingredient, index) => `${ingredient[1]} - ${measures[index][1]}`);
+      const ingredientsAndMeasures = filterOfIngredients(entries);
       setRecipe({ ...recipeData[0], ingredientsAndMeasures });
     };
     fetchRecipe();
-  }, [history]);
+  }, [history, id]);
 
   const copyRecipeToClipboard = async () => {
     await navigator.clipboard.writeText(window.location.href);
@@ -71,40 +66,16 @@ const FoodDetail = () => {
     setFavorite(true);
   };
 
-  const removeOfLocalStorage = () => {
-    removeRecipeFromLocalStorage(history, setFavorite);
-  };
-
   useEffect(() => {
     const storage = JSON.parse(localStorage.getItem('doneRecipes'));
     if (storage) return setDone(true);
     const storageStarted = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    if (storageStarted) return setStartedFood(true);
+    if (storageStarted.meals[id]) return setStartedFood(true);
   },
-  [history]);
+  [history, id]);
 
   const startedRecipe = () => {
-    const id = history.location.pathname.split('/')[2];
-    const storageStarted = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    if (storageStarted) {
-      const startedFoodStorage = {
-        ...storageStarted,
-        meals: {
-          ...storageStarted.meals,
-          [id]: storageStarted.meals[id] ? storageStarted.meals[id] : [],
-        },
-      };
-      localStorage.setItem('inProgressRecipes', JSON.stringify(startedFoodStorage));
-    } else {
-      const startedFoodStorage = {
-        cocktails: {},
-        meals: {
-          [id]: [],
-        },
-      };
-      localStorage.setItem('inProgressRecipes', JSON.stringify(startedFoodStorage));
-    }
-    setStartedFood(true);
+    foodsInLocalStorage(id);
   };
 
   // useEffect(() => {
@@ -129,7 +100,7 @@ const FoodDetail = () => {
             alt="favorite"
             data-testid="favorite-btn"
             style={ { display: 'block' } }
-            onClick={ removeOfLocalStorage }
+            onClick={ () => removeRecipeFromLocalStorage(history, setFavorite) }
           />
         ) : (
           <input
@@ -194,7 +165,6 @@ const FoodDetail = () => {
             data-testid="start-recipe-btn"
             onClick={ () => {
               startedRecipe();
-              const id = history.location.pathname.split('/')[2];
               history.push(`/foods/${id}/in-progress`);
             } }
           >
