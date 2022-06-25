@@ -84,17 +84,26 @@ const FoodDetail = () => {
   [history]);
 
   const startedRecipe = () => {
-    const startedFoodStorage = {
-      cocktails: {
-        id: ['lista de ingredientes utilizados'],
-        // ...
-      },
-      meals: {
-        id: ['lista de ingredientes utilizados'],
-        // ...
-      },
-    };
-    localStorage.setItem('inProgressRecipes', JSON.stringify(startedFoodStorage));
+    const id = history.location.pathname.split('/')[2];
+    const storageStarted = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (storageStarted) {
+      const startedFoodStorage = {
+        ...storageStarted,
+        meals: {
+          ...storageStarted.meals,
+          [id]: storageStarted.meals[id] ? storageStarted.meals[id] : [],
+        },
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(startedFoodStorage));
+    } else {
+      const startedFoodStorage = {
+        cocktails: {},
+        meals: {
+          [id]: [],
+        },
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(startedFoodStorage));
+    }
     setStartedFood(true);
   };
 
@@ -177,7 +186,6 @@ const FoodDetail = () => {
                 endPoint="drinks"
               />
             ))}
-          {console.log(recommendations)}
         </div>
         {!done && (
           <button
@@ -185,9 +193,9 @@ const FoodDetail = () => {
             type="button"
             data-testid="start-recipe-btn"
             onClick={ () => {
+              startedRecipe();
               const id = history.location.pathname.split('/')[2];
               history.push(`/foods/${id}/in-progress`);
-              startedRecipe();
             } }
           >
             {startedFood ? 'Continue Recipe' : 'Start Recipe'}
