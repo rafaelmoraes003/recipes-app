@@ -77,7 +77,7 @@ const FavoriteRecipes = () => {
 
   return (
     <div>
-      <Header title="" showSearchIcon={ false } />
+      <Header title="Favorite Recipes" showSearchIcon={ false } />
       <div className="filter-buttons">
         <button
           type="button"
