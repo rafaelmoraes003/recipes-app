@@ -1,29 +1,20 @@
-const SAVE_USER = 'SAVE_USER';
+export const SAVE_USER = 'SAVE_USER';
 
-const saveUser = (user) => ({
+export const saveUser = (user) => ({
   type: SAVE_USER,
   payload: user,
 });
 
-const SAVE_INITIAL_FOODS = 'SAVE_INITIAL_FOODS';
+export const SAVE_INITIAL_FOODS = 'SAVE_INITIAL_FOODS';
 
-const saveInitialFoods = (recipes) => ({
+export const saveInitialFoods = (recipes) => ({
   type: SAVE_INITIAL_FOODS,
   payload: recipes,
 });
 
-const SAVE_INITIAL_DRINKS = 'SAVE_INITIAL_DRINKS';
+export const SAVE_INITIAL_DRINKS = 'SAVE_INITIAL_DRINKS';
 
-const saveInitialDrinks = (recipes) => ({
+export const saveInitialDrinks = (recipes) => ({
   type: SAVE_INITIAL_DRINKS,
   payload: recipes,
 });
-
-export {
-  SAVE_USER,
-  saveUser,
-  SAVE_INITIAL_FOODS,
-  saveInitialFoods,
-  SAVE_INITIAL_DRINKS,
-  saveInitialDrinks,
-};

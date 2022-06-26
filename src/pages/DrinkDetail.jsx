@@ -9,7 +9,9 @@ import shareIcon from '../images/shareIcon.svg';
 import useFavorite from '../customHooks/useFavorite';
 import
 removeRecipeFromLocalStorage
-from '../reusable_functions/removeRecipeFromLocalStorage';
+from '../helpers/reusable_functions/removeRecipeFromLocalStorage';
+import { drinksInLocalStorage } from '../helpers/storageFuncs';
+import filterOfIngredients from '../helpers/reusable_functions/filterOfIngredients';
 
 const DrinkDetail = () => {
   // const storage = JSON.parse(localStorage.getItem('favoriteRecipes'));  // ------ NÃO APAGAR!!!
@@ -20,7 +22,8 @@ const DrinkDetail = () => {
   const [copy, setCopy] = useState(false);
   const [favorite, setFavorite] = useState(false);
   const [done, setDone] = useState(false);
-  const [startedFood, setStartedFood] = useState(false);
+  const [startedFood, setStartedDrink] = useState(false);
+  const id = history.location.pathname.split('/')[2];
   // const [foodsInStorage, setFoodsInStorage] = useState(storage || []);  // ------ NÃO APAGAR!!!
 
   useFavorite(history, setFavorite);
@@ -34,27 +37,15 @@ const DrinkDetail = () => {
   };
 
   useEffect(() => {
-    const id = history.location.pathname.split('/')[2];
     const fetchRecipe = async () => {
       const recipeData = await fetchDrinks(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
       loadsRecommendations();
       const entries = Object.entries(recipeData[0]);
-      const ingredients = entries
-        .filter((item) => JSON.stringify(item).includes('strIngredient'))
-        .filter((ingredient) => ingredient[1] !== null);
-      const measures = entries
-        .filter((item) => JSON.stringify(item).includes('strMeasure'))
-        .filter((measure) => measure[1] !== null);
-      const ingredientsAndMeasures = ingredients
-        .map((ingredient, index) => {
-          if (measures[index]) {
-            return `${ingredient[1]} - ${measures[index][1]}`;
-          } return `${ingredient[1]}`;
-        });
+      const ingredientsAndMeasures = filterOfIngredients(entries);
       setRecipe({ ...recipeData[0], ingredientsAndMeasures });
     };
     fetchRecipe();
-  }, [history]);
+  }, [history, id]);
 
   const copyRecipeToClipboard = async () => {
     await navigator.clipboard.writeText(window.location.href);
@@ -76,31 +67,16 @@ const DrinkDetail = () => {
     setFavorite(true);
   };
 
-  const removeOfLocalStorage = () => {
-    removeRecipeFromLocalStorage(history, setFavorite);
-  };
-
   useEffect(() => {
     const storage = JSON.parse(localStorage.getItem('doneRecipes'));
     if (storage) return setDone(true);
     const storageStarted = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    if (storageStarted) return setStartedFood(true);
+    if (storageStarted && storageStarted.cocktails[id]) return setStartedDrink(true);
   },
-  [history]);
+  [id]);
 
   const startedRecipe = () => {
-    const startedFoodStorage = {
-      cocktails: {
-        id: ['lista de ingredientes utilizados'],
-        // ...
-      },
-      meals: {
-        id: ['lista de ingredientes utilizados'],
-        // ...
-      },
-    };
-    localStorage.setItem('inProgressRecipes', JSON.stringify(startedFoodStorage));
-    setStartedFood(true);
+    drinksInLocalStorage(id);
   };
 
   // useEffect(() => {
@@ -125,7 +101,7 @@ const DrinkDetail = () => {
             alt="favorite"
             data-testid="favorite-btn"
             style={ { display: 'block' } }
-            onClick={ removeOfLocalStorage }
+            onClick={ () => removeRecipeFromLocalStorage(history, setFavorite) }
           />
         ) : (
           <input
@@ -175,7 +151,6 @@ const DrinkDetail = () => {
                 endPoint="foods"
               />
             ))}
-          {console.log(recommendations)}
         </div>
         {!done && (
           <button
@@ -183,7 +158,6 @@ const DrinkDetail = () => {
             type="button"
             data-testid="start-recipe-btn"
             onClick={ () => {
-              const id = history.location.pathname.split('/')[2];
               history.push(`/drinks/${id}/in-progress`);
               startedRecipe();
             } }
