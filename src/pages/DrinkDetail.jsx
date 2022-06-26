@@ -175,7 +175,6 @@ const DrinkDetail = () => {
                 endPoint="foods"
               />
             ))}
-          {console.log(recommendations)}
         </div>
         {!done && (
           <button
