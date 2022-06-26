@@ -49,7 +49,6 @@ const ProgressFoods = () => {
     const startedFoodStorage = {
       ...storageStarted,
       meals: {
-        ...storageStarted.meals,
         [id]: update,
       },
     };
@@ -58,7 +57,7 @@ const ProgressFoods = () => {
   };
 
   const copyRecipeToClipboard = async () => {
-    await navigator.clipboard.writeText(window.location.href);
+    await navigator.clipboard.writeText(window.location.href.split('/in')[0]);
     setCopy(true);
   };
 
@@ -114,17 +113,17 @@ const ProgressFoods = () => {
 
       {copy && <p style={ { color: 'green' } }>Link copied!</p>}
       <h3>Ingredients</h3>
-      <div>
+      <div className="data-ingredients">
         {recipe.ingredientsAndMeasures
           .map((i, index) => (
             <label
               htmlFor={ i }
               key={ index }
               className={ usedIngredients.includes(index) ? 'done' : 'missing' }
+              data-testid={ `${index}-ingredient-step` }
             >
               <input
                 type="checkbox"
-                data-testid={ `${index}-ingredient-step` }
                 checked={
                   usedIngredients.includes(index)
                 }
