@@ -57,12 +57,11 @@ export const favoriteRecipe = (recipe, setFavorite) => {
   setFavorite(true);
 };
 
-export const addDrinkInLocalStorage = (update) => {
+export const addDrinkInLocalStorage = (update, id) => {
   const storageStarted = JSON.parse(localStorage.getItem('inProgressRecipes'));
   const startedDrinktorage = {
     ...storageStarted,
     cocktails: {
-      ...storageStarted.cocktails,
       [id]: update,
     },
   };
