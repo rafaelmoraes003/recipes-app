@@ -6,6 +6,7 @@ import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import RadioButtons from './RadioButtons';
 import { fetchData } from '../redux/actions/fetchDataACTION';
+import '../style/Header.css';
 
 const Header = ({ title, showSearchIcon }) => {
   const [showInput, setShowInput] = useState(false);
@@ -105,27 +106,28 @@ const Header = ({ title, showSearchIcon }) => {
 
   return (
     <header data-testid="header">
-      <input
-        type="image"
-        data-testid="profile-top-btn"
-        src={ profileIcon }
-        alt="Profile Logo"
-        onClick={ goToProfile }
-      />
-
-      <h1 data-testid="page-title">
-        { title }
-      </h1>
-
-      { showSearchIcon && (
+      <div className="header-container">
         <input
           type="image"
-          data-testid="search-top-btn"
-          src={ searchIcon }
-          alt="Search Logo"
-          onClick={ () => setShowInput(!showInput) }
+          data-testid="profile-top-btn"
+          src={ profileIcon }
+          alt="Profile Logo"
+          onClick={ goToProfile }
         />
-      ) }
+        <p data-testid="page-title">
+          { title }
+        </p>
+
+        { showSearchIcon && (
+          <input
+            type="image"
+            data-testid="search-top-btn"
+            src={ searchIcon }
+            alt="Search Logo"
+            onClick={ () => setShowInput(!showInput) }
+          />
+        ) }
+      </div>
 
       { showInput && (
         <div>
