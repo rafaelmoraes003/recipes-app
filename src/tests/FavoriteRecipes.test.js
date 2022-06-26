@@ -27,6 +27,7 @@ const favoriteRecipes = [
 ];
 
 const route = '/favorite-recipes';
+const copiedLinkText = 'Link copied!';
 
 describe('Testa a página de receitas favoritas', () => {
   beforeEach(() => {
@@ -81,9 +82,9 @@ describe('Testa a página de receitas favoritas', () => {
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
       `http://localhost:3000/foods/${favoriteRecipes[0].id}`,
     );
-    const loadingMessage = await screen.findByText('Link copied!');
+    const loadingMessage = await screen.findByText(copiedLinkText);
     expect(loadingMessage).toBeInTheDocument();
-    await waitForElementToBeRemoved(() => screen.queryByText('Link copied!'));
+    await waitForElementToBeRemoved(() => screen.queryByText(copiedLinkText));
   });
 
   it('Testa o botão de copiar link - bebida', async () => {
@@ -94,9 +95,9 @@ describe('Testa a página de receitas favoritas', () => {
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
       `http://localhost:3000/drinks/${favoriteRecipes[1].id}`,
     );
-    const loadingMessage = await screen.findByText('Link copied!');
+    const loadingMessage = await screen.findByText(copiedLinkText);
     expect(loadingMessage).toBeInTheDocument();
-    await waitForElementToBeRemoved(() => screen.queryByText('Link copied!'));
+    await waitForElementToBeRemoved(() => screen.queryByText(copiedLinkText));
   });
 
   it('Testa o botão de favoritar - comida', () => {
@@ -172,6 +173,6 @@ describe('Testa a página de receitas favoritas', () => {
   it('Testa a página com localStorage vazio', () => {
     localStorage.setItem('favoriteRecipes', JSON.stringify({}));
     renderWithRouterAndRedux(<App />, {}, route);
-    expect(screen.queryByText(favoriteRecipes[0].name)).toBeNull(); //
+    expect(screen.queryByText(favoriteRecipes[0].name)).toBeNull();
   });
 });
