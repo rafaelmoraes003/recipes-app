@@ -18,17 +18,3 @@ export const saveInitialDrinks = (recipes) => ({
   type: SAVE_INITIAL_DRINKS,
   payload: recipes,
 });
-
-export const SAVE_STARTERED_FOODS = 'SAVE_STARTERED_FOODS';
-
-export const SAVE_STARTERED_DRINKS = 'SAVE_STARTERED_DRINKS';
-
-export const saveStarteredFoods = (recipes) => ({
-  type: SAVE_STARTERED_FOODS,
-  payload: recipes,
-});
-
-export const saveStarteredDrinks = (recipes) => ({
-  type: SAVE_STARTERED_DRINKS,
-  payload: recipes,
-});

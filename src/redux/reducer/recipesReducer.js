@@ -3,8 +3,6 @@ import { SAVE_INITIAL_FOODS, SAVE_INITIAL_DRINKS } from '../actions';
 const INITIAL_STATE = {
   foods: [],
   drinks: [],
-  foodRecipesStartered: [],
-  drinkRecipesStartered: [],
 };
 
 const recipesReducer = (state = INITIAL_STATE, action) => {
