@@ -92,7 +92,7 @@ const ProgressDrinks = () => {
 
       {copy && <p style={ { color: 'green' } }>Link copied!</p>}
       <h3>Ingredients</h3>
-      <ul>
+      <div>
         {recipe.ingredientsAndMeasures
           .map((i, index) => (
             <label
@@ -114,7 +114,7 @@ const ProgressDrinks = () => {
             </label>
 
           ))}
-      </ul>
+      </div>
       <h3>Instructions</h3>
       <p data-testid="instructions">{ recipe.strInstructions }</p>
       <input
