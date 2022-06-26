@@ -172,6 +172,6 @@ describe('Testa a página de receitas favoritas', () => {
   it('Testa a página com localStorage vazio', () => {
     localStorage.setItem('favoriteRecipes', JSON.stringify({}));
     renderWithRouterAndRedux(<App />, {}, route);
-    expect(screen.queryByText(favoriteRecipes[0].name)).toBeNull();
+    expect(screen.queryByText(favoriteRecipes[0].name)).toBeNull(); //
   });
 });
