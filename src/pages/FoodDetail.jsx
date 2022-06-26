@@ -70,7 +70,7 @@ const FoodDetail = () => {
     const storage = JSON.parse(localStorage.getItem('doneRecipes'));
     if (storage) return setDone(true);
     const storageStarted = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    if (storageStarted.meals[id]) return setStartedFood(true);
+    if (storageStarted && storageStarted.meals[id]) return setStartedFood(true);
   },
   [history, id]);
 
