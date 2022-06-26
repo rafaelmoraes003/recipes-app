@@ -1,0 +1,40 @@
+.container_recipes_nationality {
+  display: flex;
+  flex-flow: wrap;
+  gap: 10px;
+  margin: 10px 0 78px;
+  max-width: 100vw;
+  padding: 0 3px;
+  width: 100%;
+}
+
+.form_control {
+  margin-top: 10px;
+}
+
+.recipe_card_nationality {
+  border: solid 1px #c4c4c4;
+  border-radius: 10px;
+  min-height: 172px;
+  min-width: 162px;
+}
+
+.recipe_card_nationality p {
+  color: darkgray;
+  font-size: 15px;
+  margin: 0;
+  padding: 3px 0 0 5px;
+}
+
+.recipe_card_nationality p:nth-child( 3n ) {
+  color: black;
+  font-size: 18px;
+}
+
+.recipe_card_nationality img {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  height: 109px;
+  object-fit: cover;
+  width: 161px;
+}
