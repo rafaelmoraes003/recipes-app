@@ -44,12 +44,12 @@ const ProgressDrinks = () => {
     } else {
       update = [...usedIngredients, index];
     }
-    addDrinkInLocalStorage(update);
+    addDrinkInLocalStorage(update, id);
     setUsedIngredients(update);
   };
 
   const copyRecipeToClipboard = async () => {
-    await navigator.clipboard.writeText(window.location.href);
+    await navigator.clipboard.writeText(window.location.href.split('/in')[0]);
     setCopy(true);
   };
 
@@ -99,10 +99,10 @@ const ProgressDrinks = () => {
               htmlFor={ i }
               key={ index }
               className={ usedIngredients.includes(index) ? 'done' : 'missing' }
+              data-testid={ `${index}-ingredient-step` }
             >
               <input
                 type="checkbox"
-                data-testid={ `${index}-ingredient-step` }
                 checked={
                   usedIngredients.includes(index)
                 }
@@ -121,6 +121,8 @@ const ProgressDrinks = () => {
         type="button"
         data-testid="finish-recipe-btn"
         value="Finish Recipe"
+        disabled={ recipe.ingredientsAndMeasures.length !== usedIngredients.length }
+        onClick={ () => history.push('/done-recipes') }
       />
     </section>
   );
