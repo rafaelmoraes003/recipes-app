@@ -11,6 +11,7 @@ removeRecipeFromLocalStorage
 from '../helpers/reusable_functions/removeRecipeFromLocalStorage';
 import '../style/ProgressPage.css';
 import filterOfIngredients from '../helpers/reusable_functions/filterOfIngredients';
+import { foodsInLocalStorage } from '../helpers/storageFuncs';
 
 const ProgressFoods = () => {
   const { foodRecipesStartered } = useSelector((state) => state.recipesReducer);
@@ -24,6 +25,7 @@ const ProgressFoods = () => {
   useFavorite(history, setFavorite);
 
   useEffect(() => {
+    foodsInLocalStorage(id);
     const fetchRecipe = async () => {
       const recipeData = await fetchFoods(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
       const entries = Object.entries(recipeData[0]);
@@ -50,6 +52,7 @@ const ProgressFoods = () => {
     const startedFoodStorage = {
       ...storageStarted,
       meals: {
+        ...storageStarted.meals,
         [id]: update,
       },
     };

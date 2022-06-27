@@ -1,11 +1,11 @@
-export const drinksInLocalStorage = (id) => {
+export const drinksInLocalStorage = (id, update = []) => {
   const storageStarted = JSON.parse(localStorage.getItem('inProgressRecipes'));
   if (storageStarted) {
     const startedFoodStorage = {
       ...storageStarted,
       cocktails: {
         ...storageStarted.cocktails,
-        [id]: storageStarted.cocktails[id] ? storageStarted.cocktails[id] : [],
+        [id]: storageStarted.cocktails[id] ? storageStarted.cocktails[id] : update,
       },
     };
     localStorage.setItem('inProgressRecipes', JSON.stringify(startedFoodStorage));
@@ -13,7 +13,7 @@ export const drinksInLocalStorage = (id) => {
     const startedDrinkStorage = {
       meals: {},
       cocktails: {
-        [id]: [],
+        [id]: update,
       },
     };
     localStorage.setItem('inProgressRecipes', JSON.stringify(startedDrinkStorage));
@@ -62,6 +62,7 @@ export const addDrinkInLocalStorage = (update, id) => {
   const startedDrinktorage = {
     ...storageStarted,
     cocktails: {
+      ...storageStarted.cocktails,
       [id]: update,
     },
   };
