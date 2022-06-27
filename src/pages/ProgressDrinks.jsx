@@ -9,7 +9,9 @@ import
 removeRecipeFromLocalStorage
 from '../helpers/reusable_functions/removeRecipeFromLocalStorage';
 import '../style/ProgressPage.css';
-import { addDrinkInLocalStorage, favoriteRecipe } from '../helpers/storageFuncs';
+import {
+  addDrinkInLocalStorage,
+  drinksInLocalStorage, favoriteRecipe } from '../helpers/storageFuncs';
 import filterOfIngredients from '../helpers/reusable_functions/filterOfIngredients';
 
 const ProgressDrinks = () => {
@@ -23,6 +25,7 @@ const ProgressDrinks = () => {
   useFavorite(history, setFavorite);
 
   useEffect(() => {
+    drinksInLocalStorage(id);
     const fetchRecipe = async () => {
       const recipeData = await fetchDrinks(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
       const entries = Object.entries(recipeData[0]);
