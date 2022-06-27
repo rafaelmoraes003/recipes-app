@@ -21,3 +21,9 @@ export const fetchSurpriseMe = async (urlForFetch) => {
   const randomRecipe = await response.json();
   return randomRecipe;
 };
+
+export const fetchByIngredients = async (urlForFetch) => {
+  const response = await fetch(urlForFetch);
+  const ingredients = await response.json();
+  return ingredients;
+};
