@@ -45,13 +45,15 @@ const ProgressFoods = () => {
     } else {
       update = [...usedIngredients, index];
     }
-    const storageStarted = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    const storageStarted = JSON.parse(localStorage.getItem('inProgressRecipes') || []);
+
     const startedFoodStorage = {
       ...storageStarted,
       meals: {
         [id]: update,
       },
     };
+
     localStorage.setItem('inProgressRecipes', JSON.stringify(startedFoodStorage));
     setUsedIngredients(update);
   };
