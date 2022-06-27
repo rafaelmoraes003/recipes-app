@@ -91,11 +91,19 @@ const Header = ({ title, showSearchIcon }) => {
     }
   };
 
+  // const getData = () => {
+  //   if (title === 'Foods') {
+  //     fetchFoodsOrDrinks('themealdb');
+  //   } else if (title === 'Drinks') {
+  //     fetchFoodsOrDrinks('thecocktaildb');
+  //   }
+  // };
+
   const getData = () => {
-    if (title === 'Foods') {
-      fetchFoodsOrDrinks('themealdb');
-    } else if (title === 'Drinks') {
+    if (title === 'Drinks') {
       fetchFoodsOrDrinks('thecocktaildb');
+    } else {
+      fetchFoodsOrDrinks('themealdb');
     }
   };
 
