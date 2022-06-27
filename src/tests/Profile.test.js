@@ -19,9 +19,10 @@ describe('Testa a tela de perfil', () => {
   });
 
   it('Verifica se todos os botões da página existem', () => {
+    const numberOfButtons = 7;
     renderWithRouterAndRedux(<App />, {}, '/profile');
     const profileButtons = screen.getAllByRole('button');
-    expect(profileButtons).toHaveLength(2 + 2);
+    expect(profileButtons).toHaveLength(numberOfButtons);
   });
 
   it('Verifica o botão de receitas concluídas', () => {
