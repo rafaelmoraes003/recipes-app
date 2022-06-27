@@ -5,8 +5,10 @@ footer {
   display: flex;
   height: 68px;
   justify-content: space-between;
-  padding: 20px;
+  padding: 10px;
   position: fixed;
   text-align: center;
-  width: 360px;
+  width: 100vw;
+
+  /* width: 360px; */
 }
