@@ -136,13 +136,13 @@ const FoodDetail = () => {
         </ul>
         <h3>Instructions</h3>
         <p data-testid="instructions">{ recipe.strInstructions }</p>
-        <video
-          src={ recipe.strYoutube }
-          controls
+        <iframe
           data-testid="video"
-        >
-          <track default kind="captions" />
-        </video>
+          src={ recipe.strYoutube && `https://www.youtube.com/embed/${recipe.strYoutube.split('=')[1]}` }
+          title={ recipe.strMeal }
+          allow="accelerometer;
+          autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        />
         <h3>Recommended</h3>
         <div className="container_recommendations">
           {recommendations
