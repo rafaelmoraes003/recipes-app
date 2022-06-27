@@ -91,21 +91,21 @@ const Header = ({ title, showSearchIcon }) => {
     }
   };
 
-  // const getData = () => {
-  //   if (title === 'Foods') {
-  //     fetchFoodsOrDrinks('themealdb');
-  //   } else if (title === 'Drinks') {
-  //     fetchFoodsOrDrinks('thecocktaildb');
-  //   }
-  // };
-
   const getData = () => {
-    if (title === 'Drinks') {
-      fetchFoodsOrDrinks('thecocktaildb');
-    } else {
+    if (title === 'Foods' || title === 'Explore Nationalities') {
       fetchFoodsOrDrinks('themealdb');
+    } else if (title === 'Drinks') {
+      fetchFoodsOrDrinks('thecocktaildb');
     }
   };
+
+  // const getData = () => {
+  //   if (title === 'Drinks') {
+  //     fetchFoodsOrDrinks('thecocktaildb');
+  //   } else {
+  //     fetchFoodsOrDrinks('themealdb');
+  //   }
+  // };
 
   const handleFunctions = {
     setSearchFilter,
