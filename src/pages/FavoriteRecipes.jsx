@@ -11,14 +11,13 @@ const FavoriteRecipes = () => {
   useEffect(() => {
     const storageFavorite = JSON.parse(localStorage.getItem('favoriteRecipes'));
     if (storageFavorite) {
-      storageFavorite.copied = false;
       setFavoriteRecipes(storageFavorite);
       setBaseFav(storageFavorite);
     }
   }, []);
 
   useEffect(() => {
-    const MAX_TIME = 2000;
+    const MAX_TIME = 3000;
     const interval = setTimeout(() => {
       const returnToOriginalState = baseFav.map((recipe) => {
         if (recipe.copied === true) {
