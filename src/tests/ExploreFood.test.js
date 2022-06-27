@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, wait } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ExploreFoods from '../pages/ExploreFoods';
 import renderWithRouterAndRedux from './renderWithRouterAndRedux';
@@ -81,6 +81,6 @@ describe('Testa o componente ExploreFoods e suas funcionalidades', () => {
 
     userEvent.click(surpriseMeButton);
 
-    await wait(() => expect(history.location.pathname).toBe('/explore/foods/52771'));
+    await waitFor(() => expect(history.location.pathname).toBe('/explore/foods/52771'));
   });
 });
