@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, waitFor } from '@testing-library/react';
+import { screen, wait } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
 import renderWithRouterAndRedux from './renderWithRouterAndRedux';
@@ -7,6 +7,7 @@ import FoodDetail from '../pages/FoodDetail';
 import oneMeal from '../../cypress/mocks/oneMeal';
 import drinks from '../../cypress/mocks/drinks';
 import oneDrink from '../../cypress/mocks/oneDrink';
+import { foodsInLocalStorage } from '../helpers/storageFuncs';
 import App from '../App';
 
 describe('Testa o componente FoodDetail e suas funcionalidades', () => {
@@ -88,7 +89,7 @@ describe('Testa o componente FoodDetail e suas funcionalidades', () => {
       {},
       pathname,
     );
-    await waitFor(() => verifyDrinksCards(drinks));
+    await wait(() => verifyDrinksCards(drinks));
   });
   it('Verifica se épossível favoritar e compartilhar link de receita', async () => {
     await act(async () => {
@@ -113,7 +114,7 @@ describe('Testa o componente FoodDetail e suas funcionalidades', () => {
       expect(favoriteButton).toHaveProperty('src', 'http://localhost/whiteHeartIcon.svg');
       userEvent.click(favoriteButton);
       expect(favoriteButton).toHaveProperty('src', 'http://localhost/blackHeartIcon.svg');
-      await waitFor(() => {
+      await wait(() => {
         expect(localStorage).toHaveProperty('favoriteRecipes');
       });
       userEvent.click(favoriteButton);
@@ -121,7 +122,7 @@ describe('Testa o componente FoodDetail e suas funcionalidades', () => {
 
       userEvent.click(shareButton);
 
-      await waitFor(() => {
+      await wait(() => {
         expect(navigator.clipboard.writeText).toBeCalled();
         expect(navigator.clipboard.writeText).toBeCalledWith('http://localhost:3000/foods/52771');
         expect(screen.getByText('Link copied!')).toBeDefined();
@@ -150,7 +151,7 @@ describe('Testa o componente FoodDetail e suas funcionalidades', () => {
 
       userEvent.click(recomendationCard);
 
-      await waitFor(() => {
+      await wait(() => {
         expect(history.location.pathname).toBe('/drinks/15997');
 
         const title = screen.getByTestId('recipe-title');
@@ -168,6 +169,49 @@ describe('Testa o componente FoodDetail e suas funcionalidades', () => {
         expect(ingredient1).toHaveTextContent(/Pineapple Juice/i);
         expect(ingredient2).toHaveTextContent(/Banana Liqueur/i);
         expect(instructions).toHaveTextContent(oneDrink.drinks[0].strInstructions);
+      });
+    });
+  });
+  it('Verifica o button start-recipe-btn', async () => {
+    // const mockFood = jest.spyOn(foodsInLocalStorage);
+    foodsInLocalStorage('52771');
+    await act(async () => {
+      jest.spyOn(global, 'fetch').mockResolvedValueOnce({
+        json: jest.fn().mockResolvedValueOnce(oneMeal),
+      });
+      jest.spyOn(global, 'fetch').mockResolvedValueOnce({
+        json: jest.fn().mockResolvedValueOnce(drinks),
+      });
+      jest.spyOn(global, 'fetch').mockResolvedValueOnce({
+        json: jest.fn().mockResolvedValueOnce(oneMeal),
+      });
+      jest.spyOn(global, 'fetch').mockResolvedValueOnce({
+        json: jest.fn().mockResolvedValueOnce(oneMeal),
+      });
+      jest.spyOn(global, 'fetch').mockResolvedValueOnce({
+        json: jest.fn().mockResolvedValueOnce(drinks),
+      });
+      const { history } = renderWithRouterAndRedux(
+        <App />,
+        {},
+        pathname,
+      );
+      const startButton = await screen.findByTestId('start-recipe-btn');
+
+      expect(startButton).toHaveTextContent('Start Recipe');
+
+      userEvent.click(startButton);
+
+      await wait(() => {
+        expect(history.location.pathname).toBe('/foods/52771/in-progress');
+      });
+
+      history.push('/foods/52771');
+
+      await wait(() => {
+        console.log(history.location.pathname);
+        expect(screen.getByTestId('start-recipe-btn'))
+          .toHaveTextContent('Continue Recipe');
       });
     });
   });
