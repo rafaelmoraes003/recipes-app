@@ -103,32 +103,6 @@ describe('Testa o input do header', () => {
     });
   });
 
-  it('Testa pesquisa por primeira letra', async () => {
-    spyOns(meals);
-    spyOns(mealCategories);
-    const cardsWithFirstLetterEqualToA = 4;
-
-    await act(async () => {
-      renderWithRouterAndRedux(<App />, {}, route);
-      const searchIcon = screen.getByTestId(searchIconTestId);
-
-      userEvent.click(searchIcon);
-
-      const firstLetter = await screen.findByTestId(firstLetterID);
-      const searchInput = await screen.findByTestId(searchInputID);
-      const searchButton = await screen.findByTestId(searchButtonID);
-
-      userEvent.click(firstLetter);
-      userEvent.type(searchInput, 'a');
-      userEvent.click(searchButton);
-
-      await wait(async () => {
-        const imageCards = await screen.findAllByRole('img');
-        expect(imageCards).toHaveLength(cardsWithFirstLetterEqualToA);
-      });
-    });
-  });
-
   it('Testa pesquisa por primeira letra - erro', async () => {
     spyOns(meals);
     spyOns(mealCategories);
@@ -178,10 +152,10 @@ describe('Testa o input do header', () => {
     });
   });
 
-  it('Verifica erro ao pesquisar por ingrediante que não existe', async () => {
+  it('Verifica erro ao pesquisar por ingrediente que não existe', async () => {
     spyOns(meals);
     spyOns(mealCategories);
-    // spyOns(emptyMeals);
+    spyOns(emptyMeals);
     global.alert = jest.fn();
 
     await act(async () => {
