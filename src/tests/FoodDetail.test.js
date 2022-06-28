@@ -7,7 +7,6 @@ import FoodDetail from '../pages/FoodDetail';
 import oneMeal from '../../cypress/mocks/oneMeal';
 import drinks from '../../cypress/mocks/drinks';
 import oneDrink from '../../cypress/mocks/oneDrink';
-import { foodsInLocalStorage } from '../helpers/storageFuncs';
 import App from '../App';
 
 describe('Testa o componente FoodDetail e suas funcionalidades', () => {
@@ -173,8 +172,6 @@ describe('Testa o componente FoodDetail e suas funcionalidades', () => {
     });
   });
   it('Verifica o button start-recipe-btn', async () => {
-    // const mockFood = jest.spyOn(foodsInLocalStorage);
-    foodsInLocalStorage('52771');
     await act(async () => {
       jest.spyOn(global, 'fetch').mockResolvedValueOnce({
         json: jest.fn().mockResolvedValueOnce(oneMeal),
