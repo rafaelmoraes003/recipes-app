@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, waitFor } from '@testing-library/react';
+import { screen, wait } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouterAndRedux from './renderWithRouterAndRedux';
 import ExploreDrinks from '../pages/ExploreDrinks';
@@ -59,6 +59,6 @@ describe('Testa o componente ExploreDrinks e suas funcionalidades', () => {
 
     userEvent.click(surpriseMeButton);
 
-    await waitFor(() => expect(history.location.pathname).toBe('/explore/drinks/178319'));
+    await wait(() => expect(history.location.pathname).toBe('/explore/drinks/178319'));
   });
 });
