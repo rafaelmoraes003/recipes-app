@@ -11,6 +11,14 @@ import App from '../App';
 
 describe('Testa o componente FoodDetail e suas funcionalidades', () => {
   const pathname = '/foods/52771/in-progress';
+  const verifyCheck = (ingredient) => {
+    userEvent.click(ingredient);
+    expect(ingredient)
+      .toHaveAttribute('class', 'done');
+    userEvent.click(ingredient);
+    expect(ingredient)
+      .toHaveAttribute('class', 'missing');
+  };
   afterEach(() => {
     jest.spyOn(global, 'fetch').mockRestore();
   });
@@ -48,5 +56,32 @@ describe('Testa o componente FoodDetail e suas funcionalidades', () => {
     expect(ingredient6).toHaveTextContent(/basil - 6 leaves/i);
     expect(ingredient7).toHaveTextContent(/Parmigiano-Reggiano - spinkling/i);
     expect(instructions).toHaveTextContent(oneMeal.meals[0].strInstructions);
+  });
+  it('Verifica se é possível marcar e desmarcar os ingredientes', async () => {
+    jest.spyOn(global, 'fetch').mockResolvedValueOnce({
+      json: jest.fn().mockResolvedValueOnce(oneMeal),
+    });
+    renderWithRouterAndRedux(
+      <ProgressFoods />,
+      {},
+      pathname,
+    );
+    const ingredient0 = await screen.findByTestId('0-ingredient-step');
+    const ingredient1 = await screen.findByTestId('1-ingredient-step');
+    const ingredient2 = await screen.findByTestId('2-ingredient-step');
+    const ingredient3 = await screen.findByTestId('3-ingredient-step');
+    const ingredient4 = await screen.findByTestId('4-ingredient-step');
+    const ingredient5 = await screen.findByTestId('5-ingredient-step');
+    const ingredient6 = await screen.findByTestId('6-ingredient-step');
+    const ingredient7 = await screen.findByTestId('7-ingredient-step');
+
+    verifyCheck(ingredient0);
+    verifyCheck(ingredient1);
+    verifyCheck(ingredient2);
+    verifyCheck(ingredient3);
+    verifyCheck(ingredient4);
+    verifyCheck(ingredient5);
+    verifyCheck(ingredient6);
+    verifyCheck(ingredient7);
   });
 });
