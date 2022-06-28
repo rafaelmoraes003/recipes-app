@@ -3,7 +3,7 @@ import { screen, wait } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
 import renderWithRouterAndRedux from './renderWithRouterAndRedux';
-import FoodDetail from '../pages/FoodDetail';
+import DrinkDetail from '../pages/DrinkDetail';
 import oneMeal from '../../cypress/mocks/oneMeal';
 import meals from '../../cypress/mocks/meals';
 import oneDrink from '../../cypress/mocks/oneDrink';
@@ -45,28 +45,26 @@ describe('Testa o componente DrinkDetail e suas funcionalidades', () => {
       json: jest.fn().mockResolvedValueOnce(meals),
     });
     const { history } = renderWithRouterAndRedux(
-      <FoodDetail />,
+      <DrinkDetail />,
       {},
       pathname,
     );
-    await wait(() => {
-      expect(history.location.pathname).toBe('/drinks/15997');
+    expect(history.location.pathname).toBe(pathname);
 
-      const title = screen.getByTestId('recipe-title');
-      const image = screen.getByTestId('recipe-photo');
-      const category = screen.getByTestId('recipe-category');
-      const ingredient0 = screen.getByTestId('0-ingredient-name-and-measure');
-      const ingredient1 = screen.getByTestId('1-ingredient-name-and-measure');
-      const ingredient2 = screen.getByTestId('2-ingredient-name-and-measure');
-      const instructions = screen.getByTestId('instructions');
+    const title = await screen.findByTestId('recipe-title');
+    const image = await screen.findByTestId('recipe-photo');
+    const category = await screen.findByTestId('recipe-category');
+    const ingredient0 = await screen.findByTestId('0-ingredient-name-and-measure');
+    const ingredient1 = await screen.findByTestId('1-ingredient-name-and-measure');
+    const ingredient2 = await screen.findByTestId('2-ingredient-name-and-measure');
+    const instructions = await screen.findByTestId('instructions');
 
-      expect(image).toHaveProperty('src', oneDrink.drinks[0].strDrinkThumb);
-      expect(title).toHaveTextContent(oneDrink.drinks[0].strDrink);
-      expect(category).toHaveTextContent(oneDrink.drinks[0].strAlcoholic);
-      expect(ingredient0).toHaveTextContent(/Hpnotiq/i);
-      expect(ingredient1).toHaveTextContent(/Pineapple Juice/i);
-      expect(ingredient2).toHaveTextContent(/Banana Liqueur/i);
-      expect(instructions).toHaveTextContent(oneDrink.drinks[0].strInstructions);
-    });
+    expect(image).toHaveProperty('src', oneDrink.drinks[0].strDrinkThumb);
+    expect(title).toHaveTextContent(oneDrink.drinks[0].strDrink);
+    expect(category).toHaveTextContent(oneDrink.drinks[0].strAlcoholic);
+    expect(ingredient0).toHaveTextContent(/Hpnotiq/i);
+    expect(ingredient1).toHaveTextContent(/Pineapple Juice/i);
+    expect(ingredient2).toHaveTextContent(/Banana Liqueur/i);
+    expect(instructions).toHaveTextContent(oneDrink.drinks[0].strInstructions);
   });
 });
