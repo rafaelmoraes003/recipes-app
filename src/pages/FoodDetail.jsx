@@ -47,12 +47,14 @@ const FoodDetail = () => {
   }, [history, id]);
 
   const copyRecipeToClipboard = async () => {
-    await navigator.clipboard.writeText(window.location.href);
+    await navigator.clipboard.writeText(`http://localhost:3000/foods/${id}`);
     setCopy(true);
   };
 
   const favoriteRecipe = () => {
-    const storagedFood = [{
+    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'))
+      ? JSON.parse(localStorage.getItem('favoriteRecipes')) : [];
+    const storagedFood = [...favoriteRecipes, {
       id: recipe.idMeal,
       type: 'food',
       nationality: recipe.strArea,
