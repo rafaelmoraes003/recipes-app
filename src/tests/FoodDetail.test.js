@@ -8,6 +8,27 @@ import oneMeal from '../../cypress/mocks/oneMeal';
 import drinks from '../../cypress/mocks/drinks';
 
 describe('Testa o componente FoodDetail e suas funcionalidades', () => {
+  const verifyDrinksCards = (drinksObject) => {
+    const totalRecipesNumber = 5;
+    drinksObject.drinks.forEach((recipe, index) => {
+      if (index < totalRecipesNumber) {
+        expect(screen.getByTestId(`${index}-recipe-card`)).toBeInTheDocument();
+        expect(screen.getByTestId(`${index}-card-name`)).toBeInTheDocument();
+        expect(screen.getByTestId(`${index}-card-name`))
+          .toHaveTextContent(recipe.strDrink);
+        expect(screen.getByTestId(`${index}-card-img`)).toBeInTheDocument();
+        expect(screen.getByTestId(`${index}-card-img`).src)
+          .toBe(recipe.strDrinkThumb);
+      } else {
+        expect(screen.queryByTestId(`${index}-recipe-card`))
+          .not.toBeInTheDocument();
+        expect(screen.queryByTestId(`${index}-card-name`))
+          .not.toBeInTheDocument();
+        expect(screen.queryByTestId(`${index}-card-img`))
+          .not.toBeInTheDocument();
+      }
+    });
+  };
   afterEach(() => {
     jest.spyOn(global, 'fetch').mockRestore();
   });
