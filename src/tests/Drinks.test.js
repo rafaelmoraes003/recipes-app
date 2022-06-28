@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, waitFor } from '@testing-library/react';
+import { screen, wait } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
 import renderWithRouterAndRedux from './renderWithRouterAndRedux';
@@ -52,7 +52,7 @@ describe('Testa o componente Drinks e suas funcionalidades', () => {
       {},
       '/drinks',
     );
-    await waitFor(() => expect(history.location.pathname).toBe('/drinks'));
+    await wait(() => expect(history.location.pathname).toBe('/drinks'));
     const totalRecipesNumber = 12;
     drinks.drinks.slice(0, totalRecipesNumber).forEach((recipeIndex) => {
       if (recipeIndex < totalRecipesNumber) {
@@ -83,7 +83,7 @@ describe('Testa o componente Drinks e suas funcionalidades', () => {
       {},
       '/drinks',
     );
-    await waitFor(() => expect(history.location.pathname).toBe('/drinks'));
+    await wait(() => expect(history.location.pathname).toBe('/drinks'));
     verifyDrinksCards(drinks);
   });
   it('Verifica as categorias renderizadas e se é possível filtrar por categorias',
@@ -137,28 +137,28 @@ describe('Testa o componente Drinks e suas funcionalidades', () => {
 
         userEvent.click(OrdinaryDrink);
 
-        await waitFor(() => verifyDrinksCards(ordinaryDrinks));
+        await wait(() => verifyDrinksCards(ordinaryDrinks));
 
         userEvent.click(Cocktail);
 
-        await waitFor(() => verifyDrinksCards(cocktailDrinks));
+        await wait(() => verifyDrinksCards(cocktailDrinks));
 
         userEvent.click(Milk);
 
-        await waitFor(() => verifyDrinksCards(milkDrinks));
+        await wait(() => verifyDrinksCards(milkDrinks));
 
         userEvent.click(Other);
 
-        await waitFor(() => verifyDrinksCards(otherDrinks));
+        await wait(() => verifyDrinksCards(otherDrinks));
 
         userEvent.click(Cocoa);
 
-        await waitFor(() => verifyDrinksCards(cocoaDrinks));
+        await wait(() => verifyDrinksCards(cocoaDrinks));
 
         const All = await screen.findByLabelText('All', { selector: 'input' });
         userEvent.click(All);
 
-        await waitFor(() => verifyDrinksCards(drinks));
+        await wait(() => verifyDrinksCards(drinks));
       });
     });
   it('Verifica se ao clicar em uma categoria filtrada, o filtro é retirado', async () => {
@@ -188,11 +188,11 @@ describe('Testa o componente Drinks e suas funcionalidades', () => {
 
       userEvent.click(Cocoa);
 
-      await waitFor(() => verifyDrinksCards(cocoaDrinks));
+      await wait(() => verifyDrinksCards(cocoaDrinks));
 
       userEvent.click(Cocoa);
 
-      await waitFor(() => verifyDrinksCards(drinks));
+      await wait(() => verifyDrinksCards(drinks));
     });
   });
   it('Verifica se é possível filtrar por ingrediente', async () => {
@@ -225,7 +225,7 @@ describe('Testa o componente Drinks e suas funcionalidades', () => {
       userEvent.type(searchInput, 'lemon');
       userEvent.click(searchButton);
 
-      await waitFor(() => verifyDrinksCards(drinksByIngredient));
+      await wait(() => verifyDrinksCards(drinksByIngredient));
     });
   });
 });
