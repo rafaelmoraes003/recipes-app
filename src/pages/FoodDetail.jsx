@@ -39,7 +39,6 @@ const FoodDetail = () => {
     favoriteRecipes(history, setFavorite);
     const fetchRecipe = async () => {
       const recipeData = await fetchFoods(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
-      console.log(recipeData);
       loadsRecommendations();
       const entries = Object.entries(recipeData[0]);
       const ingredientsAndMeasures = filterOfIngredients(entries);
