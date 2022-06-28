@@ -96,8 +96,8 @@ export const favoriteRecipes = (dependency, setState) => {
 };
 
 export const doneRecipeFoodFunc = (recipe, date) => {
-  const doneRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'))
-    ? JSON.parse(localStorage.getItem('favoriteRecipes')) : [];
+  const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'))
+    ? JSON.parse(localStorage.getItem('doneRecipes')) : [];
   const newRecipes = [...doneRecipes, {
     id: recipe.idMeal,
     type: 'food',
@@ -108,6 +108,23 @@ export const doneRecipeFoodFunc = (recipe, date) => {
     image: recipe.strMealThumb,
     doneDate: date,
     tags: [recipe.strTags],
+  }];
+  localStorage.setItem('doneRecipes', JSON.stringify(newRecipes));
+};
+
+export const doneRecipeDrinkFunc = (recipe, date) => {
+  const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'))
+    ? JSON.parse(localStorage.getItem('doneRecipes')) : [];
+  const newRecipes = [...doneRecipes, {
+    id: recipe.idDrink,
+    type: 'drink',
+    nationality: '',
+    category: recipe.strCategory,
+    alcoholicOrNot: recipe.strAlcoholic,
+    name: recipe.strDrink,
+    image: recipe.strDrinkThumb,
+    doneDate: date,
+    tags: [],
   }];
   localStorage.setItem('doneRecipes', JSON.stringify(newRecipes));
 };
