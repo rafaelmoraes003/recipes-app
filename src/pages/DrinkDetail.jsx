@@ -9,6 +9,7 @@ import shareIcon from '../images/shareIcon.svg';
 import removeRecipeFromLocalStorage
 from '../helpers/reusable_functions/removeRecipeFromLocalStorage';
 import {
+  doneRecipes,
   drinksInLocalStorage,
   drinksToFavorite, favoriteRecipes } from '../helpers/storageFuncs';
 import filterOfIngredients from '../helpers/reusable_functions/filterOfIngredients';
@@ -52,8 +53,7 @@ const DrinkDetail = () => {
   };
 
   useEffect(() => {
-    const storage = JSON.parse(localStorage.getItem('doneRecipes'));
-    if (storage) return setDone(true);
+    doneRecipes(history, setDone);
     const storageStarted = JSON.parse(localStorage.getItem('inProgressRecipes'));
     if (storageStarted && storageStarted.cocktails[id]) return setStartedDrink(true);
   },

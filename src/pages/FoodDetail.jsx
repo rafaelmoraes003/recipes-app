@@ -10,7 +10,8 @@ import
 removeRecipeFromLocalStorage
 from '../helpers/reusable_functions/removeRecipeFromLocalStorage';
 import {
-  foodsInLocalStorage, favoriteRecipes, foodToFavorite } from '../helpers/storageFuncs';
+  foodsInLocalStorage,
+  favoriteRecipes, foodToFavorite, doneRecipes } from '../helpers/storageFuncs';
 import filterOfIngredients from '../helpers/reusable_functions/filterOfIngredients';
 
 const FoodDetail = () => {
@@ -53,8 +54,7 @@ const FoodDetail = () => {
   };
 
   useEffect(() => {
-    const storage = JSON.parse(localStorage.getItem('doneRecipes'));
-    if (storage) return setDone(true);
+    doneRecipes(history, setDone);
     const storageStarted = JSON.parse(localStorage.getItem('inProgressRecipes'));
     if (storageStarted && storageStarted.meals[id]) return setStartedFood(true);
   },

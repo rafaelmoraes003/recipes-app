@@ -111,3 +111,11 @@ export const doneRecipeFoodFunc = (recipe, date) => {
   }];
   localStorage.setItem('doneRecipes', JSON.stringify(newRecipes));
 };
+
+export const doneRecipes = (dependency, setState) => {
+  const storage = JSON.parse(localStorage.getItem('doneRecipes'));
+  if (storage) {
+    const id = dependency.location.pathname.split('/')[2];
+    setState(storage.some((recipe) => recipe.id === id));
+  }
+};
