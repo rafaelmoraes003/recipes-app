@@ -113,11 +113,9 @@ describe('Testa o componente FoodDetail e suas funcionalidades', () => {
       expect(favoriteButton).toHaveProperty('src', 'http://localhost/whiteHeartIcon.svg');
       userEvent.click(favoriteButton);
       expect(favoriteButton).toHaveProperty('src', 'http://localhost/blackHeartIcon.svg');
-
       await waitFor(() => {
         expect(localStorage).toHaveProperty('favoriteRecipes');
       });
-
       userEvent.click(favoriteButton);
       expect(favoriteButton).toHaveProperty('src', 'http://localhost/whiteHeartIcon.svg');
 
