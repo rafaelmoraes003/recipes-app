@@ -6,6 +6,8 @@ import renderWithRouterAndRedux from './renderWithRouterAndRedux';
 import FoodDetail from '../pages/FoodDetail';
 import oneMeal from '../../cypress/mocks/oneMeal';
 import drinks from '../../cypress/mocks/drinks';
+import oneDrink from '../../cypress/mocks/oneDrink';
+import App from '../App';
 
 describe('Testa o componente FoodDetail e suas funcionalidades', () => {
   afterEach(() => {
@@ -111,6 +113,11 @@ describe('Testa o componente FoodDetail e suas funcionalidades', () => {
       expect(favoriteButton).toHaveProperty('src', 'http://localhost/whiteHeartIcon.svg');
       userEvent.click(favoriteButton);
       expect(favoriteButton).toHaveProperty('src', 'http://localhost/blackHeartIcon.svg');
+
+      await waitFor(() => {
+        expect(localStorage).toHaveProperty('favoriteRecipes');
+      });
+
       userEvent.click(favoriteButton);
       expect(favoriteButton).toHaveProperty('src', 'http://localhost/whiteHeartIcon.svg');
 
@@ -120,6 +127,49 @@ describe('Testa o componente FoodDetail e suas funcionalidades', () => {
         expect(navigator.clipboard.writeText).toBeCalled();
         expect(navigator.clipboard.writeText).toBeCalledWith('http://localhost:3000/foods/52771');
         expect(screen.getByText('Link copied!')).toBeDefined();
+      });
+    });
+  });
+  it('Verifica se é possível acessar drink de recomendação', async () => {
+    await act(async () => {
+      jest.spyOn(global, 'fetch').mockResolvedValueOnce({
+        json: jest.fn().mockResolvedValueOnce(oneMeal),
+      });
+
+      jest.spyOn(global, 'fetch').mockResolvedValueOnce({
+        json: jest.fn().mockResolvedValueOnce(drinks),
+      });
+
+      jest.spyOn(global, 'fetch').mockResolvedValueOnce({
+        json: jest.fn().mockResolvedValueOnce(oneDrink),
+      });
+      const { history } = renderWithRouterAndRedux(
+        <App />,
+        {},
+        pathname,
+      );
+      const recomendationCard = await screen.findByTestId('0-recomendation-card');
+
+      userEvent.click(recomendationCard);
+
+      await waitFor(() => {
+        expect(history.location.pathname).toBe('/drinks/15997');
+
+        const title = screen.getByTestId('recipe-title');
+        const image = screen.getByTestId('recipe-photo');
+        const category = screen.getByTestId('recipe-category');
+        const ingredient0 = screen.getByTestId('0-ingredient-name-and-measure');
+        const ingredient1 = screen.getByTestId('1-ingredient-name-and-measure');
+        const ingredient2 = screen.getByTestId('2-ingredient-name-and-measure');
+        const instructions = screen.getByTestId('instructions');
+
+        expect(image).toHaveProperty('src', oneDrink.drinks[0].strDrinkThumb);
+        expect(title).toHaveTextContent(oneDrink.drinks[0].strDrink);
+        expect(category).toHaveTextContent(oneDrink.drinks[0].strAlcoholic);
+        expect(ingredient0).toHaveTextContent(/Hpnotiq/i);
+        expect(ingredient1).toHaveTextContent(/Pineapple Juice/i);
+        expect(ingredient2).toHaveTextContent(/Banana Liqueur/i);
+        expect(instructions).toHaveTextContent(oneDrink.drinks[0].strInstructions);
       });
     });
   });
