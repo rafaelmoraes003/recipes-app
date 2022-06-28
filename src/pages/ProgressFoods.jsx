@@ -5,13 +5,14 @@ import { fetchFoods } from '../helpers/fetchRecipesAPI';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
-import useFavorite from '../customHooks/useFavorite';
 import
 removeRecipeFromLocalStorage
 from '../helpers/reusable_functions/removeRecipeFromLocalStorage';
 import '../style/ProgressPage.css';
 import filterOfIngredients from '../helpers/reusable_functions/filterOfIngredients';
-import { foodsInLocalStorage } from '../helpers/storageFuncs';
+import {
+  doneRecipeFoodFunc,
+  favoriteRecipes, foodsInLocalStorage, foodToFavorite } from '../helpers/storageFuncs';
 
 const ProgressFoods = () => {
   const { foodRecipesStartered } = useSelector((state) => state.recipesReducer);
@@ -21,10 +22,10 @@ const ProgressFoods = () => {
   const id = history.location.pathname.split('/')[2];
   const [copy, setCopy] = useState(false);
   const [favorite, setFavorite] = useState(false);
-
-  useFavorite(history, setFavorite);
+  const date = new Date(Date.now()).toLocaleDateString();
 
   useEffect(() => {
+    favoriteRecipes(history, setFavorite);
     foodsInLocalStorage(id);
     const fetchRecipe = async () => {
       const recipeData = await fetchFoods(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
@@ -66,20 +67,6 @@ const ProgressFoods = () => {
     setCopy(true);
   };
 
-  const favoriteRecipe = () => {
-    const storagedFood = [{
-      id: recipe.idMeal,
-      type: 'food',
-      nationality: recipe.strArea,
-      category: recipe.strCategory,
-      alcoholicOrNot: '',
-      name: recipe.strMeal,
-      image: recipe.strMealThumb,
-    }];
-    localStorage.setItem('favoriteRecipes', JSON.stringify(storagedFood));
-    setFavorite(true);
-  };
-
   return (
     <section>
       <img
@@ -105,7 +92,7 @@ const ProgressFoods = () => {
           alt="non-favorite"
           data-testid="favorite-btn"
           style={ { display: 'block' } }
-          onClick={ favoriteRecipe }
+          onClick={ () => foodToFavorite(recipe, setFavorite) }
         />
       )}
       <input
@@ -148,7 +135,10 @@ const ProgressFoods = () => {
         data-testid="finish-recipe-btn"
         value="Finish Recipe"
         disabled={ recipe.ingredientsAndMeasures.length !== usedIngredients.length }
-        onClick={ () => history.push('/done-recipes') }
+        onClick={ () => {
+          doneRecipeFoodFunc(recipe, date);
+          history.push('/done-recipes');
+        } }
       />
     </section>
   );

@@ -6,11 +6,12 @@ import RecommendationCard from '../components/RecommendationCard';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
-import useFavorite from '../customHooks/useFavorite';
 import
 removeRecipeFromLocalStorage
 from '../helpers/reusable_functions/removeRecipeFromLocalStorage';
-import { foodsInLocalStorage } from '../helpers/storageFuncs';
+import {
+  foodsInLocalStorage,
+  favoriteRecipes, foodToFavorite, doneRecipes } from '../helpers/storageFuncs';
 import filterOfIngredients from '../helpers/reusable_functions/filterOfIngredients';
 
 const FoodDetail = () => {
@@ -25,8 +26,7 @@ const FoodDetail = () => {
   const id = history.location.pathname.split('/')[2];
   // const [foodsInStorage, setFoodsInStorage] = useState(storage || []);
 
-  useFavorite(history, setFavorite);
-
+  // const date = Date.now();
   const loadsRecommendations = async () => {
     const numberOfRecommendations = 5;
     const recommendationsData = await fetchDrinks('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
@@ -36,8 +36,10 @@ const FoodDetail = () => {
   };
 
   useEffect(() => {
+    favoriteRecipes(history, setFavorite);
     const fetchRecipe = async () => {
       const recipeData = await fetchFoods(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
+      console.log(recipeData);
       loadsRecommendations();
       const entries = Object.entries(recipeData[0]);
       const ingredientsAndMeasures = filterOfIngredients(entries);
@@ -47,28 +49,12 @@ const FoodDetail = () => {
   }, [history, id]);
 
   const copyRecipeToClipboard = async () => {
-    await navigator.clipboard.writeText(window.location.href);
+    await navigator.clipboard.writeText(`http://localhost:3000/foods/${id}`);
     setCopy(true);
   };
 
-  const favoriteRecipe = () => {
-    const storagedFood = [{
-      id: recipe.idMeal,
-      type: 'food',
-      nationality: recipe.strArea,
-      category: recipe.strCategory,
-      alcoholicOrNot: '',
-      name: recipe.strMeal,
-      image: recipe.strMealThumb,
-    }];
-    // setFoodsInStorage(foodsInStorage.concat(storagedFood));
-    localStorage.setItem('favoriteRecipes', JSON.stringify(storagedFood));
-    setFavorite(true);
-  };
-
   useEffect(() => {
-    const storage = JSON.parse(localStorage.getItem('doneRecipes'));
-    if (storage) return setDone(true);
+    doneRecipes(history, setDone);
     const storageStarted = JSON.parse(localStorage.getItem('inProgressRecipes'));
     if (storageStarted && storageStarted.meals[id]) return setStartedFood(true);
   },
@@ -109,7 +95,7 @@ const FoodDetail = () => {
             alt="non-favorite"
             data-testid="favorite-btn"
             style={ { display: 'block' } }
-            onClick={ favoriteRecipe }
+            onClick={ () => foodToFavorite(recipe, setFavorite) }
           />
         )}
         <input

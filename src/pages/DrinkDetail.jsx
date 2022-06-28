@@ -6,11 +6,12 @@ import '../style/RecipesDetail.css';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
-import useFavorite from '../customHooks/useFavorite';
-import
-removeRecipeFromLocalStorage
+import removeRecipeFromLocalStorage
 from '../helpers/reusable_functions/removeRecipeFromLocalStorage';
-import { drinksInLocalStorage } from '../helpers/storageFuncs';
+import {
+  doneRecipes,
+  drinksInLocalStorage,
+  drinksToFavorite, favoriteRecipes } from '../helpers/storageFuncs';
 import filterOfIngredients from '../helpers/reusable_functions/filterOfIngredients';
 
 const DrinkDetail = () => {
@@ -26,8 +27,6 @@ const DrinkDetail = () => {
   const id = history.location.pathname.split('/')[2];
   // const [foodsInStorage, setFoodsInStorage] = useState(storage || []);  // ------ NÃO APAGAR!!!
 
-  useFavorite(history, setFavorite);
-
   const loadsRecommendations = async () => {
     const numberOfRecommendations = 5;
     const recommendationsData = await fetchFoods('https://www.themealdb.com/api/json/v1/1/search.php?s=');
@@ -37,6 +36,7 @@ const DrinkDetail = () => {
   };
 
   useEffect(() => {
+    favoriteRecipes(history, setFavorite);
     const fetchRecipe = async () => {
       const recipeData = await fetchDrinks(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
       loadsRecommendations();
@@ -52,28 +52,12 @@ const DrinkDetail = () => {
     setCopy(true);
   };
 
-  const favoriteRecipe = () => {
-    const storagedFood = [{
-      id: recipe.idDrink,
-      type: 'drink',
-      nationality: '',
-      category: recipe.strCategory,
-      alcoholicOrNot: recipe.strAlcoholic,
-      name: recipe.strDrink,
-      image: recipe.strDrinkThumb,
-    }];
-    // setFoodsInStorage(foodsInStorage.concat(storagedFood));  // ------ NÃO APAGAR!!!!
-    localStorage.setItem('favoriteRecipes', JSON.stringify(storagedFood));
-    setFavorite(true);
-  };
-
   useEffect(() => {
-    const storage = JSON.parse(localStorage.getItem('doneRecipes'));
-    if (storage) return setDone(true);
+    doneRecipes(history, setDone);
     const storageStarted = JSON.parse(localStorage.getItem('inProgressRecipes'));
     if (storageStarted && storageStarted.cocktails[id]) return setStartedDrink(true);
   },
-  [id]);
+  [id, history]);
 
   const startedRecipe = () => {
     drinksInLocalStorage(id);
@@ -110,7 +94,7 @@ const DrinkDetail = () => {
             alt="non-favorite"
             data-testid="favorite-btn"
             style={ { display: 'block' } }
-            onClick={ favoriteRecipe }
+            onClick={ () => drinksToFavorite(recipe, setFavorite) }
           />
         )}
         <input
