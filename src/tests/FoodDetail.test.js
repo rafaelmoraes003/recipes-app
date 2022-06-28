@@ -38,5 +38,17 @@ describe('Testa o componente FoodDetail e suas funcionalidades', () => {
     const video = await screen.findByTestId('video');
 
     expect(image.src).toBe(oneMeal.meals[0].strMealThumb);
+    expect(title).toHaveTextContent(oneMeal.meals[0].strMeal);
+    expect(category).toHaveTextContent(oneMeal.meals[0].strCategory);
+    expect(ingredient0).toHaveTextContent(/penne rigate - 1 pound/i);
+    expect(ingredient1).toHaveTextContent(/olive oil/i);
+    expect(ingredient2).toHaveTextContent(/garlic - 3 cloves/i);
+    expect(ingredient3).toHaveTextContent(/chopped tomatoes - 1 tin/i);
+    expect(ingredient4).toHaveTextContent(/red chile flakes/i);
+    expect(ingredient5).toHaveTextContent(/italian seasoning/i);
+    expect(ingredient6).toHaveTextContent(/basil - 6 leaves/i);
+    expect(ingredient7).toHaveTextContent(/Parmigiano-Reggiano - spinkling/i);
+    expect(instructions).toHaveTextContent(oneMeal.meals[0].strInstructions);
+    expect(video.src).toBe('https://www.youtube.com/embed/1IszT_guI08');
   });
 });
