@@ -53,7 +53,9 @@ const DrinkDetail = () => {
   };
 
   const favoriteRecipe = () => {
-    const storagedFood = [{
+    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'))
+      ? JSON.parse(localStorage.getItem('favoriteRecipes')) : [];
+    const storagedFood = [...favoriteRecipes, {
       id: recipe.idDrink,
       type: 'drink',
       nationality: '',
