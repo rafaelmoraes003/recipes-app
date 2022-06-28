@@ -51,4 +51,17 @@ describe('Testa o componente FoodDetail e suas funcionalidades', () => {
     expect(instructions).toHaveTextContent(oneMeal.meals[0].strInstructions);
     expect(video.src).toBe('https://www.youtube.com/embed/1IszT_guI08');
   });
+  it('Verifica se a página renderiza cartões de recoemndações', async () => {
+    jest.spyOn(global, 'fetch').mockResolvedValueOnce({
+      json: jest.fn().mockResolvedValueOnce(oneMeal),
+    });
+    jest.spyOn(global, 'fetch').mockResolvedValueOnce({
+      json: jest.fn().mockResolvedValueOnce(drinks),
+    });
+    renderWithRouterAndRedux(
+      <FoodDetail />,
+      {},
+      '/foods/52771',
+    );
+  });
 });
