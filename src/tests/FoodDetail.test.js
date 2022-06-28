@@ -12,19 +12,17 @@ describe('Testa o componente FoodDetail e suas funcionalidades', () => {
     const totalRecipesNumber = 5;
     drinksObject.drinks.forEach((recipe, index) => {
       if (index < totalRecipesNumber) {
-        expect(screen.getByTestId(`${index}-recipe-card`)).toBeInTheDocument();
-        expect(screen.getByTestId(`${index}-card-name`)).toBeInTheDocument();
-        expect(screen.getByTestId(`${index}-card-name`))
+        expect(screen.getByTestId(`${index}-recomendation-card`)).toBeInTheDocument();
+        expect(screen.getByTestId(`${index}-recomendation-title`)).toBeInTheDocument();
+        expect(screen.getByTestId(`${index}-recomendation-title`))
           .toHaveTextContent(recipe.strDrink);
-        expect(screen.getByTestId(`${index}-card-img`)).toBeInTheDocument();
-        expect(screen.getByTestId(`${index}-card-img`).src)
+        expect(screen.getByRole('img', { name: recipe.strDrink })).toBeInTheDocument();
+        expect(screen.getByRole('img', { name: recipe.strDrink }).src)
           .toBe(recipe.strDrinkThumb);
       } else {
-        expect(screen.queryByTestId(`${index}-recipe-card`))
+        expect(screen.queryByTestId(`${index}-recomendation-card`))
           .not.toBeInTheDocument();
-        expect(screen.queryByTestId(`${index}-card-name`))
-          .not.toBeInTheDocument();
-        expect(screen.queryByTestId(`${index}-card-img`))
+        expect(screen.queryByTestId(`${index}-recomendation-title`))
           .not.toBeInTheDocument();
       }
     });
