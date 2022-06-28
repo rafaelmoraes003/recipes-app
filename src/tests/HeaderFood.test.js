@@ -10,7 +10,6 @@ import soupMeals from '../../cypress/mocks/soupMeals';
 import oneMeal from '../../cypress/mocks/oneMeal';
 import emptyMeals from '../../cypress/mocks/emptyMeals';
 import mealCategories from '../../cypress/mocks/mealCategories';
-import byFirstLetter from '../../cypress/mocks/byFirstLetter';
 
 const route = '/foods';
 
@@ -123,7 +122,6 @@ describe('Testa o input do header', () => {
       userEvent.type(searchInput, 'a');
       userEvent.click(searchButton);
 
-      spyOns(byFirstLetter);
       await wait(async () => {
         const imageCards = await screen.findAllByRole('img');
         expect(imageCards).toHaveLength(cardsWithFirstLetterEqualToA);
