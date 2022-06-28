@@ -8,6 +8,10 @@ import oneMeal from '../../cypress/mocks/oneMeal';
 import drinks from '../../cypress/mocks/drinks';
 
 describe('Testa o componente FoodDetail e suas funcionalidades', () => {
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+  const pathname = '/foods/52771';
   const verifyDrinksCards = (drinksObject) => {
     const totalRecipesNumber = 6;
     drinksObject.drinks.forEach((recipe, index) => {
@@ -40,7 +44,7 @@ describe('Testa o componente FoodDetail e suas funcionalidades', () => {
     renderWithRouterAndRedux(
       <FoodDetail />,
       {},
-      '/foods/52771',
+      pathname,
     );
     const image = await screen.findByTestId('recipe-photo');
     const title = await screen.findByTestId('recipe-title');
@@ -80,8 +84,43 @@ describe('Testa o componente FoodDetail e suas funcionalidades', () => {
     renderWithRouterAndRedux(
       <FoodDetail />,
       {},
-      '/foods/52771',
+      pathname,
     );
     await waitFor(() => verifyDrinksCards(drinks));
+  });
+  it('Verifica se épossível favoritar e compartilhar link de receita', async () => {
+    await act(async () => {
+      const mockClipboard = {
+        writeText: jest.fn(),
+      };
+      global.navigator.clipboard = mockClipboard;
+      jest.spyOn(global, 'fetch').mockResolvedValueOnce({
+        json: jest.fn().mockResolvedValueOnce(oneMeal),
+      });
+      jest.spyOn(global, 'fetch').mockResolvedValueOnce({
+        json: jest.fn().mockResolvedValueOnce(drinks),
+      });
+      renderWithRouterAndRedux(
+        <FoodDetail />,
+        {},
+        pathname,
+      );
+      const favoriteButton = await screen.findByTestId('favorite-btn');
+      const shareButton = await screen.findByTestId('share-btn');
+
+      expect(favoriteButton).toHaveProperty('src', 'http://localhost/whiteHeartIcon.svg');
+      userEvent.click(favoriteButton);
+      expect(favoriteButton).toHaveProperty('src', 'http://localhost/blackHeartIcon.svg');
+      userEvent.click(favoriteButton);
+      expect(favoriteButton).toHaveProperty('src', 'http://localhost/whiteHeartIcon.svg');
+
+      userEvent.click(shareButton);
+
+      await waitFor(() => {
+        expect(navigator.clipboard.writeText).toBeCalled();
+        expect(navigator.clipboard.writeText).toBeCalledWith('http://localhost:3000/foods/52771');
+        expect(screen.getByText('Link copied!')).toBeDefined();
+      });
+    });
   });
 });
