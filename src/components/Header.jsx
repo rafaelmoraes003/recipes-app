@@ -92,7 +92,7 @@ const Header = ({ title, showSearchIcon }) => {
   };
 
   const getData = () => {
-    if (title === 'Foods') {
+    if (title === 'Foods' || title === 'Explore Nationalities') {
       fetchFoodsOrDrinks('themealdb');
     } else if (title === 'Drinks') {
       fetchFoodsOrDrinks('thecocktaildb');

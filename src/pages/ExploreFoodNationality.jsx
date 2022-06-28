@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
@@ -10,6 +11,12 @@ const ExploreFoodNationality = () => {
   const [countries, setCountries] = useState([]);
   const [foods, setFoods] = useState([]);
   const [foodsFiltered, setFoodsFiltered] = useState([]);
+
+  // Redux hooks
+  const { data: dataRedux } = useSelector((state) => state.apiReducer);
+  const { foods: foodsRedux } = useSelector((state) => state.recipesReducer);
+  console.log(dataRedux);
+  console.log(foodsRedux);
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -77,6 +84,12 @@ const ExploreFoodNationality = () => {
       setFoodsFiltered(data.meals);
     }
   };
+
+  useEffect(() => {
+    const { meals } = dataRedux;
+    if (meals && meals.length > 0) setFoodsFiltered(meals);
+    renderFoods();
+  }, [dataRedux]);
 
   return (
     <section>
