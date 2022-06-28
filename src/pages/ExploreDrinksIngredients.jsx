@@ -1,12 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import DrinksIngredientCard from '../components/DrinksIngredientCard';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import { fetchByIngredients } from '../helpers/fetchRecipesAPI';
 
-const ExploreDrinksIngredients = () => (
-  <div>
-    <Header title="Explore Ingredients" showSearchIcon={ false } />
-    <Footer />
-  </div>
+const ExploreDrinksIngredients = () => {
+  const DOZE = 12;
+  const [ingredientList, setIngredientList] = useState([]);
 
-);
+  useEffect(() => {
+    const fetchDrinksIngredients = async () => {
+      const drinksIngredientsData = await fetchByIngredients('https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list');
+      console.log(drinksIngredientsData);
+      const { drinks } = drinksIngredientsData;
+      setIngredientList(drinks.slice(0, DOZE));
+    };
+    fetchDrinksIngredients();
+  }, []);
+
+  return (
+    <div>
+      <Header title="Explore Ingredients" showSearchIcon={ false } />
+      {ingredientList.map((ingred, index) => (
+        <DrinksIngredientCard
+          key={ index }
+          index={ index }
+          ingredName={ ingred.strIngredient1 }
+        />
+      ))}
+      <Footer />
+    </div>
+  );
+};
 export default ExploreDrinksIngredients;

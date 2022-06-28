@@ -2,17 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-function FoodsIngredientCard({ id, index, ingredName }) {
-  const nameImg = ingredName.replaceAll(' ', '%20');
-  const img = `https://www.themealdb.com/images/ingredients/${nameImg}-Small.png`;
+function DrinksIngredientCard({ index, ingredName }) {
+  const nameImg = ingredName
+    .replace(/(^\w{1})|(\s+\w{1})/g, (letter) => letter.toUpperCase());
+  const name = nameImg.replaceAll(' ', '%20');
+  const img = `www.thecocktaildb.com/images/ingredients/${name}-Small.png`;
+  console.log(img);
   return (
     <div
-      key={ id }
-      id={ id }
+      key={ index }
       className="recipe_card_ingredient"
     >
       <Link
-        to="/foods"
+        to="/drinks"
         data-testid={ `${index}-ingredient-card` }
       >
         <img
@@ -30,10 +32,9 @@ function FoodsIngredientCard({ id, index, ingredName }) {
   );
 }
 
-FoodsIngredientCard.propTypes = {
+DrinksIngredientCard.propTypes = {
   index: PropTypes.number.isRequired,
   ingredName: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
 };
 
-export default FoodsIngredientCard;
+export default DrinksIngredientCard;
