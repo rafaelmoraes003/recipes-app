@@ -11,7 +11,9 @@ from '../helpers/reusable_functions/removeRecipeFromLocalStorage';
 import '../style/ProgressPage.css';
 import {
   addDrinkInLocalStorage,
-  drinksInLocalStorage, drinksToFavorite } from '../helpers/storageFuncs';
+  doneRecipeDrinkFunc,
+  drinksInLocalStorage,
+  drinksToFavorite, favoriteRecipes } from '../helpers/storageFuncs';
 import filterOfIngredients from '../helpers/reusable_functions/filterOfIngredients';
 
 const ProgressDrinks = () => {
@@ -21,6 +23,7 @@ const ProgressDrinks = () => {
   const id = history.location.pathname.split('/')[2];
   const [copy, setCopy] = useState(false);
   const [favorite, setFavorite] = useState(false);
+  const date = new Date(Date.now()).toLocaleDateString();
 
   useFavorite(history, setFavorite);
 
@@ -126,7 +129,10 @@ const ProgressDrinks = () => {
         data-testid="finish-recipe-btn"
         value="Finish Recipe"
         disabled={ recipe.ingredientsAndMeasures.length !== usedIngredients.length }
-        onClick={ () => history.push('/done-recipes') }
+        onClick={ () => {
+          doneRecipeDrinkFunc(recipe, date);
+          history.push('/done-recipes');
+        } }
       />
     </section>
   );
