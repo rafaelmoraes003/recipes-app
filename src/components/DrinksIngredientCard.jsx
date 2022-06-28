@@ -9,14 +9,10 @@ function DrinksIngredientCard({ index, ingredName }) {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const nameImg = ingredName
-    .replace(/(^\w{1})|(\s+\w{1})/g, (letter) => letter.toUpperCase());
-  const name = nameImg.replaceAll(' ', '%20');
-  const img = `https://www.thecocktaildb.com/images/ingredients/${name}-Small.png`;
+  const img = `https://www.thecocktaildb.com/images/ingredients/${ingredName}-Small.png`;
 
   async function fetchRecipesIngredient(ingredient) {
-    const listByIngred = await fetchByIngredients(`https://www.thecocktaildb.com/
-api/json/v1/1/filter.php?i=${ingredient}`);
+    const listByIngred = await fetchByIngredients(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredient}`);
     dispatch(fetchData(listByIngred));
     history.push('/drinks');
   }
@@ -29,7 +25,7 @@ api/json/v1/1/filter.php?i=${ingredient}`);
     >
       <img
         src={ img }
-        alt={ nameImg }
+        alt={ ingredName }
         data-testid={ `${index}-card-img` }
       />
       <button

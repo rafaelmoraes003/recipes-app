@@ -9,8 +9,7 @@ function FoodsIngredientCard({ id, index, ingredName }) {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const nameImg = ingredName.replaceAll(' ', '%20');
-  const img = `https://www.themealdb.com/images/ingredients/${nameImg}-Small.png`;
+  const img = `https://www.themealdb.com/images/ingredients/${ingredName}-Small.png`;
 
   async function fetchRecipesIngredient(ingredient) {
     const listByIngred = await fetchByIngredients(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredient}`);
@@ -27,7 +26,7 @@ function FoodsIngredientCard({ id, index, ingredName }) {
     >
       <img
         src={ img }
-        alt={ nameImg }
+        alt={ ingredName }
         data-testid={ `${index}-card-img` }
       />
       <button
