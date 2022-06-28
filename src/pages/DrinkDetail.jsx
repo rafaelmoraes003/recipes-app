@@ -57,7 +57,7 @@ const DrinkDetail = () => {
     const storageStarted = JSON.parse(localStorage.getItem('inProgressRecipes'));
     if (storageStarted && storageStarted.cocktails[id]) return setStartedDrink(true);
   },
-  [id]);
+  [id, history]);
 
   const startedRecipe = () => {
     drinksInLocalStorage(id);
