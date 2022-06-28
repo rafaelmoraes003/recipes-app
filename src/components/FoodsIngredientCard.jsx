@@ -1,31 +1,42 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { fetchByIngredients } from '../helpers/fetchRecipesAPI';
+import { fetchData } from '../redux/actions/fetchDataACTION';
 
 function FoodsIngredientCard({ id, index, ingredName }) {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
   const nameImg = ingredName.replaceAll(' ', '%20');
   const img = `https://www.themealdb.com/images/ingredients/${nameImg}-Small.png`;
+
+  async function fetchRecipesIngredient(ingredient) {
+    const listByIngred = await fetchByIngredients(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredient}`);
+    dispatch(fetchData(listByIngred));
+    history.push('/foods');
+  }
+
   return (
     <div
       key={ id }
       id={ id }
       className="recipe_card_ingredient"
+      data-testid={ `${index}-ingredient-card` }
     >
-      <Link
-        to="/foods"
-        data-testid={ `${index}-ingredient-card` }
+      <img
+        src={ img }
+        alt={ nameImg }
+        data-testid={ `${index}-card-img` }
+      />
+      <button
+        data-testid={ `${index}-card-name` }
+        type="button"
+        onClick={ () => fetchRecipesIngredient(ingredName) }
       >
-        <img
-          src={ img }
-          alt={ nameImg }
-          data-testid={ `${index}-card-img` }
-        />
-        <p
-          data-testid={ `${index}-card-name` }
-        >
-          {ingredName}
-        </p>
-      </Link>
+        {ingredName}
+      </button>
     </div>
   );
 }

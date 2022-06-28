@@ -11,7 +11,6 @@ const ExploreDrinksIngredients = () => {
   useEffect(() => {
     const fetchDrinksIngredients = async () => {
       const drinksIngredientsData = await fetchByIngredients('https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list');
-      console.log(drinksIngredientsData);
       const { drinks } = drinksIngredientsData;
       setIngredientList(drinks.slice(0, DOZE));
     };

@@ -46,8 +46,10 @@ const Foods = () => {
       setRecipesFoods(usableRecipes);
       dispatch(saveInitialFoods(usableRecipes));
     };
-    loadsFoodRecipes();
-  }, [dispatch]);
+    if (Array.isArray(data) && !data.meals) {
+      loadsFoodRecipes();
+    }
+  }, [dispatch, data]);
 
   useEffect(() => {
     if (!Array.isArray(data) && data.meals) {

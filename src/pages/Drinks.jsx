@@ -46,12 +46,15 @@ const Drinks = () => {
       setRecipesDrinks(usableRecipes);
       dispatch(saveInitialDrinks(usableRecipes));
     };
-    loadsDrinksRecipes();
-  }, [dispatch]);
+    if (Array.isArray(data) && !data.drinks) {
+      loadsDrinksRecipes();
+    }
+  }, [dispatch, data]);
 
   useEffect(() => {
     if (!Array.isArray(data) && data.drinks) {
       setRecipesDrinks(data.drinks.filter((drink, index) => index < totalRecipesNumber));
+      console.log(data);
     }
   }, [data]);
 
