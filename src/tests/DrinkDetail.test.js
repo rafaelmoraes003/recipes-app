@@ -67,4 +67,18 @@ describe('Testa o componente DrinkDetail e suas funcionalidades', () => {
     expect(ingredient2).toHaveTextContent(/Banana Liqueur/i);
     expect(instructions).toHaveTextContent(oneDrink.drinks[0].strInstructions);
   });
+  it('Verifica se a página renderiza cartões de recomendações', async () => {
+    jest.spyOn(global, 'fetch').mockResolvedValueOnce({
+      json: jest.fn().mockResolvedValueOnce(oneDrink),
+    });
+    jest.spyOn(global, 'fetch').mockResolvedValueOnce({
+      json: jest.fn().mockResolvedValueOnce(meals),
+    });
+    renderWithRouterAndRedux(
+      <DrinkDetail />,
+      {},
+      pathname,
+    );
+    await wait(() => verifyFoodsCards(meals));
+  });
 });
