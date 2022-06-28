@@ -34,17 +34,6 @@ const Header = ({ title, showSearchIcon }) => {
   };
 
   const fetchByIngredients = async (db) => {
-    // try {
-    //   const ingredientResponse = await fetch(`https://www.${db}.com/api/json/v1/1/filter.php?i=${searchInput}`);
-    //   const ingredientData = await ingredientResponse.json();
-    //   if (Object.values(ingredientData)[0] !== null) {
-    //     dispatch(fetchData(ingredientData));
-    //   } else {
-    //     global.alert(warning);
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
     const ingredientResponse = await fetch(`https://www.${db}.com/api/json/v1/1/filter.php?i=${searchInput}`);
     const ingredientData = await ingredientResponse.json();
     if (Object.values(ingredientData)[0] !== null) {
@@ -55,17 +44,6 @@ const Header = ({ title, showSearchIcon }) => {
   };
 
   const fetchByName = async (db) => {
-    // try {
-    //   const nameResponse = await fetch(`https://www.${db}.com/api/json/v1/1/search.php?s=${searchInput}`);
-    //   const nameData = await nameResponse.json();
-    //   if (Object.values(nameData)[0] !== null) {
-    //     dispatch(fetchData(nameData));
-    //   } else {
-    //     global.alert(warning);
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
     const nameResponse = await fetch(`https://www.${db}.com/api/json/v1/1/search.php?s=${searchInput}`);
     const nameData = await nameResponse.json();
     if (Object.values(nameData)[0] !== null) {
@@ -76,17 +54,6 @@ const Header = ({ title, showSearchIcon }) => {
   };
 
   const fetchByFirstLetter = async (db) => {
-    // try {
-    //   // const firstLetterResponse = await fetch(`https://www.${db}.com/api/json/v1/1/search.php?f=${searchInput}`);
-    //   // const firstLetterData = await firstLetterResponse.json();
-    //   // if (Object.values(firstLetterData)[0] !== null) {
-    //   //   dispatch(fetchData(firstLetterData));
-    //   // } else {
-    //   //   global.alert(warning);
-    //   // }
-    // } catch (error) {
-    //   console.log(error);
-    // }
     const firstLetterResponse = await fetch(`https://www.${db}.com/api/json/v1/1/search.php?f=${searchInput}`);
     const firstLetterData = await firstLetterResponse.json();
     if (Object.values(firstLetterData)[0] !== null) {
