@@ -171,4 +171,44 @@ describe('Testa o componente DrinkDetail e suas funcionalidades', () => {
       });
     });
   });
+  it('Verifica o button start-recipe-btn', async () => {
+    await act(async () => {
+      jest.spyOn(global, 'fetch').mockResolvedValueOnce({
+        json: jest.fn().mockResolvedValueOnce(oneDrink),
+      });
+      jest.spyOn(global, 'fetch').mockResolvedValueOnce({
+        json: jest.fn().mockResolvedValueOnce(meals),
+      });
+      jest.spyOn(global, 'fetch').mockResolvedValueOnce({
+        json: jest.fn().mockResolvedValueOnce(oneDrink),
+      });
+      jest.spyOn(global, 'fetch').mockResolvedValueOnce({
+        json: jest.fn().mockResolvedValueOnce(oneDrink),
+      });
+      jest.spyOn(global, 'fetch').mockResolvedValueOnce({
+        json: jest.fn().mockResolvedValueOnce(meals),
+      });
+      const { history } = renderWithRouterAndRedux(
+        <App />,
+        {},
+        pathname,
+      );
+      const startButton = await screen.findByTestId('start-recipe-btn');
+
+      expect(startButton).toHaveTextContent('Start Recipe');
+
+      userEvent.click(startButton);
+
+      await wait(() => {
+        expect(history.location.pathname).toBe('/drinks/178319/in-progress');
+      });
+
+      history.push(pathname);
+
+      await wait(() => {
+        expect(screen.getByTestId('start-recipe-btn'))
+          .toHaveTextContent('Continue Recipe');
+      });
+    });
+  });
 });
