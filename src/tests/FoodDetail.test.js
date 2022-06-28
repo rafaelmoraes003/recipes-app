@@ -9,7 +9,7 @@ import drinks from '../../cypress/mocks/drinks';
 
 describe('Testa o componente FoodDetail e suas funcionalidades', () => {
   const verifyDrinksCards = (drinksObject) => {
-    const totalRecipesNumber = 5;
+    const totalRecipesNumber = 6;
     drinksObject.drinks.forEach((recipe, index) => {
       if (index < totalRecipesNumber) {
         expect(screen.getByTestId(`${index}-recomendation-card`)).toBeInTheDocument();
@@ -70,7 +70,7 @@ describe('Testa o componente FoodDetail e suas funcionalidades', () => {
     expect(instructions).toHaveTextContent(oneMeal.meals[0].strInstructions);
     expect(video.src).toBe('https://www.youtube.com/embed/1IszT_guI08');
   });
-  it('Verifica se a página renderiza cartões de recoemndações', async () => {
+  it('Verifica se a página renderiza cartões de recomendações', async () => {
     jest.spyOn(global, 'fetch').mockResolvedValueOnce({
       json: jest.fn().mockResolvedValueOnce(oneMeal),
     });
@@ -82,5 +82,6 @@ describe('Testa o componente FoodDetail e suas funcionalidades', () => {
       {},
       '/foods/52771',
     );
+    await waitFor(() => verifyDrinksCards(drinks));
   });
 });
