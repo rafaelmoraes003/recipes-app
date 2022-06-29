@@ -54,7 +54,6 @@ const Drinks = () => {
   useEffect(() => {
     if (!Array.isArray(data) && data.drinks) {
       setRecipesDrinks(data.drinks.filter((drink, index) => index < totalRecipesNumber));
-      console.log(data);
     }
   }, [data]);
 
