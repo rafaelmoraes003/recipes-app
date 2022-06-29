@@ -10,7 +10,7 @@ const ExploreDrinks = () => {
   const surpriseMe = async () => {
     const randomDrinkData = await fetchSurpriseMe('https://www.thecocktaildb.com/api/json/v1/1/random.php');
     const { drinks } = randomDrinkData;
-    history.push(`/explore/drinks/${drinks[0].idDrink}`);
+    history.push(`/drinks/${drinks[0].idDrink}`);
   };
 
   return (
