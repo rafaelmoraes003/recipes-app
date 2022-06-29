@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, waitFor } from '@testing-library/react';
+import { screen, wait } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
 import renderWithRouterAndRedux from './renderWithRouterAndRedux';
@@ -51,7 +51,7 @@ describe('Testa o componente Foods e suas funcionalidades', () => {
     userEvent.type(passwordInput, '1234567');
     userEvent.click(button);
 
-    await waitFor(() => expect(history.location.pathname).toBe('/foods'));
+    await wait(() => expect(history.location.pathname).toBe('/foods'));
   });
   it('Verifica se a página resderiza 12 receitas retornadas pela API', async () => {
     const { history } = renderWithRouterAndRedux(
@@ -60,7 +60,7 @@ describe('Testa o componente Foods e suas funcionalidades', () => {
       {},
       '/foods',
     );
-    await waitFor(() => expect(history.location.pathname).toBe('/foods'));
+    await wait(() => expect(history.location.pathname).toBe('/foods'));
     const totalRecipesNumber = 12;
     meals.meals.slice(0, totalRecipesNumber).forEach((recipeIndex) => {
       if (recipeIndex < totalRecipesNumber) {
@@ -91,7 +91,7 @@ describe('Testa o componente Foods e suas funcionalidades', () => {
       {},
       '/foods',
     );
-    await waitFor(() => expect(history.location.pathname).toBe('/foods'));
+    await wait(() => expect(history.location.pathname).toBe('/foods'));
     verifyFoodsCars(meals);
   });
   it('Verifica as categorias renderizadas e se é possível filtrar por categorias',
@@ -142,28 +142,28 @@ describe('Testa o componente Foods e suas funcionalidades', () => {
 
         userEvent.click(Beef);
 
-        await waitFor(() => verifyFoodsCars(beefMeals));
+        await wait(() => verifyFoodsCars(beefMeals));
 
         userEvent.click(Breakfast);
 
-        await waitFor(() => verifyFoodsCars(breakfastMeals));
+        await wait(() => verifyFoodsCars(breakfastMeals));
 
         userEvent.click(Chicken);
 
-        await waitFor(() => verifyFoodsCars(chickenMeals));
+        await wait(() => verifyFoodsCars(chickenMeals));
 
         userEvent.click(Dessert);
 
-        await waitFor(() => verifyFoodsCars(dessertMeals));
+        await wait(() => verifyFoodsCars(dessertMeals));
 
         userEvent.click(Goat);
 
-        await waitFor(() => verifyFoodsCars(goatMeals));
+        await wait(() => verifyFoodsCars(goatMeals));
 
         const All = await screen.findByLabelText('All', { selector: 'input' });
         userEvent.click(All);
 
-        await waitFor(() => verifyFoodsCars(meals));
+        await wait(() => verifyFoodsCars(meals));
       });
     });
   it('Verifica se ao clicar em uma categoria filtrada, o filtro é retirado', async () => {
@@ -192,11 +192,11 @@ describe('Testa o componente Foods e suas funcionalidades', () => {
 
       userEvent.click(Beef);
 
-      await waitFor(() => verifyFoodsCars(beefMeals));
+      await wait(() => verifyFoodsCars(beefMeals));
 
       userEvent.click(Beef);
 
-      await waitFor(() => verifyFoodsCars(meals));
+      await wait(() => verifyFoodsCars(meals));
     });
   });
   it('Verifica se é possível filtrar por ingrediente', async () => {
@@ -229,7 +229,7 @@ describe('Testa o componente Foods e suas funcionalidades', () => {
       userEvent.type(searchInput, 'chicken');
       userEvent.click(searchButton);
 
-      await waitFor(() => verifyFoodsCars(mealsByIngredient));
+      await wait(() => verifyFoodsCars(mealsByIngredient));
     });
   });
 });
