@@ -89,7 +89,7 @@ const ExploreFoodNationality = () => {
     const { meals } = dataRedux;
     if (meals && meals.length > 0) setFoodsFiltered(meals);
     renderFoods();
-  }, [dataRedux]);
+  }, [dataRedux, renderFoods]);
 
   return (
     <section>
