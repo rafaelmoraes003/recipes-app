@@ -52,8 +52,8 @@ página ExploreFoodsIngredients`, () => {
       ingredPage,
     );
 
-    const ingredImg = await screen.findByTestId('2-card-img');
-    expect(ingredImg).toHaveAttribute('src', expect.stringContaining('https://www.thecocktaildb.com/images/ingredients/Gin-Small.png'));
+    const ingredientImg = await screen.findByTestId('2-card-img');
+    expect(ingredientImg).toHaveAttribute('src', expect.stringContaining('https://www.thecocktaildb.com/images/ingredients/Gin-Small.png'));
 
     const ingredName = await screen.findByTestId('2-card-name');
     expect(ingredName).toHaveTextContent(/gin/i);
