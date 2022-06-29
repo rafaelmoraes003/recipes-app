@@ -30,7 +30,7 @@ const DoneRecipes = () => {
       const drink = allRecipes.filter((dones) => dones.type === 'drink');
       setmapDones(drink);
     }
-  }, [status]);
+  }, [status, allRecipes]);
 
   const copyRecipeToClipboard = async (id, type) => {
     if (type === 'food') {
