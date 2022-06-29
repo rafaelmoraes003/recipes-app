@@ -1,81 +1,188 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
+import shareIcon from '../images/shareIcon.svg';
 
 const DoneRecipes = () => {
-  /* const [mapRecipesFinish, getmapRecipesFinish] = useState(); */
-  const [idRecipes, getIdRecipes] = useState();
+  const [mapDones, setmapDones] = useState([]);
+  const [allRecipes, setAllRecipes] = useState([]);
+  const [status, setStatus] = useState();
+  const [copy, setCopy] = useState(false);
+
   useEffect(() => {
-    const getList = () => {
-      const getProgressRecipes = JSON
-        .parse(localStorage.getItem('inProgressRecipes' || '[]'));
-      console.log(getProgressRecipes);
-    };
-    console.log(idRecipes, getIdRecipes);
-    getList();
+    const dones = JSON.parse(localStorage.getItem('doneRecipes'));
+    if (dones) {
+      console.log('uuuuu');
+      setmapDones(dones);
+      setAllRecipes(dones);
+    }
   }, []);
 
-  /*
-
   useEffect(() => {
-    const getList = () => {
-      const getProgressRecipes = JSON
-        .parse(localStorage.getItem('inProgressRecipes' || '[]'));
-      const IDSRECEITAS = 'ids-receitas';
-      const getListIdRecipes = JSON.parse(localStorage.getItem(IDSRECEITAS) || '[]');
-      getListIdRecipes.push(Object.keys(getProgressRecipes.meals));
-      console.log('----', Object.keys(getProgressRecipes));
-      localStorage
-        .setItem(IDSRECEITAS, JSON.stringify(getListIdRecipes));
+    if (status === 'all') {
+      setmapDones(allRecipes);
+    }
+    if (status === 'food') {
+      const foods = allRecipes.filter((dones) => dones.type === 'food');
+      setmapDones(foods);
+    }
+    if (status === 'drink') {
+      const drink = allRecipes.filter((dones) => dones.type === 'drink');
+      setmapDones(drink);
+    }
+  }, [status]);
 
-      const getListIdRecipes2 = JSON.parse(localStorage.getItem(IDSRECEITAS) || '[]');
-      console.log('getList', getListIdRecipes2);
-      getIdRecipes(...getListIdRecipes2);
-      console.log('ids', idRecipes);
-    };
-    getList();
-  }, []);
-*/
-  /* https://www.themealdb.com/api/json/v1/1/lookup.php?i={id-da-receita}; */
-  /*
-  useEffect(() => {
-    const fetchList = async () => {
-      const number = 52878;
-      const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${number}`);
-      const data = await response.json();
-      console.log(data);
-    };
-    if (idRecipes.length !== 0) {
-      idRecipes.map((recipes) => console.log('recipes2', recipes));
+  const copyRecipeToClipboard = async (id, type) => {
+    if (type === 'food') {
+      await navigator.clipboard.writeText(`http://localhost:3000/foods/${id}`);
+    } else {
+      await navigator.clipboard.writeText(`http://localhost:3000/drinks/${id}`);
     }
 
-    console.log('Recipes', idRecipes);
-    fetchList();
-  }, [idRecipes]);
-*/
+    setCopy(true);
+  };
+
   return (
 
     <div>
-      hahaha
 
       <Header title="Done Recipes" showSearchIcon={ false } />
-      {/*
-      <button type="button" data-testid="filter-by-all-btn">All</button>
-      <button type="button" data-testid="filter-by-food-btn">Food</button>
-      <button type="button" data-testid="filter-by-drink-btn">Drinks</button>
-      <img src="" alt="" data-testid={ `${index}-horizontal-image` } />
-      <p data-testid={ `${index}-horizontal-top-text` }>Categoria</p>
-      <p data-testid={ `${index}-horizontal-top-name` }>Name</p>
-      <p data-testid={ `${index}-horizontal-done-date` }>data</p>
-      <button
-        type="button"
-        data-testid={ `${index}-horizontal-share-btn` }
-      >
-        Compartilhar
+      <div>
+        <button
+          type="button"
+          onClick={ () => setStatus('all') }
+          data-testid="filter-by-all-btn"
+        >
+          All
 
-      </button>
-      <p data-testid={ `data-testid=${index}-${tagName}-horizontal-tag` }>...</p>
-     */}
-      ;
+        </button>
+        <button
+          type="button"
+          onClick={ () => setStatus('food') }
+          data-testid="filter-by-food-btn"
+        >
+          Food
+
+        </button>
+        <button
+          type="button"
+          onClick={ () => setStatus('drink') }
+          data-testid="filter-by-drink-btn"
+        >
+          Drinks
+
+        </button>
+        {
+
+          mapDones.map((recipes, index) => {
+            if (recipes.type === 'food') {
+              return (
+                <div key={ index }>
+                  <Link to={ `/foods/${recipes.id}` }>
+                    <img
+                      style={ { width: '150px' } }// Necessario para aprovar no teste
+                      src={ recipes.image }
+                      alt={ recipes.name }
+                      data-testid={ `${index}-horizontal-image` }
+                    />
+                  </Link>
+                  <p
+                    data-testid={ `${index}-horizontal-top-text` }
+
+                  >
+                    {`${recipes.nationality} - ${recipes.category}`}
+
+                  </p>
+                  <Link to={ `/foods/${recipes.id}` }>
+                    <p
+                      data-testid={ `${index}-horizontal-name` }
+                    >
+
+                      {recipes.name}
+
+                    </p>
+                  </Link>
+
+                  <p
+                    data-testid={ `${index}-horizontal-done-date` }
+                  >
+                    {recipes.doneDate}
+
+                  </p>
+                  <input
+                    type="image"
+                    src={ shareIcon }
+                    alt="share icon"
+                    data-testid={ `${index}-horizontal-share-btn` }
+                    onClick={ () => copyRecipeToClipboard(recipes.id, recipes.type) }
+                  />
+                  {copy && <p style={ { color: 'green' } }>Link copied!</p>}
+                  {
+                    recipes.tags.map((tag, key) => (
+                      <p
+                        key={ key }
+                        data-testid={ `${index}-${tag}-horizontal-tag` }
+                      >
+                        {tag}
+                      </p>
+                    ))
+                  }
+                </div>);
+            }
+            return (
+              <div key={ index }>
+                <Link to={ `/drinks/${recipes.id}` }>
+                  <img
+                    src={ recipes.image }
+                    style={ { width: '150px' } } // Necessario para aprovar no teste
+                    alt={ recipes.name }
+                    data-testid={ `${index}-horizontal-image` }
+                  />
+                </Link>
+                <Link to={ `/drinks/${recipes.id}` }>
+                  <p
+                    data-testid={ `${index}-horizontal-name` }
+                  >
+                    {recipes.name}
+                  </p>
+                </Link>
+                <p
+                  data-testid={ `${index}-horizontal-top-text` }
+                >
+                  {recipes.alcoholicOrNot}
+
+                </p>
+
+                <p
+                  data-testid={ `${index}-horizontal-done-date` }
+                >
+                  {recipes.doneDate}
+
+                </p>
+                <p>
+                  {recipes.alcoholicOrNot}
+                </p>
+                <input
+                  type="image"
+                  src={ shareIcon }
+                  alt="share icon"
+                  data-testid={ `${index}-horizontal-share-btn` }
+                  onClick={ () => copyRecipeToClipboard(recipes.id, recipes.type) }
+                />
+                {copy && <p style={ { color: 'green' } }>Link copied!</p>}
+                <p
+                  data-testid={
+                    `data-testid=${index}-${recipes.strTags}-horizontal-tag`
+                  }
+                >
+                  {recipes.tags}
+                </p>
+              </div>);
+          })
+
+        }
+
+      </div>
     </div>
 
   );
