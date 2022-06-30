@@ -33,9 +33,10 @@ describe('Testa a tela de perfil', () => {
     expect(pathname).toBe('/done-recipes');
   });
 
-  it('Verifica o botão de receitas favoritas', () => {
+  it.only('Verifica o botão de receitas favoritas', async () => {
     const { history } = renderWithRouterAndRedux(<App />, {}, '/profile');
-    const favoriteRecipes = screen.getByRole('button', { name: /favorite recipes/i });
+    const favoriteRecipes = await screen
+      .findByRole('button', { name: /favorite recipes/i });
     userEvent.click(favoriteRecipes);
     const { pathname } = history.location;
     expect(pathname).toBe('/favorite-recipes');
