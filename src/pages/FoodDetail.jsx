@@ -54,6 +54,17 @@ const FoodDetail = () => {
   };
 
   useEffect(() => {
+    const MAX_TIME = 2500;
+    let interval;
+    if (copy) {
+      interval = setTimeout(() => {
+        setCopy(false);
+      }, MAX_TIME);
+    }
+    return () => clearInterval(interval);
+  }, [copy]);
+
+  useEffect(() => {
     doneRecipes(history, setDone);
     const storageStarted = JSON.parse(localStorage.getItem('inProgressRecipes'));
     if (storageStarted && storageStarted.meals[id]) return setStartedFood(true);
