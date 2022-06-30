@@ -5,14 +5,17 @@
 }
 
 .loading {
-  width: 70px;
-  height: 70px;
+  animation: spin 0.7s linear infinite;
   border: 3.5px solid #e3e3e3;
   border-radius: 50%;
   border-right-color: #ff204c;
-  animation: spin 0.7s linear infinite;
+  height: 70px;
+  width: 70px;
 }
 
 @keyframes spin {
-  100% { transform: rotate(360deg); }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
