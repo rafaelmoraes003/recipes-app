@@ -12,9 +12,9 @@ describe('Testa a tela de perfil', () => {
     expect(pathname).toBe('/profile');
   });
 
-  it('Verifica a visualização do email', () => {
+  it.only('Verifica a visualização do email', async () => {
     renderWithRouterAndRedux(<App />, {}, '/profile');
-    const emailText = screen.getByText(/teste@teste.com/i);
+    const emailText = await screen.findByText(/teste@teste.com/i);
     expect(emailText).toBeInTheDocument();
   });
 
@@ -25,7 +25,7 @@ describe('Testa a tela de perfil', () => {
     expect(profileButtons).toHaveLength(numberOfButtons);
   });
 
-  it.only('Verifica o botão de receitas concluídas', async () => {
+  it('Verifica o botão de receitas concluídas', async () => {
     const { history } = renderWithRouterAndRedux(<App />, {}, '/profile');
     const doneRecipesBtn = await screen.findByRole('button', { name: /done recipes/i });
     userEvent.click(doneRecipesBtn);
