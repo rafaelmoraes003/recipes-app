@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import useCopy from '../customHooks/useCopy';
 import RecommendationCard from '../components/RecommendationCard';
 import { fetchDrinks, fetchFoods } from '../helpers/fetchRecipesAPI';
 import '../style/RecipesDetail.css';
@@ -15,7 +16,6 @@ import {
 import filterOfIngredients from '../helpers/reusable_functions/filterOfIngredients';
 
 const DrinkDetail = () => {
-  // const storage = JSON.parse(localStorage.getItem('favoriteRecipes'));  // ------ NÃO APAGAR!!!
   const history = useHistory();
   const [recipe, setRecipe] = useState({
     ingredientsAndMeasures: [] });
@@ -25,7 +25,6 @@ const DrinkDetail = () => {
   const [done, setDone] = useState(false);
   const [startedFood, setStartedDrink] = useState(false);
   const id = history.location.pathname.split('/')[2];
-  // const [foodsInStorage, setFoodsInStorage] = useState(storage || []);  // ------ NÃO APAGAR!!!
 
   const loadsRecommendations = async () => {
     const numberOfRecommendations = 5;
@@ -52,6 +51,8 @@ const DrinkDetail = () => {
     setCopy(true);
   };
 
+  useCopy(copy, setCopy);
+
   useEffect(() => {
     doneRecipes(history, setDone);
     const storageStarted = JSON.parse(localStorage.getItem('inProgressRecipes'));
@@ -62,10 +63,6 @@ const DrinkDetail = () => {
   const startedRecipe = () => {
     drinksInLocalStorage(id);
   };
-
-  // useEffect(() => {
-  //   localStorage.setItem('favoriteRecipes', JSON.stringify(foodsInStorage)); // ------ NÃO APAGAR!!!!
-  // }, [foodsInStorage]);
 
   return (
     <section>

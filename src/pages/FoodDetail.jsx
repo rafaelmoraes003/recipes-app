@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import useCopy from '../customHooks/useCopy';
 import { fetchDrinks, fetchFoods } from '../helpers/fetchRecipesAPI';
 import '../style/RecipesDetail.css';
 import RecommendationCard from '../components/RecommendationCard';
@@ -15,7 +16,6 @@ import {
 import filterOfIngredients from '../helpers/reusable_functions/filterOfIngredients';
 
 const FoodDetail = () => {
-  // const storage = JSON.parse(localStorage.getItem('favoriteRecipes'));
   const history = useHistory();
   const [recipe, setRecipe] = useState({ ingredientsAndMeasures: [] });
   const [recommendations, setRecommendations] = useState([]);
@@ -24,9 +24,7 @@ const FoodDetail = () => {
   const [done, setDone] = useState(false);
   const [startedFood, setStartedFood] = useState(false);
   const id = history.location.pathname.split('/')[2];
-  // const [foodsInStorage, setFoodsInStorage] = useState(storage || []);
 
-  // const date = Date.now();
   const loadsRecommendations = async () => {
     const numberOfRecommendations = 5;
     const recommendationsData = await fetchDrinks('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
@@ -39,7 +37,6 @@ const FoodDetail = () => {
     favoriteRecipes(history, setFavorite);
     const fetchRecipe = async () => {
       const recipeData = await fetchFoods(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
-      console.log(recipeData);
       loadsRecommendations();
       const entries = Object.entries(recipeData[0]);
       const ingredientsAndMeasures = filterOfIngredients(entries);
@@ -53,16 +50,7 @@ const FoodDetail = () => {
     setCopy(true);
   };
 
-  useEffect(() => {
-    const MAX_TIME = 2500;
-    let interval;
-    if (copy) {
-      interval = setTimeout(() => {
-        setCopy(false);
-      }, MAX_TIME);
-    }
-    return () => clearInterval(interval);
-  }, [copy]);
+  useCopy(copy, setCopy);
 
   useEffect(() => {
     doneRecipes(history, setDone);
@@ -74,10 +62,6 @@ const FoodDetail = () => {
   const startedRecipe = () => {
     foodsInLocalStorage(id);
   };
-
-  // useEffect(() => {
-  //   localStorage.setItem('favoriteRecipes', JSON.stringify(foodsInStorage));
-  // }, [foodsInStorage]);
 
   return (
     <section>
