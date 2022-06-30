@@ -1,0 +1,11 @@
+.inputs_icons {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 10px;
+}
+
+.inputs_icons input {
+  flex: 1 1 100%;
+  margin-top: 20px;
+  max-width: 40px;
+}

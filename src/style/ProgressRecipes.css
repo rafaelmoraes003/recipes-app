@@ -1,0 +1,32 @@
+.container_in_progress {
+  padding: 0 10px;
+}
+
+.container_progress_checkbox {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  max-width: 100vw;
+  width: 100%;
+}
+
+/* .done {
+  text-decoration: line-through;
+} */
+
+.finish_recipe_button {
+  background-color: #ff204c;
+  border: none;
+  border-radius: 10px;
+  bottom: 0;
+  color: white;
+  font-size: 29px;
+  height: 76px;
+  margin-bottom: 8px;
+  position: fixed;
+  width: 339px;
+}
+
+.container_progress_text {
+  margin-bottom: 90px;
+}
