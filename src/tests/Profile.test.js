@@ -12,14 +12,14 @@ describe('Testa a tela de perfil', () => {
     expect(pathname).toBe('/profile');
   });
 
-  it.only('Verifica a visualização do email', async () => {
+  it('Verifica a visualização do email', async () => {
     renderWithRouterAndRedux(<App />, {}, '/profile');
     const emailText = await screen.findByText(/teste@teste.com/i);
     expect(emailText).toBeInTheDocument();
   });
 
   it('Verifica se todos os botões da página existem', () => {
-    const numberOfButtons = 7;
+    const numberOfButtons = 4;
     renderWithRouterAndRedux(<App />, {}, '/profile');
     const profileButtons = screen.getAllByRole('button');
     expect(profileButtons).toHaveLength(numberOfButtons);
