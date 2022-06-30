@@ -93,6 +93,7 @@ const Header = ({ title, showSearchIcon }) => {
     <header data-testid="header">
       <div className="header-container">
         <input
+          style={ { filter: 'brightness(0) invert(1)' } }
           type="image"
           data-testid="profile-top-btn"
           src={ profileIcon }
@@ -105,6 +106,7 @@ const Header = ({ title, showSearchIcon }) => {
 
         { showSearchIcon && (
           <input
+            style={ { filter: 'brightness(0) invert(1)' } }
             type="image"
             data-testid="search-top-btn"
             src={ searchIcon }

@@ -5,7 +5,8 @@ import Header from '../components/Header';
 import { saveInitialFoods } from '../redux/actions';
 import { fetchFoods, fetchCategories } from '../helpers/fetchRecipesAPI';
 import RecipeCard from '../components/RecipeCard';
-import CategoryButton from '../components/CategoryButto';
+import CategoryButton from '../components/CategoryButton';
+import '../style/Recipes.css';
 
 const Foods = () => {
   const totalRecipesNumber = 12;
@@ -60,37 +61,42 @@ const Foods = () => {
   return (
     <div>
       <Header title="Foods" showSearchIcon />
-      <fieldset>
-        <legend>Filter by category</legend>
-        {categoryFoods
-          .map(({ strCategory }) => (<CategoryButton
-            key={ strCategory }
-            categoryName={ strCategory }
-            searchFunc={ filteredByCategory }
-          />))}
-        <label htmlFor="All">
-          <input
-            data-testid="All-category-filter"
-            type="radio"
-            id="All"
-            name="category"
-            value="All"
-            onClick={ () => setRecipesFoods([...foods]) }
-          />
-          {' '}
-          All
-        </label>
-      </fieldset>
-      {recipesFoods.map(({ idMeal, strMeal, strMealThumb }, index) => (
-        <RecipeCard
-          key={ idMeal }
-          id={ idMeal }
-          index={ index }
-          foodName={ strMeal }
-          foodImage={ strMealThumb }
-          endPoint="foods"
-        />
-      ))}
+      <div style={ { padding: '0 10px' } }>
+        <fieldset className="categories">
+          <label htmlFor="All" className="btn btn-secondary">
+            <input
+              className="btn-check"
+              data-testid="All-category-filter"
+              type="radio"
+              id="All"
+              name="category"
+              value="All"
+              onClick={ () => setRecipesFoods([...foods]) }
+            />
+            {' '}
+            All
+          </label>
+          {categoryFoods
+            .map(({ strCategory }) => (
+              <CategoryButton
+                key={ strCategory }
+                categoryName={ strCategory }
+                searchFunc={ filteredByCategory }
+              />))}
+        </fieldset>
+        <div className="recipes_container">
+          {recipesFoods.map(({ idMeal, strMeal, strMealThumb }, index) => (
+            <RecipeCard
+              key={ idMeal }
+              id={ idMeal }
+              index={ index }
+              foodName={ strMeal }
+              foodImage={ strMealThumb }
+              endPoint="foods"
+            />
+          ))}
+        </div>
+      </div>
       <Footer />
     </div>
   );

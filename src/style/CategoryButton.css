@@ -1,0 +1,10 @@
+label {
+  background-color: #aaa;
+  border-radius: 10px;
+  flex: 1 1 30%;
+  max-width: 33%;
+}
+
+label input {
+  display: none;
+}

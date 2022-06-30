@@ -1,0 +1,29 @@
+body {
+  background-color: #dfe0e2;
+}
+
+.cards {
+  background-color: white;
+  border: none;
+  border-radius: 10px;
+  flex: 1 1 0;
+  min-height: 172px;
+  min-width: 162px;
+}
+
+.cards img {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  min-height: 109px;
+  min-width: 161px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.cards p {
+  color: #051013;
+  font-size: 18px;
+  margin: 0;
+  padding-bottom: 5px;
+  padding-left: 5px;
+}
