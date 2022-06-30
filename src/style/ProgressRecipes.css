@@ -5,15 +5,14 @@
 .container_progress_checkbox {
   display: flex;
   flex-direction: column;
-  margin-left: 20px;
   margin-top: 10px;
   max-width: 100vw;
   width: 100%;
 }
 
-.done {
+/* .done {
   text-decoration: line-through;
-}
+} */
 
 .finish_recipe_button {
   background-color: #ff204c;

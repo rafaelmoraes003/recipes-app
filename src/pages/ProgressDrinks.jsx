@@ -138,7 +138,7 @@ const ProgressDrinks = () => {
                   id={ i }
                   className={ usedIngredients
                     .includes(index)
-                    ? 'done form-check-input' : 'missing form-check-input' }
+                    ? 'done' : 'missing' }
                 />
                 {' '}
                 { i }
