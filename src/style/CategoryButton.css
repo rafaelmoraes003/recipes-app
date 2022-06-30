@@ -1,10 +1,10 @@
 fieldset label {
   background-color: #aaa;
   border-radius: 10px;
-  flex: 1 1 30%;
+  flex: 1 1 auto;
   max-width: 33%;
 }
 
-.btn-check {
+/* .btn-check {
   display: none;
-}
+} */
