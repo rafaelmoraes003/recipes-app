@@ -25,9 +25,9 @@ describe('Testa a tela de perfil', () => {
     expect(profileButtons).toHaveLength(numberOfButtons);
   });
 
-  it('Verifica o botão de receitas concluídas', () => {
+  it.only('Verifica o botão de receitas concluídas', async () => {
     const { history } = renderWithRouterAndRedux(<App />, {}, '/profile');
-    const doneRecipesBtn = screen.getByRole('button', { name: /done recipes/i });
+    const doneRecipesBtn = await screen.findByRole('button', { name: /done recipes/i });
     userEvent.click(doneRecipesBtn);
     const { pathname } = history.location;
     expect(pathname).toBe('/done-recipes');
