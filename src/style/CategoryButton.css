@@ -1,10 +1,14 @@
-label {
+fieldset label {
   background-color: #aaa;
   border-radius: 10px;
-  flex: 1 1 30%;
-  max-width: 33%;
+  flex: 1 1 auto;
+  max-width: 31%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
 }
 
-label input {
+/* .btn-check {
   display: none;
-}
+} */
