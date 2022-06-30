@@ -19,6 +19,16 @@ describe('Testa o componente FoodDetail e suas funcionalidades', () => {
     expect(ingredient)
       .toHaveAttribute('class', 'missing');
   };
+
+  const ingredientZero = '0-ingredient-step';
+  const ingredientUm = '1-ingredient-step';
+  const ingredientDois = '2-ingredient-step';
+  const ingredientTres = '3-ingredient-step';
+  const ingredientQuatro = '4-ingredient-step';
+  const ingredientCinco = '5-ingredient-step';
+  const ingredientSeis = '6-ingredient-step';
+  const ingredientSete = '7-ingredient-step';
+
   afterEach(() => {
     jest.spyOn(global, 'fetch').mockRestore();
   });
@@ -34,14 +44,14 @@ describe('Testa o componente FoodDetail e suas funcionalidades', () => {
     const image = await screen.findByTestId('recipe-photo');
     const title = await screen.findByTestId('recipe-title');
     const category = await screen.findByTestId('recipe-category');
-    const ingredient0 = await screen.findByTestId('0-ingredient-step');
-    const ingredient1 = await screen.findByTestId('1-ingredient-step');
-    const ingredient2 = await screen.findByTestId('2-ingredient-step');
-    const ingredient3 = await screen.findByTestId('3-ingredient-step');
-    const ingredient4 = await screen.findByTestId('4-ingredient-step');
-    const ingredient5 = await screen.findByTestId('5-ingredient-step');
-    const ingredient6 = await screen.findByTestId('6-ingredient-step');
-    const ingredient7 = await screen.findByTestId('7-ingredient-step');
+    const ingredient0 = await screen.findByTestId(ingredientZero);
+    const ingredient1 = await screen.findByTestId(ingredientUm);
+    const ingredient2 = await screen.findByTestId(ingredientDois);
+    const ingredient3 = await screen.findByTestId(ingredientTres);
+    const ingredient4 = await screen.findByTestId(ingredientQuatro);
+    const ingredient5 = await screen.findByTestId(ingredientCinco);
+    const ingredient6 = await screen.findByTestId(ingredientSeis);
+    const ingredient7 = await screen.findByTestId(ingredientSete);
     const instructions = await screen.findByTestId('instructions');
 
     expect(image.src).toBe(oneMeal.meals[0].strMealThumb);
@@ -66,14 +76,14 @@ describe('Testa o componente FoodDetail e suas funcionalidades', () => {
       {},
       pathname,
     );
-    const ingredient0 = await screen.findByTestId('0-ingredient-step');
-    const ingredient1 = await screen.findByTestId('1-ingredient-step');
-    const ingredient2 = await screen.findByTestId('2-ingredient-step');
-    const ingredient3 = await screen.findByTestId('3-ingredient-step');
-    const ingredient4 = await screen.findByTestId('4-ingredient-step');
-    const ingredient5 = await screen.findByTestId('5-ingredient-step');
-    const ingredient6 = await screen.findByTestId('6-ingredient-step');
-    const ingredient7 = await screen.findByTestId('7-ingredient-step');
+    const ingredient0 = await screen.findByTestId(ingredientZero);
+    const ingredient1 = await screen.findByTestId(ingredientUm);
+    const ingredient2 = await screen.findByTestId(ingredientDois);
+    const ingredient3 = await screen.findByTestId(ingredientTres);
+    const ingredient4 = await screen.findByTestId(ingredientQuatro);
+    const ingredient5 = await screen.findByTestId(ingredientCinco);
+    const ingredient6 = await screen.findByTestId(ingredientSeis);
+    const ingredient7 = await screen.findByTestId(ingredientSete);
 
     verifyCheck(ingredient0);
     verifyCheck(ingredient1);
@@ -83,5 +93,49 @@ describe('Testa o componente FoodDetail e suas funcionalidades', () => {
     verifyCheck(ingredient5);
     verifyCheck(ingredient6);
     verifyCheck(ingredient7);
+  });
+  it('Verifica o funcionamento do botão Finish Recipe', async () => {
+    jest.spyOn(global, 'fetch').mockResolvedValueOnce({
+      json: jest.fn().mockResolvedValueOnce(oneMeal),
+    });
+    const { history } = renderWithRouterAndRedux(
+      <App />,
+      {},
+      pathname,
+    );
+    const ingredient0 = await screen.findByTestId(ingredientZero);
+    const ingredient1 = await screen.findByTestId(ingredientUm);
+    const ingredient2 = await screen.findByTestId(ingredientDois);
+    const ingredient3 = await screen.findByTestId(ingredientTres);
+    const ingredient4 = await screen.findByTestId(ingredientQuatro);
+    const ingredient5 = await screen.findByTestId(ingredientCinco);
+    const ingredient6 = await screen.findByTestId(ingredientSeis);
+    const ingredient7 = await screen.findByTestId(ingredientSete);
+    const finishButton = await screen.findByTestId('finish-recipe-btn');
+
+    expect(finishButton).toBeDisabled();
+    userEvent.click(ingredient0);
+    expect(finishButton).toBeDisabled();
+    userEvent.click(ingredient1);
+    expect(finishButton).toBeDisabled();
+    userEvent.click(ingredient2);
+    expect(finishButton).toBeDisabled();
+    userEvent.click(ingredient3);
+    expect(finishButton).toBeDisabled();
+    userEvent.click(ingredient4);
+    expect(finishButton).toBeDisabled();
+    userEvent.click(ingredient5);
+    expect(finishButton).toBeDisabled();
+    userEvent.click(ingredient6);
+    expect(finishButton).toBeDisabled();
+    userEvent.click(ingredient7);
+    expect(finishButton).not.toBeDisabled();
+
+    userEvent.click(finishButton);
+
+    await wait(() => {
+      expect(history.location.pathname).toBe('/done-recipes');
+      expect(screen.getByTestId('page-title')).toHaveTextContent('Done Recipes');
+    });
   });
 });
