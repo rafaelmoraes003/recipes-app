@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import { saveInitialDrinks } from '../redux/actions';
 import { fetchDrinks, fetchCategories } from '../helpers/fetchRecipesAPI';
 import RecipeCard from '../components/RecipeCard';
 import CategoryButton from '../components/CategoryButton';
 import '../style/Recipes.css';
 import useReduxData from '../customHooks/useReduxData';
+import useLoadData from '../customHooks/useLoadData';
 
 const Drinks = () => {
   const totalRecipesNumber = 12;
@@ -16,7 +16,6 @@ const Drinks = () => {
   const [appliedFilters, setAplaiedFilters] = useState({ filtered: false, filter: '' });
   const { data } = useSelector((state) => state.apiReducer);
   const { drinks } = useSelector((state) => state.recipesReducer);
-  const dispatch = useDispatch();
 
   const selectsCategories = async () => {
     const numberOfCategories = 5;
@@ -39,19 +38,7 @@ const Drinks = () => {
     }
   };
 
-  useEffect(() => {
-    const loadsDrinksRecipes = async () => {
-      const recipesData = await fetchDrinks('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
-      selectsCategories();
-      const usableRecipes = recipesData
-        .filter((recipe, index) => index < totalRecipesNumber);
-      setRecipesDrinks(usableRecipes);
-      dispatch(saveInitialDrinks(usableRecipes));
-    };
-    if (Array.isArray(data) && !data.drinks) {
-      loadsDrinksRecipes();
-    }
-  }, [dispatch, data]);
+  useLoadData(selectsCategories, setRecipesDrinks, 'drinks', data);
 
   useReduxData(data, setRecipesDrinks, 'drinks');
 

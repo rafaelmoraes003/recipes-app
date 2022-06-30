@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import useReduxData from '../customHooks/useReduxData';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import { saveInitialFoods } from '../redux/actions';
 import { fetchFoods, fetchCategories } from '../helpers/fetchRecipesAPI';
 import RecipeCard from '../components/RecipeCard';
 import CategoryButton from '../components/CategoryButton';
+import useLoadData from '../customHooks/useLoadData';
 import '../style/Recipes.css';
 
 const Foods = () => {
@@ -16,7 +16,6 @@ const Foods = () => {
   const [appliedFilters, setAplaiedFilters] = useState({ filtered: false, filter: '' });
   const { data } = useSelector((state) => state.apiReducer);
   const { foods } = useSelector((state) => state.recipesReducer);
-  const dispatch = useDispatch();
 
   const selectsCategories = async () => {
     const numberOfCategories = 5;
@@ -31,7 +30,7 @@ const Foods = () => {
       setRecipesFoods([...foods]);
       setAplaiedFilters({ filtered: false, filter: '' });
     } else {
-      const recipesData = await await fetchFoods(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`);
+      const recipesData = await fetchFoods(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`);
       const recipes = recipesData
         .filter((recipe, index) => index < totalRecipesNumber);
       setRecipesFoods(recipes);
@@ -39,19 +38,7 @@ const Foods = () => {
     }
   };
 
-  useEffect(() => {
-    const loadsFoodRecipes = async () => {
-      const recipesData = await fetchFoods('https://www.themealdb.com/api/json/v1/1/search.php?s=');
-      selectsCategories();
-      const usableRecipes = recipesData
-        .filter((recipe, index) => index < totalRecipesNumber);
-      setRecipesFoods(usableRecipes);
-      dispatch(saveInitialFoods(usableRecipes));
-    };
-    if (Array.isArray(data) && !data.meals) {
-      loadsFoodRecipes();
-    }
-  }, [dispatch, data]);
+  useLoadData(selectsCategories, setRecipesFoods, 'meals', data);
 
   useReduxData(data, setRecipesFoods, 'meals');
 
