@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import useCopyMap from '../customHooks/useCopyMap';
 import Header from '../components/Header';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
@@ -17,20 +18,7 @@ const FavoriteRecipes = () => {
     }
   }, []);
 
-  useEffect(() => {
-    const MAX_TIME = 3000;
-    const interval = setTimeout(() => {
-      const returnToOriginalState = baseFav.map((recipe) => {
-        if (recipe.copied === true) {
-          recipe.copied = false;
-        }
-        return recipe;
-      });
-      setBaseFav(returnToOriginalState);
-    }, MAX_TIME);
-
-    return () => clearInterval(interval);
-  }, [baseFav]);
+  useCopyMap(baseFav, setBaseFav);
 
   const copyRecipeToClipboard = async ({ target }) => {
     const { id, name } = target;

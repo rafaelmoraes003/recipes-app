@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import useCopyMap from '../customHooks/useCopyMap';
 import Header from '../components/Header';
 import shareIcon from '../images/shareIcon.svg';
 import '../style/DoneRecipes.css';
@@ -8,12 +9,11 @@ const DoneRecipes = () => {
   const [mapDones, setmapDones] = useState([]);
   const [allRecipes, setAllRecipes] = useState([]);
   const [status, setStatus] = useState();
-  const [copy, setCopy] = useState(false);
+  // const [copy, setCopy] = useState(false);
 
   useEffect(() => {
     const dones = JSON.parse(localStorage.getItem('doneRecipes'));
     if (dones) {
-      console.log('uuuuu');
       setmapDones(dones);
       setAllRecipes(dones);
     }
@@ -39,9 +39,16 @@ const DoneRecipes = () => {
     } else {
       await navigator.clipboard.writeText(`http://localhost:3000/drinks/${id}`);
     }
-
-    setCopy(true);
+    const copiedRecipe = mapDones.map((recipe) => {
+      if (recipe.id === id) {
+        recipe.copied = true;
+      }
+      return recipe;
+    });
+    setmapDones(copiedRecipe);
   };
+
+  useCopyMap(mapDones, setmapDones);
 
   return (
 
@@ -162,7 +169,7 @@ const DoneRecipes = () => {
                       data-testid={ `${index}-horizontal-share-btn` }
                       onClick={ () => copyRecipeToClipboard(recipes.id, recipes.type) }
                     />
-                    {copy && (
+                    {recipes.copied && (
                       <span
                         style={ {
                           position: 'absolute',
