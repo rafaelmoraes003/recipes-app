@@ -42,7 +42,7 @@ describe('Testa a tela de perfil', () => {
     expect(pathname).toBe('/favorite-recipes');
   });
 
-  it.only('Verifica o botão de logout', async () => {
+  it('Verifica o botão de logout', async () => {
     const { history } = renderWithRouterAndRedux(<App />, {}, '/profile');
     const logoutBtn = await screen.findByRole('button', { name: /logout/i });
     userEvent.click(logoutBtn);
