@@ -26,7 +26,7 @@ const Foods = () => {
   };
 
   const filteredByCategory = async (category) => {
-    if (appliedFilters.filtered && appliedFilters.filter === category) {
+    if (appliedFilters.filtered && appliedFilters.filter === category) { //
       setRecipesFoods([...foods]);
       setAplaiedFilters({ filtered: false, filter: '' });
     } else {
