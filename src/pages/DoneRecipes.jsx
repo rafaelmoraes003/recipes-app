@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import shareIcon from '../images/shareIcon.svg';
+import '../style/DoneRecipes.css';
 
 const DoneRecipes = () => {
   const [mapDones, setmapDones] = useState([]);
@@ -45,143 +46,161 @@ const DoneRecipes = () => {
   return (
 
     <div>
-
       <Header title="Done Recipes" showSearchIcon={ false } />
-      <div>
-        <button
-          type="button"
-          onClick={ () => setStatus('all') }
-          data-testid="filter-by-all-btn"
-        >
-          All
-
-        </button>
-        <button
-          type="button"
-          onClick={ () => setStatus('food') }
-          data-testid="filter-by-food-btn"
-        >
-          Food
-
-        </button>
-        <button
-          type="button"
-          onClick={ () => setStatus('drink') }
-          data-testid="filter-by-drink-btn"
-        >
-          Drinks
-
-        </button>
+      <div className="container_done_recipes">
+        <div className="container_buttons_recipes">
+          <button
+            className="btn btn-secondary btn_filter_recipes"
+            type="button"
+            onClick={ () => setStatus('all') }
+            data-testid="filter-by-all-btn"
+          >
+            All
+          </button>
+          <button
+            className="btn btn-secondary btn_filter_recipes"
+            type="button"
+            onClick={ () => setStatus('food') }
+            data-testid="filter-by-food-btn"
+          >
+            Food
+          </button>
+          <button
+            className="btn btn-secondary btn_filter_recipes"
+            type="button"
+            onClick={ () => setStatus('drink') }
+            data-testid="filter-by-drink-btn"
+          >
+            Drinks
+          </button>
+        </div>
         {
-
           mapDones.map((recipes, index) => {
             if (recipes.type === 'food') {
               return (
-                <div key={ index }>
+                <div key={ index } className="container_cards_done_recipes">
                   <Link to={ `/foods/${recipes.id}` }>
                     <img
-                      style={ { width: '150px' } }// Necessario para aprovar no teste
                       src={ recipes.image }
                       alt={ recipes.name }
                       data-testid={ `${index}-horizontal-image` }
                     />
                   </Link>
-                  <p
-                    data-testid={ `${index}-horizontal-top-text` }
-
-                  >
-                    {`${recipes.nationality} - ${recipes.category}`}
-
-                  </p>
-                  <Link to={ `/foods/${recipes.id}` }>
-                    <p
-                      data-testid={ `${index}-horizontal-name` }
-                    >
-
-                      {recipes.name}
-
-                    </p>
-                  </Link>
-
-                  <p
-                    data-testid={ `${index}-horizontal-done-date` }
-                  >
-                    {recipes.doneDate}
-
-                  </p>
-                  <input
-                    type="image"
-                    src={ shareIcon }
-                    alt="share icon"
-                    data-testid={ `${index}-horizontal-share-btn` }
-                    onClick={ () => copyRecipeToClipboard(recipes.id, recipes.type) }
-                  />
-                  {copy && <p style={ { color: 'green' } }>Link copied!</p>}
-                  {
-                    recipes.tags.map((tag, key) => (
+                  <div className="container_text_cards_done">
+                    <div className="name_icons">
                       <p
-                        key={ key }
-                        data-testid={ `${index}-${tag}-horizontal-tag` }
+                        data-testid={ `${index}-horizontal-top-text` }
                       >
-                        {tag}
+                        {`${recipes.nationality} - ${recipes.category}`}
                       </p>
-                    ))
-                  }
+                      <input
+                        type="image"
+                        src={ shareIcon }
+                        alt="share icon"
+                        data-testid={ `${index}-horizontal-share-btn` }
+                        onClick={ () => copyRecipeToClipboard(recipes.id, recipes.type) }
+                      />
+                      {copy && (
+                        <span
+                          style={ {
+                            position: 'absolute',
+                            right: '14px',
+                            textAlign: 'right',
+                            marginTop: '50px',
+                            color: 'green',
+                          } }
+                        >
+                          Link copied!
+                        </span>)}
+                    </div>
+                    <Link to={ `/foods/${recipes.id}` }>
+                      <p
+                        data-testid={ `${index}-horizontal-name` }
+                      >
+                        {recipes.name}
+                      </p>
+                    </Link>
+                    <p
+                      data-testid={ `${index}-horizontal-done-date` }
+                    >
+                      {`Done in: ${recipes.doneDate}`}
+                    </p>
+                    {
+                      recipes.tags.map((tag, key) => (
+                        <p
+                          className="tags_done_recipes"
+                          key={ key }
+                          data-testid={ `${index}-${tag}-horizontal-tag` }
+                        >
+                          {tag}
+                        </p>
+                      ))
+                    }
+                  </div>
                 </div>);
             }
             return (
-              <div key={ index }>
+              <div key={ index } className="container_cards_done_recipes">
                 <Link to={ `/drinks/${recipes.id}` }>
                   <img
                     src={ recipes.image }
-                    style={ { width: '150px' } } // Necessario para aprovar no teste
                     alt={ recipes.name }
                     data-testid={ `${index}-horizontal-image` }
                   />
                 </Link>
-                <Link to={ `/drinks/${recipes.id}` }>
+                <div className="container_text_cards_done">
+                  <div className="name_icons">
+                    <p
+                      data-testid={ `${index}-horizontal-top-text` }
+                    >
+                      {recipes.alcoholicOrNot}
+                    </p>
+                    <input
+                      type="image"
+                      src={ shareIcon }
+                      alt="share icon"
+                      data-testid={ `${index}-horizontal-share-btn` }
+                      onClick={ () => copyRecipeToClipboard(recipes.id, recipes.type) }
+                    />
+                    {copy && (
+                      <span
+                        style={ {
+                          position: 'absolute',
+                          right: '14px',
+                          textAlign: 'right',
+                          marginTop: '50px',
+                          color: 'green',
+                        } }
+                      >
+                        Link copied!
+                      </span>)}
+                  </div>
+                  <Link to={ `/drinks/${recipes.id}` }>
+                    <p
+                      data-testid={ `${index}-horizontal-name` }
+                    >
+                      {recipes.name}
+                    </p>
+                  </Link>
                   <p
-                    data-testid={ `${index}-horizontal-name` }
+                    data-testid={ `${index}-horizontal-done-date` }
                   >
-                    {recipes.name}
+                    {`Done in: ${recipes.doneDate}`}
                   </p>
-                </Link>
-                <p
-                  data-testid={ `${index}-horizontal-top-text` }
-                >
-                  {recipes.alcoholicOrNot}
-
-                </p>
-
-                <p
-                  data-testid={ `${index}-horizontal-done-date` }
-                >
-                  {recipes.doneDate}
-
-                </p>
-                <p>
-                  {recipes.alcoholicOrNot}
-                </p>
-                <input
-                  type="image"
-                  src={ shareIcon }
-                  alt="share icon"
-                  data-testid={ `${index}-horizontal-share-btn` }
-                  onClick={ () => copyRecipeToClipboard(recipes.id, recipes.type) }
-                />
-                {copy && <p style={ { color: 'green' } }>Link copied!</p>}
-                <p
-                  data-testid={
-                    `data-testid=${index}-${recipes.strTags}-horizontal-tag`
-                  }
-                >
-                  {recipes.tags}
-                </p>
+                  <p>
+                    {recipes.alcoholicOrNot}
+                  </p>
+                  <p
+                    data-testid={
+                      `data-testid=${index}-${recipes.strTags}-horizontal-tag`
+                    }
+                  >
+                    {recipes.tags}
+                  </p>
+                </div>
               </div>);
           })
-
         }
-
       </div>
     </div>
 
