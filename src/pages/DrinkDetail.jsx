@@ -77,7 +77,7 @@ const DrinkDetail = () => {
             src={ shareIcon }
             alt="share"
             data-testid="share-btn"
-            onClick={ () => copyRecipeToClipboard(id, setCopy) }
+            onClick={ () => copyRecipeToClipboard(id, 'drinks', setCopy) }
           />
           {favorite ? (
             <input

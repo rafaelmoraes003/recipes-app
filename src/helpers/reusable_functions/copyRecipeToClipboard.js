@@ -1,5 +1,5 @@
-const copyRecipeToClipboard = async (id, setState) => {
-  await navigator.clipboard.writeText(`http://localhost:3000/foods/${id}`);
+const copyRecipeToClipboard = async (id, type, setState) => {
+  await navigator.clipboard.writeText(`http://localhost:3000/${type}/${id}`);
   setState(true);
 };
 
