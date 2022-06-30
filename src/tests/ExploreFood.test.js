@@ -64,10 +64,8 @@ describe('Testa o componente ExploreFoods e suas funcionalidades', () => {
 
   it(`Verifica se surpriseMeButton é redirecionado
   para tela de detalhes de uma receita aleatória`, async () => {
-    const randomRecipe = oneMeal;
-
-    jest.spyOn(global, 'fetch').mockResolvedValue({
-      json: jest.fn().mockResolvedValue(randomRecipe),
+    jest.spyOn(global, 'fetch').mockResolvedValueOnce({
+      json: jest.fn().mockResolvedValue(oneMeal),
     });
 
     const { history } = renderWithRouterAndRedux(
