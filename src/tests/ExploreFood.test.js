@@ -81,6 +81,6 @@ describe('Testa o componente ExploreFoods e suas funcionalidades', () => {
 
     userEvent.click(surpriseMeButton);
 
-    await wait(() => expect(history.location.pathname).toBe('/explore/foods/52771'));
+    await wait(() => expect(history.location.pathname).toBe('/foods/52771'));
   });
 });

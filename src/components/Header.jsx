@@ -6,6 +6,7 @@ import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import RadioButtons from './RadioButtons';
 import { fetchData } from '../redux/actions/fetchDataACTION';
+import '../style/Header.css';
 
 const Header = ({ title, showSearchIcon }) => {
   const [showInput, setShowInput] = useState(false);
@@ -33,46 +34,31 @@ const Header = ({ title, showSearchIcon }) => {
   };
 
   const fetchByIngredients = async (db) => {
-    try {
-      const ingredientResponse = await fetch(`https://www.${db}.com/api/json/v1/1/filter.php?i=${searchInput}`);
-      const ingredientData = await ingredientResponse.json();
-      if (Object.values(ingredientData)[0] !== null) {
-        dispatch(fetchData(ingredientData));
-      } else {
-        global.alert(warning);
-      }
-    } catch (error) {
-      console.log(error);
+    const ingredientResponse = await fetch(`https://www.${db}.com/api/json/v1/1/filter.php?i=${searchInput}`);
+    const ingredientData = await ingredientResponse.json();
+    if (Object.values(ingredientData)[0] !== null) {
+      dispatch(fetchData(ingredientData));
+    } else {
       global.alert(warning);
     }
   };
 
   const fetchByName = async (db) => {
-    try {
-      const nameResponse = await fetch(`https://www.${db}.com/api/json/v1/1/search.php?s=${searchInput}`);
-      const nameData = await nameResponse.json();
-      if (Object.values(nameData)[0] !== null) {
-        dispatch(fetchData(nameData));
-      } else {
-        global.alert(warning);
-      }
-    } catch (error) {
-      console.log(error);
+    const nameResponse = await fetch(`https://www.${db}.com/api/json/v1/1/search.php?s=${searchInput}`);
+    const nameData = await nameResponse.json();
+    if (Object.values(nameData)[0] !== null) {
+      dispatch(fetchData(nameData));
+    } else {
       global.alert(warning);
     }
   };
 
   const fetchByFirstLetter = async (db) => {
-    try {
-      const firstLetterResponse = await fetch(`https://www.${db}.com/api/json/v1/1/search.php?f=${searchInput}`);
-      const firstLetterData = await firstLetterResponse.json();
-      if (Object.values(firstLetterData)[0] !== null) {
-        dispatch(fetchData(firstLetterData));
-      } else {
-        global.alert(warning);
-      }
-    } catch (error) {
-      console.log(error);
+    const firstLetterResponse = await fetch(`https://www.${db}.com/api/json/v1/1/search.php?f=${searchInput}`);
+    const firstLetterData = await firstLetterResponse.json();
+    if (Object.values(firstLetterData)[0] !== null) {
+      dispatch(fetchData(firstLetterData));
+    } else {
       global.alert(warning);
     }
   };
@@ -91,7 +77,7 @@ const Header = ({ title, showSearchIcon }) => {
   };
 
   const getData = () => {
-    if (title === 'Foods') {
+    if (title === 'Foods' || title === 'Explore Nationalities') {
       fetchFoodsOrDrinks('themealdb');
     } else if (title === 'Drinks') {
       fetchFoodsOrDrinks('thecocktaildb');
@@ -105,27 +91,30 @@ const Header = ({ title, showSearchIcon }) => {
 
   return (
     <header data-testid="header">
-      <input
-        type="image"
-        data-testid="profile-top-btn"
-        src={ profileIcon }
-        alt="Profile Logo"
-        onClick={ goToProfile }
-      />
-
-      <h1 data-testid="page-title">
-        { title }
-      </h1>
-
-      { showSearchIcon && (
+      <div className="header-container">
         <input
+          style={ { filter: 'brightness(0) invert(1)' } }
           type="image"
-          data-testid="search-top-btn"
-          src={ searchIcon }
-          alt="Search Logo"
-          onClick={ () => setShowInput(!showInput) }
+          data-testid="profile-top-btn"
+          src={ profileIcon }
+          alt="Profile Logo"
+          onClick={ goToProfile }
         />
-      ) }
+        <p data-testid="page-title">
+          { title }
+        </p>
+
+        { showSearchIcon && (
+          <input
+            style={ { filter: 'brightness(0) invert(1)' } }
+            type="image"
+            data-testid="search-top-btn"
+            src={ searchIcon }
+            alt="Search Logo"
+            onClick={ () => setShowInput(!showInput) }
+          />
+        ) }
+      </div>
 
       { showInput && (
         <div>

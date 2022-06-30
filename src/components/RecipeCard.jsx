@@ -1,19 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import '../style/RecipeCard.css';
 
 function RecipeCard({ id, index, foodImage, foodName, endPoint }) {
-  const history = useHistory();
   return (
-    <div>
-      <button
-        type="button"
+    <div className="cards">
+      <Link
         data-testid={ `${index}-recipe-card` }
-        onClick={ () => history.push(`${endPoint}/${id}`) }
+        to={ `../${endPoint}/${id}` }
       >
-        <h3 data-testid={ `${index}-card-name` }>{ foodName }</h3>
-      </button>
-      <img src={ foodImage } alt={ foodName } data-testid={ `${index}-card-img` } />
+        <img src={ foodImage } alt={ foodName } data-testid={ `${index}-card-img` } />
+        <p data-testid={ `${index}-card-name` }>{ foodName }</p>
+      </Link>
     </div>
   );
 }

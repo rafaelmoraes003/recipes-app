@@ -10,7 +10,7 @@ const ExploreFoods = () => {
   const surpriseMe = async () => {
     const randomRecipeData = await fetchSurpriseMe('https://www.themealdb.com/api/json/v1/1/random.php');
     const { meals } = randomRecipeData;
-    history.push(`/explore/foods/${meals[0].idMeal}`);
+    history.push(`/foods/${meals[0].idMeal}`);
   };
 
   return (

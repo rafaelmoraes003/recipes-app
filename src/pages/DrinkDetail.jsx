@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import useCopy from '../customHooks/useCopy';
+import copyRecipeToClipboard from '../helpers/reusable_functions/copyRecipeToClipboard';
 import RecommendationCard from '../components/RecommendationCard';
 import { fetchDrinks, fetchFoods } from '../helpers/fetchRecipesAPI';
 import '../style/RecipesDetail.css';
@@ -15,7 +17,6 @@ import {
 import filterOfIngredients from '../helpers/reusable_functions/filterOfIngredients';
 
 const DrinkDetail = () => {
-  // const storage = JSON.parse(localStorage.getItem('favoriteRecipes'));  // ------ NÃO APAGAR!!!
   const history = useHistory();
   const [recipe, setRecipe] = useState({
     ingredientsAndMeasures: [] });
@@ -25,7 +26,6 @@ const DrinkDetail = () => {
   const [done, setDone] = useState(false);
   const [startedFood, setStartedDrink] = useState(false);
   const id = history.location.pathname.split('/')[2];
-  // const [foodsInStorage, setFoodsInStorage] = useState(storage || []);  // ------ NÃO APAGAR!!!
 
   const loadsRecommendations = async () => {
     const numberOfRecommendations = 5;
@@ -47,10 +47,7 @@ const DrinkDetail = () => {
     fetchRecipe();
   }, [history, id]);
 
-  const copyRecipeToClipboard = async () => {
-    await navigator.clipboard.writeText(`http://localhost:3000/drinks/${id}`);
-    setCopy(true);
-  };
+  useCopy(copy, setCopy);
 
   useEffect(() => {
     doneRecipes(history, setDone);
@@ -63,10 +60,6 @@ const DrinkDetail = () => {
     drinksInLocalStorage(id);
   };
 
-  // useEffect(() => {
-  //   localStorage.setItem('favoriteRecipes', JSON.stringify(foodsInStorage)); // ------ NÃO APAGAR!!!!
-  // }, [foodsInStorage]);
-
   return (
     <section>
       <img
@@ -76,37 +69,56 @@ const DrinkDetail = () => {
         className="detail_img_recipe"
       />
       <div className="detail_recipe">
-        <h1 data-testid="recipe-title">{ recipe.strDrink }</h1>
-        <h3 data-testid="recipe-category">{ recipe.strAlcoholic }</h3>
-        {favorite ? (
+        <div className="name_icons">
+          <h1 data-testid="recipe-title">{ recipe.strDrink }</h1>
           <input
+            className="share_icon"
             type="image"
-            src={ blackHeartIcon }
-            alt="favorite"
-            data-testid="favorite-btn"
-            style={ { display: 'block' } }
-            onClick={ () => removeRecipeFromLocalStorage(history, setFavorite) }
+            src={ shareIcon }
+            alt="share"
+            data-testid="share-btn"
+            onClick={ () => copyRecipeToClipboard(id, setCopy) }
           />
-        ) : (
-          <input
-            type="image"
-            src={ whiteHeartIcon }
-            alt="non-favorite"
-            data-testid="favorite-btn"
-            style={ { display: 'block' } }
-            onClick={ () => drinksToFavorite(recipe, setFavorite) }
-          />
-        )}
-        <input
-          type="image"
-          src={ shareIcon }
-          alt="share"
-          data-testid="share-btn"
-          onClick={ copyRecipeToClipboard }
-        />
+          {favorite ? (
+            <input
+              className="heart_icon"
+              type="image"
+              src={ blackHeartIcon }
+              alt="favorite"
+              data-testid="favorite-btn"
+              style={ { display: 'block' } }
+              onClick={ () => removeRecipeFromLocalStorage(history, setFavorite) }
+            />
+          ) : (
+            <input
+              className="heart_icon"
+              type="image"
+              src={ whiteHeartIcon }
+              alt="non-favorite"
+              data-testid="favorite-btn"
+              style={ { display: 'block' } }
+              onClick={ () => drinksToFavorite(recipe, setFavorite) }
+            />
+          )}
+        </div>
+        {copy && (
+          <span
+            style={ {
+              position: 'absolute',
+              right: '10px',
+              textAlign: 'right',
+              color: 'green',
+            } }
+          >
+            Link copied!
+          </span>)}
+        <h3
+          className="sub_title"
+          data-testid="recipe-category"
+        >
+          { recipe.strAlcoholic }
 
-        {copy && <p style={ { color: 'green' } }>Link copied!</p>}
-
+        </h3>
         <h3>Ingredients</h3>
         <ul>
           {recipe.ingredientsAndMeasures

@@ -1,0 +1,31 @@
+.header-container {
+  align-content: flex-start;
+
+  /* background-color: #c4c4c4; */
+  background-color: #ff204c;
+  color: white;
+  display: flex;
+  height: 58px;
+  justify-content: space-between;
+  max-width: 100vw;
+  padding: 10px;
+  text-align: center;
+  width: 100%;
+
+  /* width: 360px; */
+}
+
+.header-container p {
+  flex: 1 1 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.header-container div {
+  display: flex;
+  flex-flow: wrap;
+}
+
+.header-container div label {
+  flex: 1 1 0;
+}

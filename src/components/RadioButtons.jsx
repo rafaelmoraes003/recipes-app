@@ -7,7 +7,6 @@ const RadioButtons = ({ handleFunctions }) => {
   return (
     <>
       <label htmlFor="ingredient">
-        Ingredients
         <input
           type="radio"
           data-testid="ingredient-search-radio"
@@ -16,10 +15,10 @@ const RadioButtons = ({ handleFunctions }) => {
           value="ingredients"
           onChange={ ({ target }) => setSearchFilter(target.value) }
         />
+        Ingredients
       </label>
 
       <label htmlFor="name">
-        Name
         <input
           type="radio"
           data-testid="name-search-radio"
@@ -28,10 +27,10 @@ const RadioButtons = ({ handleFunctions }) => {
           value="name"
           onChange={ ({ target }) => setSearchFilter(target.value) }
         />
+        Name
       </label>
 
       <label htmlFor="first-letter">
-        First Letter
         <input
           type="radio"
           data-testid="first-letter-search-radio"
@@ -40,6 +39,7 @@ const RadioButtons = ({ handleFunctions }) => {
           value="first-letter"
           onChange={ ({ target }) => setSearchFilter(target.value) }
         />
+        First Letter
       </label>
 
       <button type="button" data-testid="exec-search-btn" onClick={ getData }>
