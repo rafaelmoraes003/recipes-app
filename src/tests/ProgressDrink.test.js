@@ -51,4 +51,21 @@ describe('Testa o componente ProgressDrink e suas funcionalidades', () => {
     expect(ingredient2).toHaveTextContent(/Banana Liqueur/i);
     expect(instructions).toHaveTextContent(oneDrink.drinks[0].strInstructions);
   });
+  it('Verifica se é possível marcar e desmarcar os ingredientes', async () => {
+    jest.spyOn(global, 'fetch').mockResolvedValueOnce({
+      json: jest.fn().mockResolvedValueOnce(oneDrink),
+    });
+    renderWithRouterAndRedux(
+      <ProgressDrinks />,
+      {},
+      pathname,
+    );
+    const ingredient0 = await screen.findByTestId(ingredientZero);
+    const ingredient1 = await screen.findByTestId(ingredientUm);
+    const ingredient2 = await screen.findByTestId(ingredientDois);
+
+    verifyCheck(ingredient0);
+    verifyCheck(ingredient1);
+    verifyCheck(ingredient2);
+  });
 });
