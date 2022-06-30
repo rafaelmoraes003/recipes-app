@@ -68,4 +68,33 @@ describe('Testa o componente ProgressDrink e suas funcionalidades', () => {
     verifyCheck(ingredient1);
     verifyCheck(ingredient2);
   });
+  it('Verifica o funcionamento do botão Finish Recipe', async () => {
+    jest.spyOn(global, 'fetch').mockResolvedValueOnce({
+      json: jest.fn().mockResolvedValueOnce(oneDrink),
+    });
+    const { history } = renderWithRouterAndRedux(
+      <App />,
+      {},
+      pathname,
+    );
+    const ingredient0 = await screen.findByTestId(ingredientZero);
+    const ingredient1 = await screen.findByTestId(ingredientUm);
+    const ingredient2 = await screen.findByTestId(ingredientDois);
+    const finishButton = await screen.findByTestId('finish-recipe-btn');
+
+    expect(finishButton).toBeDisabled();
+    userEvent.click(ingredient0);
+    expect(finishButton).toBeDisabled();
+    userEvent.click(ingredient1);
+    expect(finishButton).toBeDisabled();
+    userEvent.click(ingredient2);
+    expect(finishButton).not.toBeDisabled();
+
+    userEvent.click(finishButton);
+
+    await wait(() => {
+      expect(history.location.pathname).toBe('/done-recipes');
+      expect(screen.getByTestId('page-title')).toHaveTextContent('Done Recipes');
+    });
+  });
 });
