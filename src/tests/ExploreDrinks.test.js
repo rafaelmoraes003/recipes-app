@@ -59,6 +59,6 @@ describe('Testa o componente ExploreDrinks e suas funcionalidades', () => {
 
     userEvent.click(surpriseMeButton);
 
-    await wait(() => expect(history.location.pathname).toBe('drinks/178319'));
+    await wait(() => expect(history.location.pathname).toBe('/drinks/178319'));
   });
 });

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import useCopy from '../customHooks/useCopy';
+import copyRecipeToClipboard from '../helpers/reusable_functions/copyRecipeToClipboard';
 import RecommendationCard from '../components/RecommendationCard';
 import { fetchDrinks, fetchFoods } from '../helpers/fetchRecipesAPI';
 import '../style/RecipesDetail.css';
@@ -15,7 +17,6 @@ import {
 import filterOfIngredients from '../helpers/reusable_functions/filterOfIngredients';
 
 const DrinkDetail = () => {
-  // const storage = JSON.parse(localStorage.getItem('favoriteRecipes'));  // ------ NÃO APAGAR!!!
   const history = useHistory();
   const [recipe, setRecipe] = useState({
     ingredientsAndMeasures: [] });
@@ -25,7 +26,6 @@ const DrinkDetail = () => {
   const [done, setDone] = useState(false);
   const [startedFood, setStartedDrink] = useState(false);
   const id = history.location.pathname.split('/')[2];
-  // const [foodsInStorage, setFoodsInStorage] = useState(storage || []);  // ------ NÃO APAGAR!!!
 
   const loadsRecommendations = async () => {
     const numberOfRecommendations = 5;
@@ -47,10 +47,7 @@ const DrinkDetail = () => {
     fetchRecipe();
   }, [history, id]);
 
-  const copyRecipeToClipboard = async () => {
-    await navigator.clipboard.writeText(`http://localhost:3000/drinks/${id}`);
-    setCopy(true);
-  };
+  useCopy(copy, setCopy);
 
   useEffect(() => {
     doneRecipes(history, setDone);
@@ -62,10 +59,6 @@ const DrinkDetail = () => {
   const startedRecipe = () => {
     drinksInLocalStorage(id);
   };
-
-  // useEffect(() => {
-  //   localStorage.setItem('favoriteRecipes', JSON.stringify(foodsInStorage)); // ------ NÃO APAGAR!!!!
-  // }, [foodsInStorage]);
 
   return (
     <section>
@@ -84,7 +77,7 @@ const DrinkDetail = () => {
             src={ shareIcon }
             alt="share"
             data-testid="share-btn"
-            onClick={ copyRecipeToClipboard }
+            onClick={ () => copyRecipeToClipboard(id, setCopy) }
           />
           {favorite ? (
             <input
