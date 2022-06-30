@@ -5,8 +5,6 @@ import { act } from 'react-dom/test-utils';
 import renderWithRouterAndRedux from './renderWithRouterAndRedux';
 import ProgressFoods from '../pages/ProgressFoods';
 import oneMeal from '../../cypress/mocks/oneMeal';
-import drinks from '../../cypress/mocks/drinks';
-import oneDrink from '../../cypress/mocks/oneDrink';
 import App from '../App';
 
 describe('Testa o componente FoodDetail e suas funcionalidades', () => {
