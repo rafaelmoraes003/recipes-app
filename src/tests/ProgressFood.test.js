@@ -138,4 +138,39 @@ describe('Testa o componente FoodDetail e suas funcionalidades', () => {
       expect(screen.getByTestId('page-title')).toHaveTextContent('Done Recipes');
     });
   });
+  it('Verifica se épossível favoritar e compartilhar link de receita', async () => {
+    await act(async () => {
+      const mockClipboard = {
+        writeText: jest.fn(),
+      };
+      global.navigator.clipboard = mockClipboard;
+      jest.spyOn(global, 'fetch').mockResolvedValueOnce({
+        json: jest.fn().mockResolvedValueOnce(oneMeal),
+      });
+      renderWithRouterAndRedux(
+        <ProgressFoods />,
+        {},
+        pathname,
+      );
+      const favoriteButton = await screen.findByTestId('favorite-btn');
+      const shareButton = await screen.findByTestId('share-btn');
+
+      expect(favoriteButton).toHaveProperty('src', 'http://localhost/whiteHeartIcon.svg');
+      userEvent.click(favoriteButton);
+      expect(favoriteButton).toHaveProperty('src', 'http://localhost/blackHeartIcon.svg');
+      await wait(() => {
+        expect(localStorage).toHaveProperty('favoriteRecipes');
+      });
+      userEvent.click(favoriteButton);
+      expect(favoriteButton).toHaveProperty('src', 'http://localhost/whiteHeartIcon.svg');
+
+      userEvent.click(shareButton);
+
+      await wait(() => {
+        expect(navigator.clipboard.writeText).toBeCalled();
+        expect(navigator.clipboard.writeText).toBeCalledWith('http://localhost:3000/foods/52771');
+        expect(screen.getByText('Link copied!')).toBeDefined();
+      });
+    });
+  });
 });
