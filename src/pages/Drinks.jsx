@@ -7,6 +7,7 @@ import { fetchDrinks, fetchCategories } from '../helpers/fetchRecipesAPI';
 import RecipeCard from '../components/RecipeCard';
 import CategoryButton from '../components/CategoryButton';
 import '../style/Recipes.css';
+import useReduxData from '../customHooks/useReduxData';
 
 const Drinks = () => {
   const totalRecipesNumber = 12;
@@ -52,11 +53,7 @@ const Drinks = () => {
     }
   }, [dispatch, data]);
 
-  useEffect(() => {
-    if (!Array.isArray(data) && data.drinks) {
-      setRecipesDrinks(data.drinks.filter((drink, index) => index < totalRecipesNumber));
-    }
-  }, [data]);
+  useReduxData(data, setRecipesDrinks, 'drinks');
 
   return (
     <div>

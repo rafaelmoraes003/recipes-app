@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import useReduxData from '../customHooks/useReduxData';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { saveInitialFoods } from '../redux/actions';
@@ -52,11 +53,7 @@ const Foods = () => {
     }
   }, [dispatch, data]);
 
-  useEffect(() => {
-    if (!Array.isArray(data) && data.meals) {
-      setRecipesFoods(data.meals.filter((food, index) => index < totalRecipesNumber));
-    }
-  }, [data]);
+  useReduxData(data, setRecipesFoods, 'meals');
 
   return (
     <div>

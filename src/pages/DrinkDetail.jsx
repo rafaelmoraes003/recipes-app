@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import useCopy from '../customHooks/useCopy';
+import copyRecipeToClipboard from '../helpers/reusable_functions/copyRecipeToClipboard';
 import RecommendationCard from '../components/RecommendationCard';
 import { fetchDrinks, fetchFoods } from '../helpers/fetchRecipesAPI';
 import '../style/RecipesDetail.css';
@@ -46,11 +47,6 @@ const DrinkDetail = () => {
     fetchRecipe();
   }, [history, id]);
 
-  const copyRecipeToClipboard = async () => {
-    await navigator.clipboard.writeText(`http://localhost:3000/drinks/${id}`);
-    setCopy(true);
-  };
-
   useCopy(copy, setCopy);
 
   useEffect(() => {
@@ -81,7 +77,7 @@ const DrinkDetail = () => {
             src={ shareIcon }
             alt="share"
             data-testid="share-btn"
-            onClick={ copyRecipeToClipboard }
+            onClick={ () => copyRecipeToClipboard(id, setCopy) }
           />
           {favorite ? (
             <input
