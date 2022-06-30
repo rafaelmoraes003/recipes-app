@@ -173,6 +173,6 @@ describe('Testa o componente renderiza meals e drink', () => {
     userEvent.click(imgRecipes);
 
     const textCopied = await screen.findAllByText(/Link copied!/i);
-    expect(textCopied[0]).toHaveTextContent('Link copied!');
+    expect(textCopied[0]).toHaveTextContent('Link copied!'); //
   });
 });
