@@ -7,6 +7,7 @@ import App from '../App';
 //
 describe('Testa o componente renderiza meals e drink', () => {
   const DONE_RECIPES = '/done-recipes';
+  const HORIZONTAL_RECIPES = '1-horizontal-name';
   localStorage.setItem('doneRecipes',
     `[{"id":"52874","type":"food","nationality":"British","category":"Beef","img":"https://www.themealdb.com/images/media/meals/sytuqu1511553755.jpg","alcoholicOrNot":"","name":"Beef and Mustard Pie","image":"https://www.themealdb.com/images/media/meals/sytuqu1511553755.jpg","doneDate":"28/06/2022","tags": ["Meat","Pie"]},
     { "alcoholicOrNot": "Alcoholic", "category": "Ordinary Drink","doneDate": "28/06/2022","id": "15300","image": "https://www.thecocktaildb.com/images/media/drink/rrtssw1472668972.jpg","name": "3-Mile Long Island Iced Tea","nationality": "","tags": [],"type": "drink"}]`);
@@ -73,7 +74,7 @@ describe('Testa o componente renderiza meals e drink', () => {
     }
 
     // verifica se o nome da comida esta correta
-    const textName = screen.getByTestId('1-horizontal-name');
+    const textName = screen.getByTestId(HORIZONTAL_RECIPES);
     expect(textName).toBeInTheDocument();
     expect(textName).toHaveTextContent(`${listRecipes[1].name}`);
 
@@ -105,7 +106,7 @@ describe('Testa o componente renderiza meals e drink', () => {
     buttonFood.click();
 
     // Verifica se existe informação de drink
-    const textNameDrink = screen.getByTestId('1-horizontal-name');
+    const textNameDrink = screen.getByTestId(HORIZONTAL_RECIPES);
     expect(textNameDrink).toBeInTheDocument();
     expect(textNameDrink).toHaveTextContent(`${listRecipes[1].name}`);
 
@@ -133,7 +134,7 @@ describe('Testa o componente renderiza meals e drink', () => {
     expect(buttonFood).toBeInTheDocument();
     buttonFood.click();
 
-    const textNameDrink = screen.getByTestId('1-horizontal-name');
+    const textNameDrink = screen.getByTestId(HORIZONTAL_RECIPES);
     expect(textNameDrink).toBeInTheDocument();
     expect(textNameDrink).toHaveTextContent(`${listRecipes[1].name}`);
   });
