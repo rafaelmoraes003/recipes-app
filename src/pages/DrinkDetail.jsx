@@ -124,7 +124,6 @@ const DrinkDetail = () => {
           data-testid="recipe-category"
         >
           { recipe.strAlcoholic }
-
         </h3>
         <h3>Ingredients</h3>
         <ul>

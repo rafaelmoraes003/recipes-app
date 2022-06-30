@@ -58,7 +58,8 @@ const RadioButtons = ({ handleFunctions }) => {
         style={ { width: '100%',
           maxWidth: '100vw',
           backgroundColor: '#FF204C',
-          border: 'none' } }
+          border: 'none',
+          marginTop: '6px' } }
         className="btn btn-primary"
         type="button"
         data-testid="exec-search-btn"

@@ -13,6 +13,7 @@ import filterOfIngredients from '../helpers/reusable_functions/filterOfIngredien
 import {
   doneRecipeFoodFunc,
   favoriteRecipes, foodsInLocalStorage, foodToFavorite } from '../helpers/storageFuncs';
+import '../style/ProgressRecipes.css';
 
 const ProgressFoods = () => {
   const { foodRecipesStartered } = useSelector((state) => state.recipesReducer);
@@ -70,76 +71,105 @@ const ProgressFoods = () => {
   return (
     <section>
       <img
-        data-testid="recipe-photo"
         src={ recipe.strMealThumb }
         alt={ recipe.strMeal }
+        data-testid="recipe-photo"
+        className="detail_img_recipe"
       />
-      <h1 data-testid="recipe-title">{ recipe.strMeal }</h1>
-      <h3 data-testid="recipe-category">{ recipe.strCategory }</h3>
-      {favorite ? (
-        <input
-          type="image"
-          src={ blackHeartIcon }
-          alt="favorite"
-          data-testid="favorite-btn"
-          style={ { display: 'block' } }
-          onClick={ () => removeRecipeFromLocalStorage(history, setFavorite) }
-        />
-      ) : (
-        <input
-          type="image"
-          src={ whiteHeartIcon }
-          alt="non-favorite"
-          data-testid="favorite-btn"
-          style={ { display: 'block' } }
-          onClick={ () => foodToFavorite(recipe, setFavorite) }
-        />
-      )}
-      <input
-        type="image"
-        src={ shareIcon }
-        alt="share"
-        data-testid="share-btn"
-        onClick={ copyRecipeToClipboard }
-      />
-
-      {copy && <p style={ { color: 'green' } }>Link copied!</p>}
-      <h3>Ingredients</h3>
-      <div className="data-ingredients">
-        {recipe.ingredientsAndMeasures
-          .map((i, index) => (
-            <label
-              htmlFor={ i }
-              key={ index }
-              className={ usedIngredients.includes(index) ? 'done' : 'missing' }
-              data-testid={ `${index}-ingredient-step` }
-            >
-              <input
-                type="checkbox"
-                checked={
-                  usedIngredients.includes(index)
-                }
-                onChange={ () => usedIngredient(index) }
-                id={ i }
+      <div className="container_in_progress">
+        <div className="name_icons">
+          <h1 data-testid="recipe-title">{ recipe.strMeal }</h1>
+          <input
+            className="share_icon"
+            type="image"
+            src={ shareIcon }
+            alt="share"
+            data-testid="share-btn"
+            onClick={ copyRecipeToClipboard }
+          />
+          {favorite ? (
+            <input
+              type="image"
+              src={ blackHeartIcon }
+              alt="favorite"
+              data-testid="favorite-btn"
+              style={ { display: 'block' } }
+              onClick={ () => removeRecipeFromLocalStorage(history, setFavorite) }
+            />
+          ) : (
+            <input
+              type="image"
+              src={ whiteHeartIcon }
+              alt="non-favorite"
+              data-testid="favorite-btn"
+              style={ { display: 'block' } }
+              onClick={ () => foodToFavorite(recipe, setFavorite) }
+            />
+          )}
+        </div>
+        {copy && (
+          <span
+            style={ {
+              position: 'absolute',
+              right: '10px',
+              textAlign: 'right',
+              color: 'green',
+            } }
+          >
+            Link copied!
+          </span>)}
+        <h3
+          className="sub_title"
+          data-testid="recipe-category"
+        >
+          { recipe.strCategory }
+        </h3>
+        <h3>Ingredients</h3>
+        <div className="container_progress_checkbox">
+          {recipe.ingredientsAndMeasures
+            .map((i, index) => (
+              <label
+                htmlFor={ i }
+                key={ index }
                 className={ usedIngredients.includes(index) ? 'done' : 'missing' }
-              />
-              { i }
-            </label>
+                data-testid={ `${index}-ingredient-step` }
+              >
+                <input
+                  type="checkbox"
+                  checked={
+                    usedIngredients.includes(index)
+                  }
+                  onChange={ () => usedIngredient(index) }
+                  id={ i }
+                  className={ usedIngredients
+                    .includes(index)
+                    ? 'done form-check-input' : 'missing form-check-input' }
+                />
+                {' '}
+                { i }
+              </label>
 
-          ))}
+            ))}
+        </div>
+        <h3>Instructions</h3>
+        <p
+          data-testid="instructions"
+          className="container_progress_text"
+        >
+          { recipe.strInstructions }
+        </p>
+        <input
+          className="finish_recipe_button"
+          type="button"
+          data-testid="finish-recipe-btn"
+          value="Finish Recipe"
+          disabled={ recipe.ingredientsAndMeasures.length !== usedIngredients.length }
+          onClick={ () => {
+            doneRecipeFoodFunc(recipe, date);
+            history.push('/done-recipes');
+          } }
+        />
       </div>
-      <h3>Instructions</h3>
-      <p data-testid="instructions">{ recipe.strInstructions }</p>
-      <input
-        type="button"
-        data-testid="finish-recipe-btn"
-        value="Finish Recipe"
-        disabled={ recipe.ingredientsAndMeasures.length !== usedIngredients.length }
-        onClick={ () => {
-          doneRecipeFoodFunc(recipe, date);
-          history.push('/done-recipes');
-        } }
-      />
     </section>
   );
 };
