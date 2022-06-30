@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
+import '../style/FavoriteRecipes.css';
 
 const FavoriteRecipes = () => {
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
@@ -78,85 +79,95 @@ const FavoriteRecipes = () => {
   return (
     <div>
       <Header title="Favorite Recipes" showSearchIcon={ false } />
-      <div className="filter-buttons">
-        <button
-          type="button"
-          data-testid="filter-by-all-btn"
-          onClick={ removeAllFilters }
-        >
-          All
-        </button>
-
-        <button
-          type="button"
-          data-testid="filter-by-food-btn"
-          onClick={ filterByMeal }
-        >
-          Food
-        </button>
-
-        <button
-          type="button"
-          data-testid="filter-by-drink-btn"
-          onClick={ filterByDrink }
-        >
-          Drink
-        </button>
-      </div>
-      { baseFav.length > 0 && baseFav.map((recipe, i) => (
-        <div key={ recipe.id }>
-          <Link to={ `${recipe.type}s/${recipe.id}` }>
-            <img
-              src={ recipe.image }
-              alt={ recipe.name }
-              data-testid={ `${i}-horizontal-image` }
-              style={ { width: '150px', cursor: 'pointer' } }
-            />
-          </Link>
-          <Link to={ `${recipe.type}s/${recipe.id}` }>
-            <h3
-              data-testid={ `${i}-horizontal-name` }
-              style={ { cursor: 'pointer' } }
-            >
-              {recipe.name}
-            </h3>
-          </Link>
-          <h4
-            data-testid={ `${i}-horizontal-top-text` }
+      <div className="container_done_recipes">
+        <div className="container_buttons_recipes">
+          <button
+            className="btn btn-secondary btn_filter_recipes"
+            type="button"
+            data-testid="filter-by-all-btn"
+            onClick={ removeAllFilters }
           >
-            {recipe.type === 'food'
-              ? `${recipe.nationality} - ${recipe.category}`
-              : `${recipe.alcoholicOrNot}`}
-          </h4>
-          <input
-            type="image"
-            src={ shareIcon }
-            alt="share recipe button"
-            data-testid={ `${i}-horizontal-share-btn` }
-            onClick={ copyRecipeToClipboard }
-            id={ recipe.id }
-            name={ recipe.type }
-          />
-
-          <input
-            type="image"
-            src={ blackHeartIcon }
-            alt="favorite recipe button"
-            data-testid={ `${i}-horizontal-favorite-btn` }
-            id={ recipe.id }
-            onClick={ removeRecipeFromLocalStorage }
-          />
-
-          {recipe.copied && (
-            <p
-              id={ recipe.id }
-              style={ { color: 'green' } }
-            >
-              Link copied!
-            </p>
-          )}
+            All
+          </button>
+          <button
+            className="btn btn-secondary btn_filter_recipes"
+            type="button"
+            data-testid="filter-by-food-btn"
+            onClick={ filterByMeal }
+          >
+            Food
+          </button>
+          <button
+            className="btn btn-secondary btn_filter_recipes"
+            type="button"
+            data-testid="filter-by-drink-btn"
+            onClick={ filterByDrink }
+          >
+            Drink
+          </button>
         </div>
-      ))}
+        { baseFav.length > 0 && baseFav.map((recipe, i) => (
+          <div key={ recipe.id } className="container_cards_done_recipes">
+            <Link to={ `${recipe.type}s/${recipe.id}` }>
+              <img
+                src={ recipe.image }
+                alt={ recipe.name }
+                data-testid={ `${i}-horizontal-image` }
+                style={ { width: '150px', cursor: 'pointer' } }
+              />
+            </Link>
+            <div className="container_text_cards_done">
+              <p
+                data-testid={ `${i}-horizontal-top-text` }
+              >
+                {recipe.type === 'food'
+                  ? `${recipe.nationality} - ${recipe.category}`
+                  : `${recipe.alcoholicOrNot}`}
+              </p>
+              <Link to={ `${recipe.type}s/${recipe.id}` }>
+                <p
+                  data-testid={ `${i}-horizontal-name` }
+                  style={ { cursor: 'pointer' } }
+                >
+                  {recipe.name}
+                </p>
+              </Link>
+              <div className="inputs_icons">
+                <input
+                  type="image"
+                  src={ shareIcon }
+                  alt="share recipe button"
+                  data-testid={ `${i}-horizontal-share-btn` }
+                  onClick={ copyRecipeToClipboard }
+                  id={ recipe.id }
+                  name={ recipe.type }
+                />
+                <input
+                  type="image"
+                  src={ blackHeartIcon }
+                  alt="favorite recipe button"
+                  data-testid={ `${i}-horizontal-favorite-btn` }
+                  id={ recipe.id }
+                  onClick={ removeRecipeFromLocalStorage }
+                />
+                {recipe.copied && (
+                  <span
+                    id={ recipe.id }
+                    style={ {
+                      position: 'absolute',
+                      right: '30vw',
+                      textAlign: 'center',
+                      marginTop: '60px',
+                      color: 'green',
+                    } }
+                  >
+                    Link copied!
+                  </span>)}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
