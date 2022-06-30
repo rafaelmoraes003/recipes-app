@@ -33,7 +33,7 @@ describe('Testa a tela de perfil', () => {
     expect(pathname).toBe('/done-recipes');
   });
 
-  it.only('Verifica o botão de receitas favoritas', async () => {
+  it('Verifica o botão de receitas favoritas', async () => {
     const { history } = renderWithRouterAndRedux(<App />, {}, '/profile');
     const favoriteRecipes = await screen
       .findByRole('button', { name: /favorite recipes/i });
@@ -42,9 +42,9 @@ describe('Testa a tela de perfil', () => {
     expect(pathname).toBe('/favorite-recipes');
   });
 
-  it('Verifica o botão de logout', () => {
+  it.only('Verifica o botão de logout', async () => {
     const { history } = renderWithRouterAndRedux(<App />, {}, '/profile');
-    const logoutBtn = screen.getByRole('button', { name: /logout/i });
+    const logoutBtn = await screen.findByRole('button', { name: /logout/i });
     userEvent.click(logoutBtn);
     const { pathname } = history.location;
     expect(pathname).toBe('/');
