@@ -5,7 +5,8 @@ import Header from '../components/Header';
 import { saveInitialDrinks } from '../redux/actions';
 import { fetchDrinks, fetchCategories } from '../helpers/fetchRecipesAPI';
 import RecipeCard from '../components/RecipeCard';
-import CategoryButton from '../components/CategoryButto';
+import CategoryButton from '../components/CategoryButton';
+import '../style/Recipes.css';
 
 const Drinks = () => {
   const totalRecipesNumber = 12;
@@ -60,37 +61,42 @@ const Drinks = () => {
   return (
     <div>
       <Header title="Drinks" showSearchIcon />
-      <fieldset>
-        <legend>Filter by category</legend>
-        {categoryDrinks
-          .map(({ strCategory }) => (<CategoryButton
-            key={ strCategory }
-            categoryName={ strCategory }
-            searchFunc={ filteredByCategory }
-          />))}
-        <label htmlFor="All">
-          <input
-            data-testid="All-category-filter"
-            type="radio"
-            id="All"
-            name="category"
-            value="All"
-            onClick={ () => setRecipesDrinks([...drinks]) }
-          />
-          {' '}
-          All
-        </label>
-      </fieldset>
-      {recipesDrinks.map(({ idDrink, strDrink, strDrinkThumb }, index) => (
-        <RecipeCard
-          key={ idDrink }
-          id={ idDrink }
-          index={ index }
-          foodName={ strDrink }
-          foodImage={ strDrinkThumb }
-          endPoint="drinks"
-        />
-      ))}
+      <div style={ { padding: '0 10px' } }>
+        <fieldset className="categories">
+          <label htmlFor="All" className="btn btn-secondary">
+            <input
+              className="btn-check"
+              data-testid="All-category-filter"
+              type="radio"
+              id="All"
+              name="category"
+              value="All"
+              onClick={ () => setRecipesDrinks([...drinks]) }
+            />
+            {' '}
+            All
+          </label>
+          {categoryDrinks
+            .map(({ strCategory }) => (
+              <CategoryButton
+                key={ strCategory }
+                categoryName={ strCategory }
+                searchFunc={ filteredByCategory }
+              />))}
+        </fieldset>
+        <div className="recipes_container">
+          {recipesDrinks.map(({ idDrink, strDrink, strDrinkThumb }, index) => (
+            <RecipeCard
+              key={ idDrink }
+              id={ idDrink }
+              index={ index }
+              foodName={ strDrink }
+              foodImage={ strDrinkThumb }
+              endPoint="drinks"
+            />
+          ))}
+        </div>
+      </div>
       <Footer />
     </div>
   );

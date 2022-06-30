@@ -7,10 +7,12 @@ import '../style/Footer.css';
 
 const Footer = () => {
   const history = useHistory();
+  const white = 'brightness(0) invert(1)';
 
   return (
     <footer data-testid="footer">
       <input
+        style={ { filter: white } }
         data-testid="drinks-bottom-btn"
         type="image"
         src={ iconDrink }
@@ -18,6 +20,7 @@ const Footer = () => {
         onClick={ () => history.push('/drinks') }
       />
       <input
+        style={ { filter: white } }
         data-testid="explore-bottom-btn"
         type="image"
         src={ iconExplore }
@@ -25,6 +28,7 @@ const Footer = () => {
         onClick={ () => history.push('/explore') }
       />
       <input
+        style={ { filter: white } }
         data-testid="food-bottom-btn"
         type="image"
         src={ iconFood }

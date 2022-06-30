@@ -7,10 +7,11 @@ footer {
   display: flex;
   height: 68px;
   justify-content: space-between;
+  max-width: 100vw;
   padding: 10px;
   position: fixed;
   text-align: center;
-  width: 100vw;
+  width: 100%;
 
   /* width: 360px; */
 }

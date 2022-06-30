@@ -16,7 +16,8 @@ body {
 }
 
 .recipe_card_nationality {
-  border: solid 1px #aaa;
+  background-color: white;
+  border: none;
   border-radius: 10px;
   flex: 1 1 0;
   min-height: 172px;
@@ -24,15 +25,16 @@ body {
 }
 
 .recipe_card_nationality p {
-  color: darkgray;
+  color: #aaa;
   font-size: 15px;
   margin: 0;
-  padding: 3px 0 0 5px;
+  padding-left: 5px;
 }
 
 .recipe_card_nationality p:nth-child( 3n ) {
-  color: black;
+  color: #051013;
   font-size: 18px;
+  padding-bottom: 5px;
 }
 
 .recipe_card_nationality img {
