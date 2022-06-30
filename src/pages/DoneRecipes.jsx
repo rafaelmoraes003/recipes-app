@@ -107,7 +107,7 @@ const DoneRecipes = () => {
                         data-testid={ `${index}-horizontal-share-btn` }
                         onClick={ () => copyRecipeToClipboard(recipes.id, recipes.type) }
                       />
-                      {copy && (
+                      {recipes.copied && (
                         <span
                           style={ {
                             position: 'absolute',
