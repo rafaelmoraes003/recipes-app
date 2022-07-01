@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Input from '../components/Input';
 import { saveUser } from '../redux/actions';
+import tryRecipes from '../images/TryRecipes.svg';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -30,6 +31,7 @@ const Login = () => {
   return (
     <div>
       <form className="login-container">
+        <img src={ tryRecipes } alt="logotipo tryrecipes" />
         <Input
           testId="email-input"
           id="email"
