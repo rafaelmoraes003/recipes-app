@@ -3,6 +3,8 @@ import { useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { fetchSurpriseMe } from '../helpers/fetchRecipesAPI';
+import breakfast from '../images/breakfast.svg';
+import '../style/ExploreFoods.css';
 
 const ExploreFoods = () => {
   const history = useHistory();
@@ -16,27 +18,33 @@ const ExploreFoods = () => {
   return (
     <div>
       <Header title="Explore Foods" showSearchIcon={ false } />
-      <button
-        type="button"
-        data-testid="explore-by-ingredient"
-        onClick={ () => { history.push('/explore/foods/ingredients'); } }
-      >
-        By Ingredient
-      </button>
-      <button
-        type="button"
-        data-testid="explore-by-nationality"
-        onClick={ () => { history.push('/explore/foods/nationalities'); } }
-      >
-        By Nationality
-      </button>
-      <button
-        type="button"
-        data-testid="explore-surprise"
-        onClick={ () => surpriseMe() }
-      >
-        Surprise me!
-      </button>
+      <div className="explore-foods-container">
+        <button
+          type="button"
+          data-testid="explore-by-ingredient"
+          className="style-btn"
+          onClick={ () => { history.push('/explore/foods/ingredients'); } }
+        >
+          By Ingredient
+        </button>
+        <button
+          type="button"
+          data-testid="explore-by-nationality"
+          className="style-btn"
+          onClick={ () => { history.push('/explore/foods/nationalities'); } }
+        >
+          By Nationality
+        </button>
+        <button
+          type="button"
+          data-testid="explore-surprise"
+          className="surprise-btn"
+          onClick={ () => surpriseMe() }
+        >
+          Surprise me!
+        </button>
+        <img src={ breakfast } alt="breakfast" />
+      </div>
       <Footer />
     </div>
   );

@@ -51,6 +51,7 @@ const Profile = () => {
             data-testid="profile-done-btn"
             type="button"
             onClick={ goToDoneRecipes }
+            className="style-btn"
           >
             Done Recipes
           </button>
@@ -58,6 +59,7 @@ const Profile = () => {
             type="button"
             data-testid="profile-favorite-btn"
             onClick={ goToFavotiteRecipes }
+            className="style-btn"
           >
             Favorite Recipes
           </button>
@@ -65,6 +67,7 @@ const Profile = () => {
             type="button"
             data-testid="profile-logout-btn"
             onClick={ logout }
+            className="style-btn"
           >
             Logout
           </button>

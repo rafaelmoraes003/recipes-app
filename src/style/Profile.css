@@ -6,7 +6,7 @@
   margin-top: 35px;
 }
 
-.profile-container button {
+.style-btn {
   background-color: #dfe0e2;
   border: 2px solid #ff204c;
   border-radius: 5px;
@@ -20,10 +20,11 @@
   width: 329px;
 }
 
-.profile-container button:hover {
+.style-btn:hover {
   background-color: #ff204c;
   color: #dfe0e2;
 }
+
 
 .profile-container img {
   margin-top: 25px;

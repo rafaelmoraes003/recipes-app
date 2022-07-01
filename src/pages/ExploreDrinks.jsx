@@ -3,6 +3,8 @@ import { useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { fetchSurpriseMe } from '../helpers/fetchRecipesAPI';
+import beer from '../images/beer.svg';
+import '../style/ExploreDrinks.css';
 
 const ExploreDrinks = () => {
   const history = useHistory();
@@ -16,20 +18,25 @@ const ExploreDrinks = () => {
   return (
     <div>
       <Header title="Explore Drinks" showSearchIcon={ false } />
-      <button
-        type="button"
-        data-testid="explore-by-ingredient"
-        onClick={ () => { history.push('/explore/drinks/ingredients'); } }
-      >
-        By Ingredient
-      </button>
-      <button
-        type="button"
-        data-testid="explore-surprise"
-        onClick={ () => surpriseMe() }
-      >
-        Surprise me!
-      </button>
+      <div className="explore-drinks-container">
+        <button
+          type="button"
+          data-testid="explore-by-ingredient"
+          className="style-btn"
+          onClick={ () => { history.push('/explore/drinks/ingredients'); } }
+        >
+          By Ingredient
+        </button>
+        <button
+          type="button"
+          data-testid="explore-surprise"
+          className="surprise-btn"
+          onClick={ () => surpriseMe() }
+        >
+          Surprise me!
+        </button>
+        <img src={ beer } alt="beer" />
+      </div>
       <Footer />
     </div>
   );

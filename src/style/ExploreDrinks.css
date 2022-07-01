@@ -1,0 +1,32 @@
+.explore-drinks-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 25px;
+}
+
+.surprise-btn {
+  background-color: #dfe0e2;
+  border: 2px solid #1e3a4b;
+  border-radius: 5px;
+  color: #051013;
+  font-family: system-ui;
+  font-size: 25px;
+  font-weight: 500;
+  height: 53px;
+  margin: 4px 0;
+  transition: 0.5s;
+  width: 329px;
+}
+
+.surprise-btn:hover {
+  background-color: #1e3a4b;
+  color: #dfe0e2;
+}
+
+.explore-drinks-container img {
+  margin-left: 20%;
+  margin-top: 30%;
+  width: 320px;
+}
