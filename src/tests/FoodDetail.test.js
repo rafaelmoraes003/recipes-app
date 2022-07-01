@@ -206,7 +206,6 @@ describe('Testa o componente FoodDetail e suas funcionalidades', () => {
       history.push('/foods/52771');
 
       await wait(() => {
-        console.log(history.location.pathname);
         expect(screen.getByTestId('start-recipe-btn'))
           .toHaveTextContent('Continue Recipe');
       });

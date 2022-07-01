@@ -64,7 +64,7 @@ const ProgressFoods = () => {
   };
 
   const copyRecipeToClipboard = async () => {
-    await navigator.clipboard.writeText(window.location.href.split('/in')[0]);
+    await navigator.clipboard.writeText(`http://localhost:3000/foods/${id}`);
     setCopy(true);
   };
 

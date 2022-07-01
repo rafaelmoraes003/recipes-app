@@ -42,10 +42,8 @@ describe('Testa o componente ExploreDrinks e suas funcionalidades', () => {
 
   it(`Verifica se surpriseMeButton é redirecionado
   para tela de detalhes de uma bebida aleatória`, async () => {
-    const randomDrink = oneDrink;
-
-    jest.spyOn(global, 'fetch').mockResolvedValue({
-      json: jest.fn().mockResolvedValue(randomDrink),
+    jest.spyOn(global, 'fetch').mockResolvedValueOnce({
+      json: jest.fn().mockResolvedValue(oneDrink),
     });
 
     const { history } = renderWithRouterAndRedux(
