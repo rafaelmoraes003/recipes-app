@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import Input from '../components/Input';
 import { saveUser } from '../redux/actions';
 import tryRecipes from '../images/TryRecipes.svg';
+import '../style/Login.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -32,32 +33,33 @@ const Login = () => {
     <div>
       <form className="login-container">
         <img src={ tryRecipes } alt="logotipo tryrecipes" />
-        <Input
-          testId="email-input"
-          id="email"
-          type="text"
-          onChange={ setEmail }
-          labelText="E-mail"
-          value={ email }
-        />
-
-        <Input
-          testId="password-input"
-          id="password"
-          type="password"
-          onChange={ setPassword }
-          labelText="Password"
-          value={ password }
-        />
-
-        <button
-          type="button"
-          data-testid="login-submit-btn"
-          disabled={ !enabelButton() }
-          onClick={ loginFunction }
-        >
-          Login
-        </button>
+        <div className="inputs-container">
+          <Input
+            testId="email-input"
+            id="email"
+            type="text"
+            onChange={ setEmail }
+            labelText="E-mail"
+            value={ email }
+          />
+          <Input
+            testId="password-input"
+            id="password"
+            type="password"
+            onChange={ setPassword }
+            labelText="Password"
+            value={ password }
+          />
+          <button
+            type="button"
+            data-testid="login-submit-btn"
+            disabled={ !enabelButton() }
+            onClick={ loginFunction }
+            className="style-btn"
+          >
+            Login
+          </button>
+        </div>
       </form>
     </div>
 

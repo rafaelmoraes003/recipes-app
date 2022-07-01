@@ -1,0 +1,31 @@
+.login-container {
+  margin-top: 15px;
+}
+
+.inputs-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.inputs-container label {
+  display: flex;
+  flex-direction: column;
+  font-family: system-ui;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.inputs-container input {
+  border: 1px solid #b9b5b5;
+  border-radius: 5px;
+  font-size: 25px;
+  height: 53px;
+  outline: none;
+  width: 329px;
+}
+
+.inputs-container button {
+  margin-top: 15px;
+}

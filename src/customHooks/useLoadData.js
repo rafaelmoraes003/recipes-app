@@ -25,7 +25,7 @@ const useLoadData = (categories, setRecipes, type, data) => {
       }
       setRecipes(usableRecipes);
     };
-    if (Array.isArray(data) && !data[type]) {
+    if (!data[type]) {
       loadRecipes();
     }
   }, [dispatch, data, type, setRecipes]);
