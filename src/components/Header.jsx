@@ -117,14 +117,16 @@ const Header = ({ title, showSearchIcon }) => {
       </div>
 
       { showInput && (
-        <div>
-          <RadioButtons handleFunctions={ handleFunctions } />
+        <div style={ { padding: '0 10px', marginTop: '6px' } }>
           <input
+            placeholder="Enter your search"
+            className="form-control"
             data-testid="search-input"
             type="text"
             id="search-input"
             onChange={ ({ target }) => setSearchInput(target.value) }
           />
+          <RadioButtons handleFunctions={ handleFunctions } />
         </div>
       ) }
     </header>

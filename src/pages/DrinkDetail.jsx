@@ -77,7 +77,7 @@ const DrinkDetail = () => {
             src={ shareIcon }
             alt="share"
             data-testid="share-btn"
-            onClick={ () => copyRecipeToClipboard(id, 'drinks', setCopy) }
+            onClick={ () => copyRecipeToClipboard(id, setCopy, 'drinks') }
           />
           {favorite ? (
             <input
@@ -117,7 +117,6 @@ const DrinkDetail = () => {
           data-testid="recipe-category"
         >
           { recipe.strAlcoholic }
-
         </h3>
         <h3>Ingredients</h3>
         <ul>
