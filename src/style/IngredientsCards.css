@@ -1,0 +1,20 @@
+.explore-food-container div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 5px;
+}
+
+.explore-food-container img {
+  width: 120px;
+}
+
+.explore-food-container button {
+  min-width: 130px;
+  min-height: 60px;
+}
+
+.btn-check {
+  display: none;
+}

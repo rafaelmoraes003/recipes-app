@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { fetchByIngredients } from '../helpers/fetchRecipesAPI';
 import { fetchData } from '../redux/actions/fetchDataACTION';
+import '../style/IngredientsCards.css';
 
 function FoodsIngredientCard({ id, index, ingredName }) {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ function FoodsIngredientCard({ id, index, ingredName }) {
       <button
         data-testid={ `${index}-card-name` }
         type="button"
+        className="style-btn"
         onClick={ () => fetchRecipesIngredient(ingredName) }
       >
         {ingredName}

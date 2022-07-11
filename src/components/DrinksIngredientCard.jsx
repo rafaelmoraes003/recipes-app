@@ -31,6 +31,7 @@ function DrinksIngredientCard({ index, ingredName }) {
       <button
         data-testid={ `${index}-card-name` }
         type="button"
+        className="style-btn"
         onClick={ () => fetchRecipesIngredient(ingredName) }
       >
         {ingredName}
