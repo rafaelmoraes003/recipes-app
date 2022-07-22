@@ -40,7 +40,7 @@ const Foods = () => {
 
   useLoadData(selectsCategories, setRecipesFoods, 'meals', data);
 
-  useReduxData(data, setRecipesFoods, 'meals');
+  useReduxData(data, setRecipesFoods, 'meals', selectsCategories);
 
   return (
     <div>

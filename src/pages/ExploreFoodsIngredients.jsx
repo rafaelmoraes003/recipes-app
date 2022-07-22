@@ -20,14 +20,16 @@ const ExploreFoodsIngredients = () => {
   return (
     <div>
       <Header title="Explore Ingredients" showSearchIcon={ false } />
-      {ingredientList.map((ingred, index) => (
-        <FoodsIngredientCard
-          key={ ingred.idIngredient }
-          id={ ingred.idIngredient }
-          index={ index }
-          ingredName={ ingred.strIngredient }
-        />
-      ))}
+      <div className="explore-food-container">
+        {ingredientList.map((ingred, index) => (
+          <FoodsIngredientCard
+            key={ ingred.idIngredient }
+            id={ ingred.idIngredient }
+            index={ index }
+            ingredName={ ingred.strIngredient }
+          />
+        ))}
+      </div>
       <Footer />
     </div>
   );
